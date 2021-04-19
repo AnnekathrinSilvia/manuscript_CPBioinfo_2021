@@ -1,0 +1,83 @@
+---
+title: >
+  CPBioinfo_protocol_support_01_installation_setup
+author:
+- name: Annekathrin Ludt
+  affiliation: 
+  - &id1 Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
+  email: anneludt@uni-mainz.de
+- name: Chung Shing Rex Ha
+  affiliation: 
+  - *id1
+  email: rexha@uni-mainz.de
+- name: Harald Binder
+  affiliation:
+  - Institute of Medical Biometry and Statistics (IMBI), Faculty of Medicine and Medical Center, University of Freiburg 
+  email: binder@imbi.uni-freiburg.de 
+- name: Konstantin Strauch
+  affiliation: 
+  - *id1
+  email: strauch@uni-mainz.de
+- name: Federico Marini
+  affiliation: 
+  - *id1
+  - &id2 Center for Thrombosis and Hemostasis (CTH), Mainz;<br>
+  email: marinif@uni-mainz.de
+
+date: "`r BiocStyle::doc_date()`"
+package: "`r BiocStyle::pkg_ver('ideal')`"
+output: 
+  bookdown::html_document2:
+  # BiocStyle::html_document:
+    toc: true
+    toc_float: true
+    theme: cosmo
+    code_folding: show
+    code_download: true
+editor_options: 
+  chunk_output_type: console
+# bibliography: ideal_suppl.bib
+link-citations: true
+
+---
+
+**Compiled date**: `r Sys.Date()`
+
+**Last edited**: `r Sys.Date()`
+
+```{r setup, include = FALSE, cache = FALSE, eval = TRUE, echo = FALSE}
+library(knitr)
+opts_chunk$set(
+  fig.align = "center",
+  fig.show = "asis",
+  eval = TRUE,
+  fig.width = 10,
+  fig.height = 7,
+  tidy = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  size = "small",
+  comment = "##",
+  echo = TRUE,
+  results = "markup"
+)
+options(replace.assign = TRUE, width = 100)
+```
+
+# Loading required packages
+
+```{r loadLibraries, results= "hide"}
+library("DESeq2")
+library("topGO")
+library("org.Mm.eg.db")
+library("pcaExplorer")
+library("ideal")
+library("GeneTonic")
+```
+
+
+# Session information {-}
+
+```{r}
+sessionInfo()
+```
