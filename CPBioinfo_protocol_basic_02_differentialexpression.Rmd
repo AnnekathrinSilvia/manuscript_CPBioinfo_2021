@@ -23,7 +23,6 @@ author:
   - *id1
   - &id2 Center for Thrombosis and Hemostasis (CTH), Mainz;<br>
   email: marinif@uni-mainz.de
-
 date: "`r BiocStyle::doc_date()`"
 package: "`r BiocStyle::pkg_ver('ideal')`"
 output: 
@@ -38,7 +37,6 @@ editor_options:
   chunk_output_type: console
 # bibliography: ideal_suppl.bib
 link-citations: true
-
 ---
 
 **Compiled date**: `r Sys.Date()`
@@ -73,7 +71,43 @@ library("org.Mm.eg.db")
 library("pcaExplorer")
 library("ideal")
 library("GeneTonic")
+
+
+#counts <- read.csv("Input_data/countmatrix.txt", sep="\t")
 ```
+
+# Introductory Paragraph
+
+ideal is a Bioconductor package [PMC7724894] for the interactive analysis of RNA-seq data in the context of differential expression (DE) [PMC3046478, PMC4670015]. ideal guides the user through different aspects of a DE analysis, starting from the data upload, through the DESeq2 workflow including normalization, filtering, exploration of differentially expressed genes, to functional analysis and gene signature exploration.
+
+In this protocol we describe how to launch a Shiny application [https://CRAN.R-project.org/package=shiny] of ideal with the data of the macrophage dataset [PMC6548559] which is also distributed via Bioconductor [PMC545600]. 
+
+# Necessary Resources
+
+*Hardware*
+
+  a modern desktop computer or laptop with any up-to-date operating system
+  
+*Software*
+
+  R 3.3 or higher, Bioconductor 3.3 or higher, (optional?) RStudio, optional browser to open vignettes
+  
+*Files* 
+
+  ideal mainly requires 3 input files in text format or alternatively a DESeqDataSet or DESeqResult object. The files are expected to be tab-separated, but also comma- or semicolon-separated files are accepted (see **Alternative protocol 1**). 
+  The first input file is the count matrix which stores the number of times (i.e counts) a certain feature (e.g gene) is found in each sample. In the count matrix, the samples are stored in the columns, while the rows store the individual features (see Fig. X).
+  
+  ![**Figure ** Example of a count matrix - The figure shows the example of a count matrix, with the individual features (here genes) in the rows and the individual samples in the columns. The matrix represents how many times each feature was found in each sample. The shown count matrix is comma-separated, but also semicolon- and tab-separated inputs are accepted (see **Alternative protocol 1**)](Figures_Basic_1/Figure 1.png)
+
+  The second input of ideal is the metadata file. This file stores for each sample the necessary experimental variables. The individual samples represent the rows of the file while the columns save the different experimental variables (see Fig. X).
+  
+  ![**Figure ** Example of a Metadata file - The figure shows the example of a Metadata file. The rows of the file contain the individual samples while the columns represent relevant experimental variables. The variable can change depending on the data set and research question.](Figures_Basic_1/Figure 2.png)
+  Lastly, the third input of ideal is optional, but highly recommended for an ease of interpretation of the results. The last input is the annotation file. The file contains the feature ids of the count matrix in the rows and at least one column called gene name which contains a more human readable form of the feature ids (e.g. HGNC gene names [PMC7779007] if the features are gene ids). Fig. X shows an example of an annotation file.
+  
+  ![**Figure ** Example of an annotation file - The annotation file contains a row for each of the features of the count matrix. Furthermore, the file contains at least one column called gene names which contains a more human readable for of the feature identifiers of the rows. In the shown example the feature ids are ENSEMBL ids while the column gene names contains HGNC gene names. ](Figures_Basic_1/Figure 3.png)
+
+*Exploring the data with ideal* 
+
 
 
 # Session information {-}
@@ -81,3 +115,4 @@ library("GeneTonic")
 ```{r}
 sessionInfo()
 ```
+`
