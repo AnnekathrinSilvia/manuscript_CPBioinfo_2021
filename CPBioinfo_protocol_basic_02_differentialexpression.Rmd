@@ -1,11 +1,14 @@
 ---
 title: >
-  CPBioinfo_protocol_basic_02_differentialexpression
+  Basic Protocol 2: Differential Gene Expression Analysis with ideal
 author:
 - name: Annekathrin Ludt
   affiliation: 
   - &id1 Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
   email: anneludt@uni-mainz.de
+- name: Arsenij Ustjanzew
+  affiliation:
+  - *id1
 - name: Chung Shing Rex Ha
   affiliation: 
   - *id1
@@ -71,9 +74,6 @@ library("org.Mm.eg.db")
 library("pcaExplorer")
 library("ideal")
 library("GeneTonic")
-
-
-#counts <- read.csv("Input_data/countmatrix.txt", sep="\t")
 ```
 
 # Introductory Paragraph
@@ -94,7 +94,7 @@ In this protocol we describe how to launch a Shiny application [https://CRAN.R-p
   
 *Files* 
 
-  ideal mainly requires 3 input files in text format or alternatively a DESeqDataSet or DESeqResult object. The files are expected to be tab-separated, but also comma- or semicolon-separated files are accepted (see **Alternative protocol 1**). 
+  ideal mainly requires 4 input files in text format or alternatively a DESeqDataSet or DESeqResult object. The files are expected to be tab-separated, ([@Marini]but also comma- or semicolon-separated files are accepted?) (see **Alternative protocol 1**). 
   The first input file is the count matrix which stores the number of times (i.e counts) a certain feature (e.g gene) is found in each sample. In the count matrix, the samples are stored in the columns, while the rows store the individual features (see Fig. X).
   
   ![**Figure ** Example of a count matrix - The figure shows the example of a count matrix, with the individual features (here genes) in the rows and the individual samples in the columns. The matrix represents how many times each feature was found in each sample. The shown count matrix is comma-separated, but also semicolon- and tab-separated inputs are accepted (see **Alternative protocol 1**)](Figures_Basic_1/Figure 1.png)
@@ -102,11 +102,37 @@ In this protocol we describe how to launch a Shiny application [https://CRAN.R-p
   The second input of ideal is the metadata file. This file stores for each sample the necessary experimental variables. The individual samples represent the rows of the file while the columns save the different experimental variables (see Fig. X).
   
   ![**Figure ** Example of a Metadata file - The figure shows the example of a Metadata file. The rows of the file contain the individual samples while the columns represent relevant experimental variables. The variable can change depending on the data set and research question.](Figures_Basic_1/Figure 2.png)
-  Lastly, the third input of ideal is optional, but highly recommended for an ease of interpretation of the results. The last input is the annotation file. The file contains the feature ids of the count matrix in the rows and at least one column called gene name which contains a more human readable form of the feature ids (e.g. HGNC gene names [PMC7779007] if the features are gene ids). Fig. X shows an example of an annotation file.
+
+The third input of ideal is the optional but recommended annotation file. The file contains the feature ids of the count matrix in the rows and at least one column called "gene_name" which contains a more human readable form of the feature ids (e.g. HGNC gene names [PMC7779007] if the features are gene ids). Fig. X shows an example of an annotation file.
   
-  ![**Figure ** Example of an annotation file - The annotation file contains a row for each of the features of the count matrix. Furthermore, the file contains at least one column called gene names which contains a more human readable for of the feature identifiers of the rows. In the shown example the feature ids are ENSEMBL ids while the column gene names contains HGNC gene names. ](Figures_Basic_1/Figure 3.png)
+  ![**Figure ** Example of an annotation file - The annotation file contains a row for each of the features of the count matrix. Furthermore, the file contains at least one column called gene names which contains a more human readable for of the feature identifiers of the rows. In the shown example the feature ids are ENSEMBL ids while the column gene names contain HGNC gene names. ](Figures_Basic_1/Figure 3.png)
+
+The last input of ideal is the Gene Matrix Transposed (GMT) format, which is commonly distributed e.g. by the widely used (MSigDB database)[http://software.broadinstitute.org/gsea/msigdb/index.jsp], or the (WikiPathways database)[http://data.wikipathways.org/]. The GMT file format is a tab delimited file format of gene sets, where each row represents a gene set. A gene set contains a gene set name in the first column, a description in the second column, and several genes in the remaining columns (one gene per column).
+
+![**Figure **]()
 
 *Exploring the data with ideal* 
+
+Before we start with the exploration of the data, the necessary packages and dependencies need to be installed and loaded. **Support Protocol 1** describes how to install and load the packages. 
+
+1. Start application and provide the input data. The input data can be provided in different ways to the ideal application. The first option is to provide the data as R data.frames to the function `ideal()`, e.g. `ideal(countmatrix = countmatrix, expdesign = metadata, annotation_obj = annotation, gene_signatures = genesignatures)` where ` countmatrix`, `metadata`, and `annotation` have to be data.frame objects, and `genesignatures` has to be a list object containing the previously described tables. The second option is to provide the data as a DESeqDataSet object or as a DESeqResult object, e.g. `ideal(dds) where `dds` is the DESeqDataSet object`. For inexperienced R users the third option is suitable, where the user interactively uploads the data as files in the ideal interface. For this option, launch the Shiny application with the R command `ideal()` without further arguments. All of these options should open a browser window with the ideal application. 
+
+When launching the application, the landing page of ideal is the "Welcome" tab providing the user information about the application and how to use it. A control sidebar is located on the left side of the user interface. It contains several input controls which affect different tabs. By changing one or more of the input parameters, the user can get a fine control on what is computed and displayed. Moreover, the sidebar displays a list of the underlying objects with which basically all of the analysis can be performed. A green tick icon appears close to each when the respective component is either provided or calculated.
+
+Navigate to the tab "Data setup". Inspect or upload interactively the required count matrix, and the experimental design data in the red "Step 1" box. In the yellow "Step 2" box select the experiment design parameters. Select "line" and "condition" for the `macrophage` dataset and click on the green action button ("Generate the dds object"). This will enable you for example to estimate the effect size of the "condition" variable, while controlling for the "cell" line. After the DESeqDataSet object was generated, the ValueBox on top turns green, and also the sidebar field for it will get a green check mark. The two light blue boxes that have appeared provide the optional steps for adding the appropriate annotation and discarding unwanted samples. If you did not pass an annotation at application start, select `Human` as species for the macrophage dataset, `ENSEMBL` as the id type, and confirm the selection with the blue button "Retrieve the gene symbol annotation for the upload data". Finally, run the main function of the DESeq2 framework in Step 3 (green box) by pushing the button "Run DESeq". Once this is completed, you can inspect the mean-dispersion plot as a diagnostic check by expanding the collapsible element below.
+
+![**Figure ** Data Upload tab - ….]([])
+
+2. Inspect and filter the count matrix. For this navigate to the tab "Counts Overview", which provides an interactive table, which can display raw, normalized, and log-normalized values for all the genes and samples in the data. A summary for the expressed features is reported below. Set a threshold for either criterion to filter out the lowly expressed genes. This can also reduce the computation time without impacting the quality of the results. Filter the macrophage data with a threshold of zero on the row sums of the counts by pushing the "Filter the DDS object" button. Generate and inspect the sample-to-sample scatterplot matrix below which shows the similarity across all individual samples without losing the information on the single features - this can be quite useful for detecting unexpected patterns for subset of genes [PMC6731617].
+
+![**Figure ** Counts Overview tab - ….]([])
+
+3. Navigate to the "Extract results" tab to calculate the DE. Set the alpha level for significance to control the false discovery rate in the sidebar. For the macrophage data we can leave the value set to default of 0.05. This protocol focuses on the comparison between the Interferon-gamma treated cell line (`IFNg`) versus the untreated one (`naive`). Therefore, first select `condition` as the experimental factor to build the contrast upon. Then select `IFNg` as the numerator level, and `naive` as the denominator level for the fold change. Further filtering options are provided to the user, where independent filtering or the Independent Hypothesis Weighting (IHW) [] can be defined. After clicking on "Extract the results" we can see, that in the macrophage dataset more than 6000 genes have been detected as differentially expressed for the ` IFNg ` treatment vs naive contrast. IRF1, IL18BP, and GBP2 are for example the top regulated genes - sorted by adjusted p-value. The interactive table directly links the gene symbols and the Ensembl identifiers to external databases for that feature, either ensemble.org or the NCBI Gene DB. 
+![**Figure ** Extract Results tab - xxx.]([])
+
+4. Inspect the four diagnostic plots of the extracted DE results. The top left and right plots show raw p-value histograms, useful for checking the assumption of uniform distribution under the null hypothesis, also stratified by mean expression value (relevant if one is using the Independent Hypothesis Weighting for adjusting the p-value). The bottom right plot is a histogram of the log2 fold change values, to show its distribution and identify anomalies such as highly skewed tails. The bottom left Schweder-Spjøtvoll plot (Schweder and Spjøtvoll 1982), shows the ranked p-values: this is a graphical method to illustrate the Benjamini-Hochberg multiple testing adjustment procedure, with the intersection point defining the subset of genes for which the False Discovery Rate (FDR) is controlled at the chosen level.
+
+![**Figure ** Extract Results tab - ….]([])
 
 
 
