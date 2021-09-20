@@ -134,6 +134,11 @@ Navigate to the tab "Data setup". Inspect or upload interactively the required c
 
 ![**Figure ** Extract Results tab - ….]([])
 
+5. Navigate to the "Summary Plots" tab. Select in the interactive MA plot (log2FoldChange vs mean expression values) some of the upregulated genes by brushing on it. This results in a zoomed version of the selected area appearing on the right side of the plot and providing gene symbols defined in the annotation object. Click on a gene in the zoomed selection plot. This will display a boxplot for the expression values in all conditions, and additional info retrieved from the Entrez database. Below the gene expression boxplot, explore the volcano plot, where the significance is directly plotted against the effect size. In addition, the subset of genes included in the rectangular selection is also displayed as heatmaps (both static and dynamic). The selected genes can be further explored in the collapsible element at the bottom of the tab.
+
+![**Figure ** Summary Plots tab - ….]([])
+
+![**Figure ** Summary Plots tab - ….]([])
 
 
 # Session information {-}
