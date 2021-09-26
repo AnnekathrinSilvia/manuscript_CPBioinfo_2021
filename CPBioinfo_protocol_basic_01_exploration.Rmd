@@ -109,7 +109,7 @@ In this protocol, we describe how to launch a Shiny application [@shiny2021] of 
   
   ![**Figure ** Example of a Metadata file - The figure shows the example of a Metadata file. The rows of the file contain the individual samples while the columns represent relevant experimental variables. The variable can change depending on the data set and research question.](Figures_Basic_1/Figure 2.png)
   Lastly, the third input of pcaExplorer is optional, but highly recommended for an ease of interpretation of the results. 
-  The last input is the annotation file. The file contains the feature ids of the count matrix in the rows and at least one column called gene name which contains a more human readable form of the feature ids (e.g. HGNC gene names [PMC7779007] if the features are gene ids). 
+  The last input is the annotation file. The file contains the feature ids of the count matrix in the rows and at least one column called gene name which contains a more human readable form of the feature ids (e.g. HGNC gene names [@Tweedie2021] if the features are gene ids). 
   Fig. X shows an example of an annotation file.
   
   ![**Figure ** Example of an annotation file - The annotation file contains a row for each of the features of the count matrix. Furthermore, the file contains at least one column called gene names which contains a more human readable for of the feature identifiers of the rows. In the shown example the feature ids are ENSEMBL ids while the column gene names contains HGNC gene names. ](Figures_Basic_1/Figure 3.png)
@@ -127,7 +127,7 @@ In this application you should see the Data Upload panel as shown in Fig. X.
 ![**Figure ** Data Upload panel - The figure shows the Data Upload panel which is the first panel a user sees upon launching pcaExplorer. The panel provides previes on the input data as well as buttons to interact with the application.](Figures_Basic_1/Figure 4.png)
 
 2. Click the 'Generate the dds and dst object' button (Fig X). 
-The dds object represents a `DESeqDataSet` dataset object, while the dst is a `DESeqTransform` object [PMC4302049]. 
+The dds object represents a `DESeqDataSet` dataset object, while the dst is a `DESeqTransform` object [@Love2014]. 
 Both objects are needed for the exploration of the data. After the generation of the two object the 'Select one of the following transformations for your data:' option with three blue colored buttons underneath should appear in the panel. 
 Click the 'Compute variance stabilized transformed data from the `dds` object' button on the far left. 
 
