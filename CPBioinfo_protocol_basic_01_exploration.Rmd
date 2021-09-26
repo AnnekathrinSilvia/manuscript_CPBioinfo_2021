@@ -35,7 +35,7 @@ output:
     code_download: true
 editor_options: 
   chunk_output_type: console
-# bibliography: ideal_suppl.bib
+bibliography: cpb_refs.bib
 link-citations: true
 ---
 
