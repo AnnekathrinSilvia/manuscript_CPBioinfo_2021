@@ -124,7 +124,7 @@ To launch the application, enter the command into the console of RStudio and pre
 This should launch a second window with the pcaExplorer application. 
 In this application you should see the Data Upload panel as shown in Fig. X.
 
-![**Figure ** Data Upload panel - The figure shows the Data Upload panel which is the first panel a user sees upon launching pcaExplorer. The panel provides previes on the input data as well as buttons to interact with the application.](Figures_Basic_1/Figure 4.png)
+![**Figure ** Data Upload panel - The figure shows the Data Upload panel which is the first panel a user sees upon launching pcaExplorer. The panel provides previews on the input data as well as buttons to interact with the application.](Figures_Basic_1/Figure 4.png)
 
 2. Click the 'Generate the dds and dst object' button (Fig X). 
 The dds object represents a `DESeqDataSet` dataset object, while the dst is a `DESeqTransform` object [@Love2014]. 
@@ -135,7 +135,7 @@ Click the 'Compute variance stabilized transformed data from the `dds` object' b
      The first option is to compute a variance stabilized transformed version of the data. 
      The second is a regularized logarithm transformation of the data. 
      A log2 data transformation is also offered. 
-     Users are adviced to choose the data transformation according to their input data and evaluate the effects of the different transformations on their data.*
+     Users are advised to choose the data transformation according to their input data and evaluate the effects of the different transformations on their data.*
 
 3. Scroll to the bottom of the Data Upload panel. 
 A preview of the input data is provided which you can access by clicking on the green colored buttons (see Fig. X).
@@ -158,15 +158,15 @@ The plots will appear after a short computation time (Fig. X and X.).
   
     *Upon clicking the 'Run' button, pcaExplorer will generate a scatter plot (Fig. X) as well as a heatmap (Fig. X). 
     The scatter plot will represent the sample to sample correlation as scatter plots (lower triangular matrix of the result). 
-    The precise values of the correlations between two samles can be found in the diagonal matching (??) field. 
+    The precise values of the correlations between two samples can be found in the diagonal matching (??) field. 
     The heatmap (Fig. X) shows the sample to sample similarity. 
     The color indicates the similarity with dark blue indicating  a low similarity and dark red indicating identical samples (see diagonal of the heatmap).*
 
  **TODO: Maybe merge these pictures into one?**
 
-![**Figure ** Sample to Sample scatter plot- The plot visualizes the samlple to sample correlation as scatter plots as well as the precise values of each correlation.](Figures_Basic_1/Figure 6.png)
+![**Figure ** Sample to Sample scatter plot- The plot visualizes the sample to sample correlation as scatter plots as well as the precise values of each correlation.](Figures_Basic_1/Figure 6.png)
 
-![**Figure ** Sample to Sample similarity heatmap - The figure shows the sample to sample similarity. Identical samples are colored in dark red, while dark blu indicates a low similarity of the samples.](Figures_Basic_1/Figure 7.png)
+![**Figure ** Sample to Sample similarity heatmap - The figure shows the sample to sample similarity. Identical samples are colored in dark red, while dark blue indicates a low similarity of the samples.](Figures_Basic_1/Figure 7.png)
 
 6. Navigate to the Data Overview panel (Fig. X) as explained above (**TODO: Mention exact step**). 
 The panel shows the input metadata as table in the upper half of the panel. 
@@ -193,8 +193,8 @@ Scroll down until you see the Number of million of reads per sample plot.
 This plot should have changed from an all grey plot to a colored plot (see Fig. X). 
 
     *In the provided sample data, the line_id parameter indicates the cell line of the respective sample. 
-    The Number of million reads per sample plot shown in FIg. X can be used to evaluate the uniformity of reads in each sample. 
-    Samples with a suprisingly high or low number of reads could later be detected as outliers, because of several different factors associated with the number of reads in a sample. 
+    The Number of million reads per sample plot shown in Fig. X can be used to evaluate the uniformity of reads in each sample. 
+    Samples with a surprisingly high or low number of reads could later be detected as outliers, because of several different factors associated with the number of reads in a sample. 
     An inspection of the distribution of the overall number of reads in the individual sample can point users to the first source of differences in the samples found in subsequent analyses of the data.*
 
 ![**Figure X** Number of million reads per sample plot- The plot visualizes the number of reads per sample. The individual bars are colored by their cell line origin. ](Figures_Basic_1/Figure 9.png)
@@ -219,7 +219,7 @@ Enter 10 for this option and compare the results with the ones shown in Fig. X.
 
     **TODO: Something about how evaluating the number of counts per gene in your sample can help with your analysis **
 
-![**Figure X** Basic summary of the counts - The Data Overview panel provides different summaries on teh number of counts in the samples. Among these is the number of uniquely aligned reads in each sample and the number of genes with non-zero counts in the data.](Figures_Basic_1/Figure 10.png)
+![**Figure X** Basic summary of the counts - The Data Overview panel provides different summaries on the number of counts in the samples. Among these is the number of uniquely aligned reads in each sample and the number of genes with non-zero counts in the data.](Figures_Basic_1/Figure 10.png)
 
 10. Navigate to the Samples View panel (Fig. X). 
 In this panel you will see the PCA of the individual samples of the input data on the left side with the corresponding scree plot shown on the right side. 
@@ -232,7 +232,7 @@ You can also download the PCA plot via the 'Download plot' button in the lower r
 As seen before, you can specify the name of the file you want to save the plot. 
 This is also possible for the scree plot on the right side of the panel. 
 
-    *The PCA plot of the sample data indicates that the most varaince in the data seems to arise from the condition of the individual samples in this data set. 
+    *The PCA plot of the sample data indicates that the most variance in the data seems to arise from the condition of the individual samples in this data set. 
     When analysing data, it is important for users to know which characteristic of their samples has the most influence (i.e. is responsible for the most variance). 
     Hence, users should select different options from the 'Group/color by' option to discover the characteristic with the most influence. 
     The scree plot right next to the PCA can also help users to evaluate how many principal components should be used to analyse the variance in the data. 
@@ -244,7 +244,7 @@ This is also possible for the scree plot on the right side of the panel.
 
 ![**Figure ** PCA colored by condition - The PCA plot of the samples is shown colored by condition. This coloring is achieved by selecting the option 'condition' in the 'Group/color by' selection tab at the far left of the screen. The tab indicates the selected option by displaying the name of the option in the field. Users can remove options by clicking on the option field right behind the option to be deleted and hitting the delete key on the keyboard.](Figures_Basic_1/Figure 12.png)
 
-11. Navigate to the options panel on the far left and seacrh for the 'Nr. of (most variant) genes' option. 
+11. Navigate to the options panel on the far left and search for the 'Nr. of (most variant) genes' option. 
 The default number is 300 genes. 
 Change the number of genes to 500. 
 To change the number of genes either use the increase and decrease buttons in the option field (indicated by small arrows) or type the number in the box. 
@@ -254,12 +254,12 @@ If you increase or decrease the number of selected genes further, you should als
 
     *The PCA plot visualizes the variance in the data and the differences between the individual samples. 
     The number of genes selected for the PCA plot can influence the overall structure of the plot. 
-    In order to analyze which characteristic is responsible for the variance in the data, users sould also consider to change the number of genes used for the PCA. 
+    In order to analyze which characteristic is responsible for the variance in the data, users should also consider to change the number of genes used for the PCA. 
     This enables users to analyze the robustness of the identified characteristic.*
 
 12. The Sample View panel provides the possibility to zoom in on the PCA. 
 For this, hover your mouse over the PCA plot until your mouse cursor changes to a little plus sign. 
-Press the left button of your mouse and move the cursor to draw a little grey rectagle (Fig. X). 
+Press the left button of your mouse and move the cursor to draw a little grey rectangle (Fig. X). 
 Move the mouse to the upper left corner of the PCA plot and select all samples belonging to the naive condition (colored in blue in Fig. X) as explained before. 
 After selecting the samples, scroll down in the panel until you see a zoomed version of the PCA plot containing mainly the selected samples. 
 This should somewhat look like the plot shown in Fig. X. 
@@ -302,7 +302,7 @@ After selecting a condition, a plot should appear below the 'Profile explorer' h
 
     *(**TODO: explain what the profile explorer plot shows**)* 
     
-    **TODO: Maybe we can also shown only one of the follwing pictures and mentioning the zoom functionality.**
+    **TODO: Maybe we can also shown only one of the following pictures and mentioning the zoom functionality.**
 
 ![**Figure ** Genes View panel - The Genes View panel provides a PCA plot of the individual genes as well as the possibility to select section for a zoomed view.](Figures_Basic_1/Figure 16.png)
 ![**Figure ** Zoomed in PCA plot - The zoomed view of the PCA plot visualizes the genes highlighted by the grey rectangle in the left PCA plot.](Figures_Basic_1/Figure 17.png)
