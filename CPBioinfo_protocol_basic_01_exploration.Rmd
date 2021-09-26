@@ -75,9 +75,12 @@ library("GeneTonic")
 
 
 # Introductory Paragraph
-pcaExplorer is a Bioconductor package [PMC6567655] which can be seen as a general-purpose interactive companion tool for RNA-seq analyses. pcaExplorer is designed to guide the user in exploring the Principal Components (PC) [https://doi.org/10.2307/1270093] of the data under inspection. Besides the Principal Component Analysis (PCA) [https://doi.org/10.2307/1270093], pcaExplorer also provides tools to detect outlier samples, genes that show particular patterns and additionally provides a functional interpretation of the principal components for further quality assessment and hypothesis generation on the input data. 
 
-In this protocol we describe how to launch a Shiny application [https://CRAN.R-project.org/package=shiny] of pcaExplorer with the data of the macrophage dataset [PMC6548559] which is also distributed via Bioconductor [PMC545600]. 
+pcaExplorer is a Bioconductor package [@Marini2019] which can be seen as a general-purpose interactive companion tool for RNA-seq analyses. 
+pcaExplorer is designed to guide the user in exploring the Principal Components (PC) [@Jolliffe2002] of the data under inspection. 
+Besides the Principal Component Analysis (PCA), pcaExplorer also provides tools to detect outlier samples and inspect their impact, genes that show particular patterns, and additionally provides a functional interpretation of the principal components for further quality assessment and hypothesis generation on the input data. 
+
+In this protocol, we describe how to launch a Shiny application [@shiny2021] of pcaExplorer with the data of the macrophage dataset [@Alasoo2018] which is also distributed via Bioconductor [@Huber2015]. 
 
 # Necessary Resources
 
@@ -371,3 +374,5 @@ Users are recommended to read the vignettes to fully grasp the different possibi
 ```{r}
 sessionInfo()
 ```
+
+# References {-}
