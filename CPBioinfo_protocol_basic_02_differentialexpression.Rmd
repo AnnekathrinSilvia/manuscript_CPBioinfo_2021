@@ -78,10 +78,10 @@ library("GeneTonic")
 
 # Introductory Paragraph
 
-ideal is a Bioconductor package [PMC7724894] for the interactive analysis of RNA-seq data in the context of differential expression (DE) [PMC3046478, PMC4670015]. 
+ideal is a Bioconductor package [@Marini2020] for the interactive analysis of RNA-seq data in the context of differential expression (DE) [@Oshlack2010, @Love2015]. 
 ideal guides the user through different aspects of a DE analysis, starting from the data upload, through the DESeq2 workflow including normalization, filtering, exploration of differentially expressed genes, to functional analysis and gene signature exploration.
 
-In this protocol we describe how to launch a Shiny application [https://CRAN.R-project.org/package=shiny] of ideal with the data of the macrophage dataset [PMC6548559] which is also distributed via Bioconductor [PMC545600]. 
+In this protocol we describe how to launch a Shiny application [@shiny2021] of ideal with the data of the macrophage dataset [@Alasoo2018] which is also distributed via Bioconductor [@Gentleman2004a, @Huber2015]. 
 
 # Necessary Resources
 
@@ -96,7 +96,7 @@ In this protocol we describe how to launch a Shiny application [https://CRAN.R-p
 *Files* 
 
   ideal mainly requires 4 input files in text format or alternatively a DESeqDataSet or DESeqResult object.
-  The files are expected to be tab-separated, ([@Marini]but also comma- or semicolon-separated files are accepted?) (see **Alternative protocol 1**). 
+  The files are expected to be tab-separated, ([][]but also comma- or semicolon-separated files are accepted?) (see **Alternative protocol 1**). 
   The first input file is the count matrix which stores the number of times (i.e counts) a certain feature (e.g gene) is found in each sample. 
   In the count matrix, the samples are stored in the columns, while the rows store the individual features (see Fig. X).
   
@@ -108,7 +108,7 @@ In this protocol we describe how to launch a Shiny application [https://CRAN.R-p
   ![**Figure ** Example of a Metadata file - The figure shows the example of a Metadata file. The rows of the file contain the individual samples while the columns represent relevant experimental variables. The variable can change depending on the data set and research question.](Figures_Basic_1/Figure 2.png)
 
   The third input of ideal is the optional but recommended annotation file. 
-  The file contains the feature ids of the count matrix in the rows and at least one column called "gene_name" which contains a more human readable form of the feature ids (e.g. HGNC gene names [PMC7779007] if the features are gene ids). 
+  The file contains the feature ids of the count matrix in the rows and at least one column called "gene_name" which contains a more human readable form of the feature ids (e.g. HGNC gene names [@Tweedie2021] if the features are gene ids). 
   Fig. X shows an example of an annotation file.
   
   ![**Figure ** Example of an annotation file - The annotation file contains a row for each of the features of the count matrix. Furthermore, the file contains at least one column called gene names which contains a more human readable for of the feature identifiers of the rows. In the shown example the feature ids are ENSEMBL ids while the column gene names contain HGNC gene names. ](Figures_Basic_1/Figure 3.png)
@@ -155,7 +155,7 @@ For this navigate to the tab "Counts Overview", which provides an interactive ta
 A summary for the expressed features is reported below. Set a threshold for either criterion to filter out the lowly expressed genes. 
 This can also reduce the computation time without impacting the quality of the results. 
 Filter the macrophage data with a threshold of zero on the row sums of the counts by pushing the "Filter the DDS object" button. 
-Generate and inspect the sample-to-sample scatterplot matrix below which shows the similarity across all individual samples without losing the information on the single features - this can be quite useful for detecting unexpected patterns for subset of genes [PMC6731617].
+Generate and inspect the sample-to-sample scatterplot matrix below which shows the similarity across all individual samples without losing the information on the single features - this can be quite useful for detecting unexpected patterns for subset of genes [@Rutter2019].
 
 ![**Figure ** Counts Overview tab - ….]([])
 
