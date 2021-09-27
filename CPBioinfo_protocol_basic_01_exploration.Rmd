@@ -80,7 +80,7 @@ pcaExplorer is a Bioconductor package [@Marini2019] which can be seen as a gener
 pcaExplorer is designed to guide the user in exploring the Principal Components (PC) [@Jolliffe2002] of the data under inspection. 
 Besides the Principal Component Analysis (PCA), pcaExplorer also provides tools to detect outlier samples and inspect their impact, genes that show particular patterns, and additionally provides a functional interpretation of the principal components for further quality assessment and hypothesis generation on the input data. 
 
-In this protocol, we describe how to launch a Shiny application [@shiny2021] of pcaExplorer with the data of the macrophage dataset [@Alasoo2018] which is also distributed via Bioconductor [@Huber2015]. 
+In this protocol, we describe how to launch a Shiny application [@shiny2021] of pcaExplorer with the data of the macrophage dataset [@Alasoo2018], which is also distributed as a Bioconductor [@Huber2015] package. 
 
 # Necessary Resources
 
@@ -98,18 +98,17 @@ In this protocol, we describe how to launch a Shiny application [@shiny2021] of 
 
   pcaExplorer mainly requires 3 input files in text format. 
   The files are expected to be tab-separated, but also comma- or semicolon-separated files are accepted (see **Alternative protocol 1**). 
-  The first input file is the count matrix which stores the number of times (i.e counts) a certain feature (e.g gene) is found in each sample. 
+  The first input file is the count matrix which stores the number of times (i.e. counts) a certain feature (e.g gene) is found in each sample, as a proxy of its expression. 
   In the count matrix, the samples are stored in the columns, while the rows store the individual features (see Fig. X).
   
   ![**Figure ** Example of a count matrix - The figure shows the example of a count matrix, with the individual features (here genes) in the rows and the individual samples in the columns. The matrix represents how many times each feature was found in each sample. The shown count matrix is comma-separated, but also semicolon- and tab-separated inputs are accepted (see **Alternative protocol 1**)](Figures_Basic_1/Figure 1.png)
 
-  The second input of pcaExplorer is the metadata file.
-  This file stores for each sample the necessary experimental variables. 
+  The second input of pcaExplorer is the metadata file, which stores for each sample the relevant experimental variables. 
   The individual samples represent the rows of the file while the columns save the different experimental variables (see Fig. X).
   
   ![**Figure ** Example of a Metadata file - The figure shows the example of a Metadata file. The rows of the file contain the individual samples while the columns represent relevant experimental variables. The variable can change depending on the data set and research question.](Figures_Basic_1/Figure 2.png)
-  Lastly, the third input of pcaExplorer is optional, but highly recommended for an ease of interpretation of the results. 
-  The last input is the annotation file. The file contains the feature ids of the count matrix in the rows and at least one column called gene name which contains a more human readable form of the feature ids (e.g. HGNC gene names [@Tweedie2021] if the features are gene ids). 
+  Lastly, the third input (the annotation file) of pcaExplorer is optional, but highly recommended for easier interpretation of the results. 
+  The annotation file contains the feature identifiers of the count matrix in the rows and at least one column called gene_name which contains a more human readable form of the feature ids (e.g. HGNC gene names [@Tweedie2021] if the features are gene ids). 
   Fig. X shows an example of an annotation file.
   
   ![**Figure ** Example of an annotation file - The annotation file contains a row for each of the features of the count matrix. Furthermore, the file contains at least one column called gene names which contains a more human readable for of the feature identifiers of the rows. In the shown example the feature ids are ENSEMBL ids while the column gene names contains HGNC gene names. ](Figures_Basic_1/Figure 3.png)
@@ -119,9 +118,9 @@ In this protocol, we describe how to launch a Shiny application [@shiny2021] of 
 Before we start with the exploration of the data, the necessary packages and dependencies need to be installed and loaded. 
 **Support Protocol 1** describes how to install and load the packages. 
 
-1. Prepare the input data. Launch the Shiny application with the command `pcaExplorer(countmatrix, metadata, annotation)` where `countmatrix`, `metadata` and `annotation` have to be substituted by the file paths of the respective input files. 
-To launch the application, enter the command into the console of RStudio and press the Enter-Button. 
-This should launch a second window with the pcaExplorer application. 
+1. Prepare the input data. Launch the Shiny application with the command `pcaExplorer(countmatrix, metadata, annotation)` where `countmatrix`, `metadata` and `annotation` have to be substituted by the file paths of the respective input files.
+To launch the application, enter the command into the console of RStudio and press the Enter key. 
+This should launch a new window with the pcaExplorer application. 
 In this application you should see the Data Upload panel as shown in Fig. X.
 
 ![**Figure ** Data Upload panel - The figure shows the Data Upload panel which is the first panel a user sees upon launching pcaExplorer. The panel provides previews on the input data as well as buttons to interact with the application.](Figures_Basic_1/Figure 4.png)
