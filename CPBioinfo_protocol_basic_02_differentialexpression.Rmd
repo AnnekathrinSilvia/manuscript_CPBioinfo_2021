@@ -9,6 +9,7 @@ author:
 - name: Arsenij Ustjanzew
   affiliation:
   - *id1
+  email: arsenij.ustjanzew@uni-mainz.de
 - name: Chung Shing Rex Ha
   affiliation: 
   - *id1
