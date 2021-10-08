@@ -79,6 +79,191 @@ library("ideal")
 library("GeneTonic")
 ```
 
+# Introductory Paragraph
+
+GeneTonic [@Marini2021] is a Bioconductor package for streamlining the analysis of results from differential expression analysis together with functional enrichment analysis, integrating these components with the original expression data and annotation tables for easy identifier conversion [@Oshlack2010, @Love2015]. 
+Blending together the existing pieces of transcriptome datasets in a Shiny web application [@shiny2021], users can interactively generate insightful observations and hypotheses, while still profiting from code reproducibility, guaranteed by the creation of an HTML report and code snippets meta-generated along the outputs.
+
+In this protocol, we will describe its usage to analyze in depth the macrophage dataset [@Alasoo2018], made available as a Bioconductor package itself [@Gentleman2004a, @Huber2015].
+Samples from the macrophage dataset are available from 6 different donors, in 4 different conditions - naive, treated with Interferon gamma, upon SL1344 (Salmonella enterica) infection, or with a combination of Interferon gamma and SL1344.
+We will focus our attention on the comparison between Interferon gamma treated samples versus naive samples - these results have been previously generated through the other Basic Protocols.
+
+# Necessary Resources
+
+*Hardware*
+
+  A modern desktop computer or laptop with any up-to-date operating system
+  
+*Software*
+
+  R 4.0.0 or higher, Bioconductor 3.11 or higher, (optional?) RStudio, optional browser to open vignettes
+  
+*Files* 
+
+  GeneTonic requires the information contained in four different objects, commonly used when executing the analysis workflow in R:
+  - `dds`, a `DESeqDataSet` containing the expression matrix, used in the DESeq2 framework [@Love2014];
+  - `res_de`, a `DESeqResults` object, i.e. a `DataFrame` storing the results of the differential expression analysis;
+  - `res_enrich`, a `data.frame` with the results of functional enrichment analysis;
+  - `annotation_obj`, a `data.frame` with the correspondence between identifiers for the features under inspection in the `dds` object.
+  These can be alternatively provided in a single container class (a GeneTonicList), recognized by the main functions of GeneTonic for simplifying the calls and ensuring their correctness.
+
+[]TODO: some image of the container structure?[]
+
+
+*Exploring the data with GeneTonic* 
+
+GeneTonic's usage is envisioned once the usual set of results from a differential expression analysis workflow have been computed. 
+In order to obtain the necessary input objects, we refer to the Basic Protocol 1 and 2 in this work. []or alt protocol?[]
+As for these protocols, the necessary packages and dependencies need to be installed and loaded - **Support Protocol 1** describes how to install and load the packages.
+
+**Generate the required input for running GeneTonic**
+
+The input data to be provided to GeneTonic can be computed via different workflows, but for simplicity it is easiest when using the framework of DESeq2 - we refer users to the package vignette for alternative methods upstream like `limma` or `edgeR`.
+If starting from this Basic Protocol, please use the following commands to generate the entire set of required files.
+
+1. Generate the DESeqDataSet object
+We load the macrophage dataset, specify the design of interest (testing on the condition, while accounting for the cell line of origin), change the identifiers to Ensembl (instead of the provided Gencode ids, that would not match with the annotation packages). 
+Optionally, you can apply some filtering on a minimal detection threshold - in this case, we require to have at least 10 counts, in at least 6 samples (6 being the size of the smallest experimental group)
+
+```{r}
+# Loading the data
+library("macrophage")
+library("DESeq2")
+library("GeneTonic")
+data("gse", package = "macrophage")
+dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+# Changing the ids
+rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+dds_macrophage
+
+# Filtering low expressed features
+keep <- rowSums(counts(dds_macrophage) >= 10) >= 6 
+dds_macrophage <- dds_macrophage[keep, ]
+dds_macrophage
+```
+
+2. Generate the differential expression result object
+Run the DESeq pipeline on the provided dataset, specifying the contrast of interest (Interferon gamma treatment vs naive cells), and an absolute log2 fold change threshold of at least 1 to test against.
+This is different from the commonly performed post-hoc filtering of subsetting for genes whose absolute expression change is reported as at least 1 - this approach does not guarantee the control of the False Discovery Rate.
+We add the gene symbol identifier to ease the readability of the table.
+
+```{r}
+dds_macrophage <- DESeq(dds_macrophage)
+res_macrophage_IFNg_vs_naive <- results(dds_macrophage,
+                                        contrast = c("condition", "IFNg", "naive"),
+                                        lfcThreshold = 1, 
+                                        alpha = 0.05)
+res_macrophage_IFNg_vs_naive$SYMBOL <- rowData(dds_macrophage)$SYMBOL
+# Alternatively, the result is provided as precomputed object in the GeneTonic package
+data("res_de_macrophage", package = "GeneTonic")
+```
+
+3. Run the functional enrichment analysis 
+This step is here performed via the pcaExplorer wrapper `topGOtable`, using the topGO method (with the elim algorithm).
+A sensible background is selected, choosing the set of all detected genes in the assay.
+We identify the overrepresented Biological Processes from the Gene Ontology database, and convert the resulting table in the format expected by GeneTonic.
+Alternatively, a variety of methods and applications can be used to compute a similar enrichment table; we refer the reader to the GeneTonic vignette, detailing the supported software.
+
+```{r}
+# Sort the results by FDR
+library("AnnotationDbi")
+de_symbols_IFNg_vs_naive <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.05)$SYMBOL
+background_symbols <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
+# Compute the enrichment results
+library("topGO")
+topgoDE_macrophage_IFNg_vs_naive <-
+  pcaExplorer::topGOtable(DEgenes = de_symbols_IFNg_vs_naive,
+                          BGgenes = background_symbols,
+                          ontology = "BP",
+                          mapping = "org.Hs.eg.db",
+                          geneID = "symbol",
+                          topTablerows = 500)
+# Convert for usage in GeneTonic
+res_enrich_macrophage <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+# Alternatively, the enrichment result is also available as a precomputed object
+data("res_enrich_macrophage", package = "GeneTonic")
+```
+
+4. Compute aggregated scores on the enrichment results
+The function `get_aggrscores()` can be called on the ensemble of objects we just generated, to compute two additional columns for the input `res_enrich` object.
+The `z_score` and `aggr_score` values try to summarize geneset-wise the effect (log2FoldChange) of the differentially expressed genes that are listed as its members, either by simply counting them or applying a function (in the example below, the mean is used, but other functions could be applied such as the median).
+These are estimates of the "direction" of expression change reflected on higher level features such as pathways or genesets.
+We refer to the original publication of GeneTonic for more details on how these scores are computed.
+
+```{r aggr_enrich, eval=TRUE}
+res_enrich_macrophage <- get_aggrscores(
+  res_enrich = res_enrich_macrophage,
+  res_de = res_macrophage_IFNg_vs_naive,
+  annotation_obj = anno_df,
+  aggrfun = mean
+)
+```
+
+5. Construct the annotation object
+Construct a table with at least two mandatory columns, gene_id and gene_name, to handle the conversion between an unambiguous identifier (Ensembl, Gencode, Entrez) into a human-readable format (typically, HGNC gene symbols).
+
+```{r}
+library("org.Hs.eg.db")
+anno_df <- data.frame(
+  gene_id = rownames(dds_macrophage),
+  gene_name = mapIds(org.Hs.eg.db, 
+                     keys = rownames(dds_macrophage), 
+                     column = "SYMBOL", 
+                     keytype = "ENSEMBL"),
+  stringsAsFactors = FALSE,
+  row.names = rownames(dds_macrophage)
+)
+```
+
+Alternatively, if following Basic Protocol 2 you obtained these objects via `ideal`, you can use this code chunk - the reader should replace the right hand side of the assignment with the name of the objects in the environment in use.
+
+```{r eval=FALSE}
+dds_object <- dds_from_ideal
+res_de_object <- res_from_ideal
+res_enrich_object <- shake_topGOtableResult(res_enrich_from_ideal)
+annotation_object <- annotation_from_ideal
+```
+
+**Calling GeneTonic**
+
+6. Assemble the GeneTonicList object
+Once the four components have been computed and are loaded in the R environment, load the GeneTonic package and create an instance of a GeneTonicList object.
+A summary of the elements in the list will be printed out upon creation.
+
+```{r}
+gtl_macrophage <- GeneTonic_list(
+  dds = dds_macrophage,
+  res_de = res_macrophage_IFNg_vs_naive,
+  res_enrich = res_enrich_macrophage,
+  annotation_obj = anno_df
+)
+```
+
+7. Start the GeneTonic application
+Once the GeneTonicList is generated, GeneTonic can simply be called with one line of code.
+
+```{r eval=FALSE}
+library("GeneTonic")
+GeneTonic(gtl = gtl_macrophage)
+```
+
+Interestingly, this can often be the main entry point for wet-lab collaborators, who might benefit of the expertise of a bioinformatician to perform the steps upstream, and receive a single serialized file to be loaded into the R environment.
+This can be exactly a GeneTonicList containing all the information regarding the experiment and setting of interest, as exemplified in the chunk below.
+
+```{r eval=FALSE}
+gtl_provided <- readRDS("path_to/gtl_object.RDS")
+GeneTonic(gtl = gtl_provided)
+```
+
+
+**Getting to know the GeneTonic interface**
+
+
+
+
+
+
+
 
 # Session information {-}
 
