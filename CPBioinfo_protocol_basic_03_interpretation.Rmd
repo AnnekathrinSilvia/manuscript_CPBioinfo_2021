@@ -109,6 +109,7 @@ We will focus our attention on the comparison between Interferon gamma treated s
 
 []TODO: some image of the container structure?[]
 
+# Protocol steps
 
 *Exploring the data with GeneTonic* 
 
