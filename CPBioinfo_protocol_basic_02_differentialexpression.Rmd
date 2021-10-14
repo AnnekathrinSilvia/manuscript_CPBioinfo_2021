@@ -120,6 +120,8 @@ In this protocol we describe how to launch a Shiny application [@shiny2021] of i
 
 ![**Figure ** **TODO**](**TODO**)
 
+# Protocol steps
+
 *Exploring the data with ideal* 
 
 Before we start with the exploration of the data, the necessary packages and dependencies need to be installed and loaded. 
