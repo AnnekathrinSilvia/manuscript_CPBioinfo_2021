@@ -120,7 +120,7 @@ In this protocol, we describe how to launch an instance of pcaExplorer working w
 Before we start with the exploration of the data, the necessary packages and dependencies need to be installed and loaded. 
 **Support Protocol 1** describes how to install and load the packages. 
 
-1. Prepare the input data for pcaExplorer
+1. Prepare the input data for pcaExplorer.
 The main pcaExplorer function requires the count matrix, metadata, and annotation to be either loaded into the environment before the main call, or offers the possibility to load these objects during runtime (which can be common for a first run).
 If loading the input files at runtime, the application can be launched with the simple command:
 
@@ -129,7 +129,7 @@ pcaExplorer()
 ```
 
 leaving all parameters unspecified.
-If the necessary objects are already loaded in R (e.g. with any function that reads tabular text input), users can launch the Shiny application with the command 
+If the necessary objects are already loaded in R (e.g. with any function that reads tabular text input), users can launch the Shiny application with the command:
 
 ```{r, eval=FALSE}
 pcaExplorer(countmatrix = countmatrix, 
@@ -143,7 +143,7 @@ This should launch a new window with the pcaExplorer application.
 In this application you should see the Data Upload panel as shown in Fig. X.
 
 
-![**Figure ** Data Upload panel - The figure shows the Data Upload panel which is the first panel a user sees upon launching pcaExplorer. The panel provides previews on the input data, as well as buttons to interact with the application.](Figures_Basic_1/Figure 4.png)
+![**Figure ** Data Upload panel - The figure shows the Data Upload panel which is the first panel you see upon launching pcaExplorer. The panel provides previews on the input data, as well as buttons to interact with the application.](Figures_Basic_1/Figure 4.png)
 
 2. Click the 'Generate the dds and dst object' button (Fig X). 
 The dds object represents a `DESeqDataSet` dataset object, while the dst is a `DESeqTransform` object [@Love2014]. 
@@ -232,6 +232,8 @@ From the drop-down menu of options, select 'condition' as next parameter to colo
 Instead of selecting 'condition' from the drop-down menu directly you can also select the option by typing it into the white rectangle. 
 This widget controls the appearance of many plots in pcaExplorer, and is used to encode the grouping information (or their combinations).
 
+  *If you inspect the Number of million of reads per sample plot again, you should observe that the coloring changed compared to the version showed in Fig. X. The 'Group/color by' option is very helpful in exploring different characteristics of the data and providing context to individual plots and results.*
+
 9. Compute some summary statistics on the provided data.
 Scroll down to the 'Basic summary for the counts' heading. 
 Here you will see the number of uniquely aligned reads per sample, accompanied by some information about the expressed genes in the data. 
@@ -249,11 +251,11 @@ Enter 10 for this option and compare the results with the ones shown in Fig. X.
 
 **Explore the Principal Components from the samples point of view**
 
-10. Create a Principal Component plot
-Navigate to the Samples View panel (Fig. X). 
+10. Create a Principal Component plot.
+Navigate to the Samples View panel (Fig. X) as explained before. 
 In this panel you will see the PCA of the individual samples of the input data on the left side, with the corresponding scree plot shown on the right side. 
 If any value is selected in the 'Group/color by' field, users can explore the impact of each covariate by means of the color encoding applied to the graphics.
-To color the samples by condition, click on the 'Group/color by' field and select 'condition' from the drop-down menu - the PCA plot should now display the samples in 4 colors (Fig. X). 
+Use teh 'Group/color by' option to color the samples by condition - the PCA plot should now display the samples in 4 colors (Fig. X). 
 You can also download the PCA plot via the 'Download plot' button in the lower right corner; as seen before, you can specify the name of the file you want to save the plot. 
 This is also possible for the scree plot on the right side of the panel. 
 
@@ -269,13 +271,13 @@ This is also possible for the scree plot on the right side of the panel.
 
 ![**Figure ** PCA colored by condition - The PCA plot of the samples is shown colored by condition. This coloring is achieved by selecting the option 'condition' in the 'Group/color by' selection tab at the far left of the screen. The tab indicates the selected option by displaying the name of the option in the field. Users can remove options by clicking on the option field right behind the option to be deleted and hitting the delete key on the keyboard.](Figures_Basic_1/Figure 12.png)
 
-11. Change the parameters to display different versions of the PCA
+11. Change the parameters to display different versions of the PCA.
 Navigate to the options panel on the far left and search for the 'Nr. of (most variant) genes' option. 
-The default number is 300 genes. 
-Change the number of genes to 500. 
+The default number is set too 300 genes. 
+Change this number to 500. 
 To change the number of genes either use the increase and decrease buttons in the option field (indicated by small arrows) or type the number in the box; if using the second option, make sure to delete the previously selected number first (by hitting the delete key on your keyboard until the number disappeared). 
 Inspect the PCA plot and compare it with the plot in Fig. X. 
-The values for the percent of variance explained of the first and second principal component should have changed. 
+The values of the percent of variance explained of the first and second principal component should have changed. 
 If you increase or decrease the number of selected genes further, you should also be able to observe a slight difference in the clustering of the samples.
 
     *The PCA plot visualizes the variance in the data and the differences between the individual samples. 
@@ -352,7 +354,7 @@ On the bottom, the collapsible element "Table export options" contains the tabul
 18. Inspect any gene of interest in the GeneFinder.
 Navigate to the GeneFinder panel (Fig. X, **TODO: Grafik erstellen**). 
 Enter 'TSPAN6' in the 'Type in the name of the gene to search' option field.
-Select the option 'condition' on the left in the 'Group/color by' selector.
+Make sure that condition is still selected in the 'Group/color by' option; otherwise select it from the available option.
 The panel will load a box plot of the normalized counts of the selected gene as well as a table with the normalized counts of the gene for each sample.
 The individual sample names are annotated on the plotted points, and the underlying data is also reported as a compact table.
 
@@ -370,16 +372,14 @@ Each enrichment table will be displayed on either side of the PCA plot in the mi
 Optionally, to save time and obtain more fine-grained functional categories, users can compute such an object beforehand with methods implemented in the topGO package, which are conveniently wrapped by the `pca2go` function.
 We refer to the package vignette where its specific usage is fully documented.
 
-    **TODO: Something about the final object** 
-
-20. Generate, preview, and export an analysis report
+20. Generate, preview, and export an analysis report.
 Navigate to the Report Editor panel (Fig. X, **TODO: Grafik erstellen**). 
 Open the 'Markdown options' drop-down menu, and enter as a title for the report 'Current Protocols pcaExplorer report' and your name in the 'Author' field; you can leave all other options unaltered. 
 Click the 'Update report' button, and scroll down in the panel to see an preview of the HTML report in the web application itself. 
 Click on the 'Generate & Save' button next to the 'Update report' button to download the report. 
 Save the report under a chosen name on your computer - this operation might take a while, as most content is generated from a fresh session, based on the current values for the reactive elements in the app.
 
-21. Find additional information on pcaExplorer
+21. Find additional information on pcaExplorer.
 Navigate to the Instructions panel, where two buttons can be clicked to open and inspect the pcaExplorer vignettes (available when installing the package)  (Fig. X **TODO: Grafik erstellen**). 
 These vignettes describe comprehensively the pcaExplorer package, and constitute an excellent complement to this Basic Protocol when searching for additional, up-to-date documentation.
 A quickstart guide is also displayed if clicking on the "Up and running with pcaExplorer" collapsible element.
