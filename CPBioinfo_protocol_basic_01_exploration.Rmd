@@ -372,6 +372,8 @@ Each enrichment table will be displayed on either side of the PCA plot in the mi
 Optionally, to save time and obtain more fine-grained functional categories, users can compute such an object beforehand with methods implemented in the topGO package, which are conveniently wrapped by the `pca2go` function.
 We refer to the package vignette where its specific usage is fully documented.
 
+**Wrapping up the analysis with pcaExplorer.**
+
 20. Generate, preview, and export an analysis report.
 Navigate to the Report Editor panel (Fig. X, **TODO: Grafik erstellen**). 
 Open the 'Markdown options' drop-down menu, and enter as a title for the report 'Current Protocols pcaExplorer report' and your name in the 'Author' field; you can leave all other options unaltered. 
