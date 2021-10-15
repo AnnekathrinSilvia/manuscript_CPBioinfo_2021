@@ -249,13 +249,13 @@ Enter 10 for this option and compare the results with the ones shown in Fig. X.
 
 ![**Figure X** Basic summary of the counts - The Data Overview panel provides different summaries on the number of counts in the samples. Among these is the number of uniquely aligned reads in each sample and the number of genes with non-zero counts in the data.](Figures_Basic_1/Figure 10.png)
 
-**Explore the Principal Components from the samples point of view**
+**Explore the Principal Components from the samples point of view.**
 
 10. Create a Principal Component plot.
 Navigate to the Samples View panel (Fig. X) as explained before. 
 In this panel you will see the PCA of the individual samples of the input data on the left side, with the corresponding scree plot shown on the right side. 
 If any value is selected in the 'Group/color by' field, users can explore the impact of each covariate by means of the color encoding applied to the graphics.
-Use teh 'Group/color by' option to color the samples by condition - the PCA plot should now display the samples in 4 colors (Fig. X). 
+Use the 'Group/color by' option to color the samples by condition - the PCA plot should now display the samples in 4 colors (Fig. X). 
 You can also download the PCA plot via the 'Download plot' button in the lower right corner; as seen before, you can specify the name of the file you want to save the plot. 
 This is also possible for the scree plot on the right side of the panel. 
 
@@ -323,7 +323,7 @@ Select the above mentioned sample ids until the PCA plot looks like Fig. X.
 
 ![**Figure ** PCA plot with outliers removed - The figure shows the PCA plot with all samples of the 'naive' condition removed. With this type of sample selection, outlier samples in the data can be detected and removed from the PCA.](Figures_Basic_1/Figure 15.png)
 
-**Explore the Principal Components from the genes point of view**
+**Explore the Principal Components from the genes point of view.**
 
 15. Create the genes biplot.
 Navigate to the Genes View panel (Fig. X), where you will see a PCA on the individual genes as a dual view to samples PCA from the previous steps. 
