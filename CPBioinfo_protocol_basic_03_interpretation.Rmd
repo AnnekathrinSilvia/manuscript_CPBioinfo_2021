@@ -27,7 +27,6 @@ author:
   - *id1
   - &id2 Center for Thrombosis and Hemostasis (CTH), Mainz;<br>
   email: marinif@uni-mainz.de
-
 date: "`r BiocStyle::doc_date()`"
 package: "`r BiocStyle::pkg_ver('ideal')`"
 output: 
@@ -42,7 +41,6 @@ editor_options:
   chunk_output_type: console
 bibliography: cpb_refs.bib
 link-citations: true
-
 ---
 
 **Compiled date**: `r Sys.Date()`
@@ -122,7 +120,7 @@ As for these protocols, the necessary packages and dependencies need to be insta
 The input data to be provided to GeneTonic can be computed via different workflows, but for simplicity it is easiest when using the framework of DESeq2 - we refer users to the package vignette for alternative methods upstream like `limma` or `edgeR`.
 If starting from this Basic Protocol, please use the following commands to generate the entire set of required files.
 
-1. Generate the DESeqDataSet object
+1. Generate the DESeqDataSet object.
 We load the macrophage dataset, specify the design of interest (testing on the condition, while accounting for the cell line of origin), change the identifiers to Ensembl (instead of the provided Gencode ids, that would not match with the annotation packages). 
 Optionally, you can apply some filtering on a minimal detection threshold - in this case, we require to have at least 10 counts, in at least 6 samples (6 being the size of the smallest experimental group)
 
@@ -143,7 +141,7 @@ dds_macrophage <- dds_macrophage[keep, ]
 dds_macrophage
 ```
 
-2. Generate the differential expression result object
+2. Generate the differential expression result object.
 Run the DESeq pipeline on the provided dataset, specifying the contrast of interest (Interferon gamma treatment vs naive cells), and an absolute log2 fold change threshold of at least 1 to test against.
 This is different from the commonly performed post-hoc filtering of subsetting for genes whose absolute expression change is reported as at least 1 - this approach does not guarantee the control of the False Discovery Rate.
 We add the gene symbol identifier to ease the readability of the table.
@@ -159,7 +157,7 @@ res_macrophage_IFNg_vs_naive$SYMBOL <- rowData(dds_macrophage)$SYMBOL
 data("res_de_macrophage", package = "GeneTonic")
 ```
 
-3. Run the functional enrichment analysis 
+3. Run the functional enrichment analysis. 
 This step is here performed via the pcaExplorer wrapper `topGOtable`, using the topGO method (with the elim algorithm).
 A sensible background is selected, choosing the set of all detected genes in the assay.
 We identify the overrepresented Biological Processes from the Gene Ontology database, and convert the resulting table in the format expected by GeneTonic.
@@ -185,7 +183,7 @@ res_enrich_macrophage <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive
 data("res_enrich_macrophage", package = "GeneTonic")
 ```
 
-4. Construct the annotation object
+4. Construct the annotation object.
 Construct a table with at least two mandatory columns, gene_id and gene_name, to handle the conversion between an unambiguous identifier (Ensembl, Gencode, Entrez) into a human-readable format (typically, HGNC gene symbols).
 
 ```{r}
@@ -227,7 +225,7 @@ res_enrich_macrophage <- get_aggrscores(
 
 **Calling GeneTonic**
 
-6. Assemble the GeneTonicList object
+6. Assemble the GeneTonicList object.
 Once the four components have been computed and are loaded in the R environment, load the GeneTonic package and create an instance of a GeneTonicList object.
 A summary of the elements in the list will be printed out upon creation.
 
@@ -240,7 +238,7 @@ gtl_macrophage <- GeneTonic_list(
 )
 ```
 
-7. Start the GeneTonic application
+7. Start the GeneTonic application.
 Once the GeneTonicList is generated, GeneTonic can simply be called with one line of code.
 
 ```{r eval=FALSE}
@@ -269,7 +267,7 @@ This includes:
   In each of the panels, a context-specific interactive tour can be started by clicking on its respective button in the top right corner.
   This highlights in series the elements of the app, accompanying this with textual help that invites users to perform basic operations; this learning-by-doing approach is powered by the `rintrojs` library.
 
-9. Explore an overview on the provided input
+9. Explore an overview on the provided input.
 After starting the application, you should be in the Welcome panel, marked by the home icon in the sidebar.
 Open the collapsible elements, "Expression Matrix", "DE results", "Functional analysis results", and "Annotation info", by clicking on the plus sign.
 Each of them presents a tabular view (powered by the DataTables JavaScript library) of the elements of the provided GeneTonicList.
@@ -296,7 +294,7 @@ The graph object is automatically recomputed and displayed.
 In the "Group/color by" widget, please select `condition`, since this will be used as the main grouping of interest, as it was defined in the DE contrast - this will be relevant especially when performing drilldown operations in the following steps.
 Users can move around the nodes by dragging and dropping them, and eventually save a static snapshot of this as a png image (by clicking on the dedicated "Save ggs graph" button).
 
-13. Explore in depth the nodes of the network
+13. Explore in depth the nodes of the network.
 Click on any geneset in the network.
 Genesets are encoded as rectangular yellow boxes.
 Upon doing this, the Geneset Box on the right side will display a signature heatmap for the pathway of interest, and a volcano plot where the individual genes are annotated.
@@ -311,7 +309,7 @@ While exploring the network, if a node is selected, it is possible to bookmark i
 Repeat this operation until a number of nodes has been selected, making sure to select entities from both categories.
 The bookmarks are stored for the duration of the session, and can be previewed in the Bookmarks tab panel.
 
-15. Calculate and explore the backbone of the Gene-Geneset network
+15. Calculate and explore the backbone of the Gene-Geneset network.
 Below the main network, users can find the functionality to explore a backbone of this bipartite graph.
 The backbone, as defined in the work of [@Domagalski2021], can be seen as an unweighted subgraph containing only the most significant edges - de facto being a summary of the full network.
 Users can extract the backbone for both entity types; click first on the "Gene-geneset graph summaries" collapsible element, and see the backbone network being seamlessly generated.
@@ -335,7 +333,7 @@ Similarly to the Gene-Geneset network, users can select genesets in the network,
 For example, select from the ids listed in the dropdown the geneset "response to interferon-gamma" (GO:0034341); the sample groups are very well separating in all the 4 subgroups included in the expression dataset.
 Bookmarking of genesets is encouraged to keep track of the features of interest, that will need to be considered in the final report.
 
-18. Detect clusters of genesets to identify biological themes
+18. Detect clusters of genesets to identify biological themes.
 The "Geneset distillery", activated in the collapsible element in the lower half of the page, enables the detection of cluster by applying the Markov clustering algorithm (selected by default) on the graph object returned as enrichment map.
 This represents a more quantitative way to define meta-genesets, also called biological themes, instead of the subjective approach to define such clusters by simple visual inspection.
 The tabular output reports for each cluster a summary of its components, listing as representative term the pathway with the highest significance.
@@ -378,7 +376,7 @@ This framework provides a very flexible interface to generate customizable visua
 
 23. Generate a full analysis report centered around the bookmarked features.
 Click the "Start the happy hour" button to initiate the compilation and generation of a RMarkdown report, able to pick the current status of the reactive elements of the app.
-A comprehensive default templete Rmd report is provided within the GeneTonic package, and expert users can additionally extend and edit that at will.
+A comprehensive default template Rmd report is provided within the GeneTonic package, and expert users can additionally extend and edit that at will.
 Once the report has been created, choose a path to store it as HTML document on your machine; this is an ideal means to record the status quo of a typical analysis with GeneTonic.
 You can open this HTML document with any modern browser application.
 Notably, the reporting functionality is available also in batch mode, to benefit from the streamlined aspects of a scripted analysis.
