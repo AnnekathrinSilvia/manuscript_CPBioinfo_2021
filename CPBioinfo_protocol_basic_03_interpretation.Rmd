@@ -277,24 +277,23 @@ If desired, users can take the introductory tour for this panel, as a way to gai
 
 **Construct an interactive gene-geneset network for functionally enriched biological processes**
 
-10. Navigate the GeneTonic app to the Gene-Geneset tab panel.
+10. Create and explore the Gene-Geneset network.
+Navigate the GeneTonic app to the Gene-Geneset tab panel.
 Use the left sidebar for this purpose - upon selection, a spinning loader will be displayed while the object is computed and rendered in the main body of the app.
 By default, 15 genesets are displayed; this behavior can be changed by setting a different value in the control bar (right side of the app) [FIGURE_HERE].
-
-11. Explore the Gene-Geneset network.
 The bipartite graph underlying the Gene-Geneset network contains two sets of entities, and their connections reflect the membership of differentially expressed genes to the subset of genesets selected [FIGURE_HERE].
 This network can be explored in an interactive manner, avoiding the static "hairball" effect that would derive if a large number of genesets is selected, or if many nodes nodes are present (irrespective of their type).
 It is possible to zoom in the network by scrolling, pan by clicking and holding the left mouse button, select by hovering or clicking on a node of interest [FIGURE_HERE].
 Additionally, the "Select by id" dropdown selector allows user to search for a specific node, while presenting them as an alphanumerically sorted list [FIGURE_HERE].
 Every time a node is hovered with the mouse, some information is directly displayed as a tooltip in the main network frame.
 
-12. Edit the Gene-Geneset network.
+11. Edit the Gene-Geneset network.
 Change the number of displayed genesets to 25, by entering this value in the controlbar field "Number of genesets".
 The graph object is automatically recomputed and displayed.
 In the "Group/color by" widget, please select `condition`, since this will be used as the main grouping of interest, as it was defined in the DE contrast - this will be relevant especially when performing drilldown operations in the following steps.
 Users can move around the nodes by dragging and dropping them, and eventually save a static snapshot of this as a png image (by clicking on the dedicated "Save ggs graph" button) [FIGURE_HERE].
 
-13. Explore in depth the nodes of the network.
+12. Explore in depth the nodes of the network.
 Click on any geneset in the network [FIGURE_HERE].
 Genesets are encoded as rectangular yellow boxes.
 Upon doing this, the Geneset Box on the right side will display a signature heatmap for the pathway of interest, and a volcano plot where the individual genes are annotated.
@@ -304,12 +303,12 @@ When clicking on a gene, the normalized expression values are displayed, grouped
 According to the number of data points in each group, a sensible visual encoding is chosen (points, boxplot, violin, or a sina plot) - individual sample labels are also displayed if not cluttering the graphical output.
 If users intend to reproduce the output of the network in a later session, detached from the execution as a web application, the button with a user-edit icon opens up a modal dialog window, where the code to recreate the content is automatically generated and provided [FIGURE_HERE]; this also serves as a bridge to learn how to assemble all the individual analysis components into a full scripted report.
 
-14. Bookmark a subset of genes and genesets.
+13. Bookmark a subset of genes and genesets.
 While exploring the network, if a node is selected, it is possible to bookmark it by either clicking on the Bookmark button in the header, or by using the left Ctrl key as a shortcut [FIGURE_HERE].
 Repeat this operation until a number of nodes has been selected, making sure to select entities from both categories.
 The bookmarks are stored for the duration of the session, and can be previewed in the Bookmarks tab panel [FIGURE_HERE].
 
-15. Calculate and explore the backbone of the Gene-Geneset network.
+14. Calculate and explore the backbone of the Gene-Geneset network.
 Below the main network, users can find the functionality to explore a backbone of this bipartite graph [FIGURE_HERE].
 The backbone, as defined in the work of [@Domagalski2021], can be seen as an unweighted subgraph containing only the most significant edges - de facto being a summary of the full network.
 Users can extract the backbone for both entity types; click first on the "Gene-geneset graph summaries" collapsible element, and see the backbone network being seamlessly generated.
@@ -320,12 +319,12 @@ Similar to the Gene info box, links to external databases are automatically prov
   
 **Construct an interactive enrichment map for the functional enrichment results**
 
-16. Navigate the GeneTonic app to the Enrichment Map tab panel.
-Again, use the left sidebar for this purpose.
+15. Create an interactive enrichment map.
+Navigate the GeneTonic app to the Enrichment Map tab panel; again, use the left sidebar for this purpose.
 The setting you used in the previous steps is kept, so make sure to adjust it to a meaningful value - in this case, you can select 75 genesets to be simultaneously displayed [FIGURE_HERE].
 After changing the status of the input widgets, the output network is efficiently recomputed, leveraging the reactivity framework of Shiny.
 
-17. Explore the relationships between genesets.
+16. Explore the relationships between genesets.
 Neighbouring nodes in an enrichment map reflect a high degree of similarity between genesets; this can be useful to summarize the overarching biological "themes", which are sometimes not so clear if the enrichment results are including many redundant terms, and presented only in tabular format.
 By default, the enrichment map colors the node by the geneset p-value resulting from the enrichment test, but this can be changed by selecting from another entry from the dropdown menu in the top left corner of the main content [FIGURE_HERE].
 For example, coloring by Z score is useful to obtain an overall sense of how the pathway activities are changing (see how the immune response cluster is being mostly activated, while the DNA replication is negatively regulated [FIGURE_HERE]).
@@ -333,7 +332,7 @@ Similarly to the Gene-Geneset network, users can select genesets in the network,
 For example, select from the ids listed in the dropdown the geneset "response to interferon-gamma" (GO:0034341); the sample groups are very well separating in all the 4 subgroups included in the expression dataset [FIGURE_HERE].
 Bookmarking of genesets is encouraged to keep track of the features of interest, that will need to be considered in the final report.
 
-18. Detect clusters of genesets to identify biological themes.
+17. Detect clusters of genesets to identify biological themes.
 The "Geneset distillery", activated in the collapsible element in the lower half of the page, enables the detection of cluster by applying the Markov clustering algorithm (selected by default) on the graph object returned as enrichment map [FIGURE_HERE].
 This represents a more quantitative way to define meta-genesets, also called biological themes, instead of the subjective approach to define such clusters by simple visual inspection.
 The tabular output reports for each cluster a summary of its components, listing as representative term the pathway with the highest significance [FIGURE_HERE].
@@ -342,7 +341,7 @@ This is complemented by the meta-geneset heatmap, which can provide a more granu
 
 **Explore a set of summary visualizations for the enrichment results**
 
-19. Generate multiple visual representations of the tabular enrichment results.
+18. Generate multiple visual representations of the tabular enrichment results.
 While a table contains the most detailed information on the enrichment results, it can hamper the summarization of these results - this is where visualization methods excel by providing overviews where information is encoded in primary channels such as cartesian coordinates position, color, size, and shape.
 Navigate to the "Overview" panel in the GeneTonic app.
 The geneset volcano plot displays the significance of each pathway against the Z score (as an indicator of the direction of expression change [FIGURE_HERE]).
@@ -351,7 +350,7 @@ The simplified version of this includes only genesets for which the overlap coef
 The enhanced table displays for each geneset the contribution (in log2 fold change from the DE analysis) of the individual members [FIGURE_HERE]; an interactive version, based on the plotly framework, can additionally show details as tooltip, reducing the issue when many genes are presented.
 When focusing on individual genes, it is easy to jump back to the Gene-Geneset network, highlight, and bookmark that specific feature when drafting the final report.
 
-20. Create additional summary representations of the enrichment results.
+19. Create additional summary representations of the enrichment results.
 A diverse spectrum of visualization techniques have been adopted for describing at a higher level the functional enrichment results.
 Navigate to the "GSViz" panel in the GeneTonic app [FIGURE_HERE].
 This includes e.g. a scores heatmap, where the geneset activity gets summarized at the sample level, and presented in a heatmap.
@@ -365,22 +364,21 @@ Each of these plots can be reproduced with the code displayed by pressing on the
 
 **Explore the bookmarked features and generate a report**
 
-21. Retrieve the bookmarked features.
+20. Retrieve the bookmarked features.
 Navigate the GeneTonic app to the Bookmarks tab panel.
 The two tables in the main body are displaying the respective list of genes and of genesets users have been selecting in the interactive session [FIGURE_HERE], irrespective from which panel they were shortlisted.
 
-22. Export the data as SummarizedExperiment for further visualizations with iSEE.
+21. Export the data as SummarizedExperiment for further visualizations with iSEE.
 The majority of the content of a GeneTonicList can be also coerced to a SummarizedExperiment object, whereas the object's slots store the information at the feature level (e.g. the differential expression results as rowData elements).
 Clicking on the dedicated button [FIGURE_HERE] writes a serialized rds file, that can later be imported in an R session, and provided as input to the iSEE main function [@Rue-Albrecht2018].
 This framework provides a very flexible interface to generate customizable visualizations, with the possibility to link together different views - for additional material on how to do this, we refer the reader to the online workshop material for the iSEE package (https://isee.github.io/iSEEWorkshop2020/ and https://isee.github.io/iSEEWorkshopEuroBioc2020/).
 
-23. Generate a full analysis report centered around the bookmarked features.
+22. Generate a full analysis report centered around the bookmarked features.
 Click the "Start the happy hour" button to initiate the compilation and generation of a RMarkdown report, able to pick the current status of the reactive elements of the app [FIGURE_HERE].
 A comprehensive default template Rmd report is provided within the GeneTonic package, and expert users can additionally extend and edit that at will.
 Once the report has been created, choose a path to store it as HTML document on your machine; this is an ideal means to record the status quo of a typical analysis with GeneTonic.
 You can open this HTML document with any modern browser application.
 Notably, the reporting functionality is available also in batch mode, to benefit from the streamlined aspects of a scripted analysis.
-
 
 
 # Session information {-}
