@@ -378,7 +378,7 @@ Click the "Start the happy hour" button to initiate the compilation and generati
 A comprehensive default template Rmd report is provided within the GeneTonic package, and expert users can additionally extend and edit that at will.
 Once the report has been created, choose a path to store it as HTML document on your machine; this is an ideal means to record the status quo of a typical analysis with GeneTonic.
 You can open this HTML document with any modern browser application.
-Notably, the reporting functionality is available also in batch mode, to benefit from the streamlined aspects of a scripted analysis.
+Notably, the reporting functionality is available also in batch mode, to benefit from the streamlined aspects of a scripted analysis [ref to alt protocol here? there we can run this from the R REPL].
 
 
 # Session information {-}
