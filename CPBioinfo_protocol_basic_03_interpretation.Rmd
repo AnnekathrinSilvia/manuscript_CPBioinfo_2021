@@ -40,7 +40,7 @@ output:
     code_download: true
 editor_options: 
   chunk_output_type: console
-# bibliography: ideal_suppl.bib
+bibliography: cpb_refs.bib
 link-citations: true
 
 ---
@@ -78,6 +78,311 @@ library("pcaExplorer")
 library("ideal")
 library("GeneTonic")
 ```
+
+# Introductory Paragraph
+
+GeneTonic [@Marini2021] is a Bioconductor package for streamlining the analysis of results from differential expression analysis together with functional enrichment analysis, integrating these components with the original expression data and annotation tables for easy identifier conversion [@Oshlack2010, @Love2015]. 
+Blending together the existing pieces of transcriptome datasets in a Shiny web application [@shiny2021], users can interactively generate insightful observations and hypotheses, while still profiting from code reproducibility, guaranteed by the creation of an HTML report and code snippets meta-generated along the outputs.
+
+In this protocol, we will describe its usage to analyze in depth the macrophage dataset [@Alasoo2018], made available as a Bioconductor package itself [@Gentleman2004a, @Huber2015].
+Samples from the macrophage dataset are available from 6 different donors, in 4 different conditions - naive, treated with Interferon gamma, upon SL1344 (Salmonella enterica) infection, or with a combination of Interferon gamma and SL1344.
+We will focus our attention on the comparison between Interferon gamma treated samples versus naive samples - these results have been previously generated through the other Basic Protocols.
+
+# Necessary Resources
+
+*Hardware*
+
+  A modern desktop computer or laptop with any up-to-date operating system
+  
+*Software*
+
+  R 4.0.0 or higher, Bioconductor 3.11 or higher, (optional?) RStudio, optional browser to open vignettes
+  
+*Files* 
+
+  GeneTonic requires the information contained in four different objects, commonly used when executing the analysis workflow in R:
+  - `dds`, a `DESeqDataSet` containing the expression matrix, used in the DESeq2 framework [@Love2014];
+  - `res_de`, a `DESeqResults` object, i.e. a `DataFrame` storing the results of the differential expression analysis;
+  - `res_enrich`, a `data.frame` with the results of functional enrichment analysis;
+  - `annotation_obj`, a `data.frame` with the correspondence between identifiers for the features under inspection in the `dds` object.
+  These can be alternatively provided in a single container class (a GeneTonicList), recognized by the main functions of GeneTonic for simplifying the calls and ensuring their correctness.
+
+[]TODO: some image of the container structure?[]
+
+# Protocol steps
+
+*Exploring the data with GeneTonic* 
+
+GeneTonic's usage is envisioned once the usual set of results from a differential expression analysis workflow have been computed. 
+In order to obtain the necessary input objects, we refer to the Basic Protocol 1 and 2 in this work. []or alt protocol?[]
+As for these protocols, the necessary packages and dependencies need to be installed and loaded - **Support Protocol 1** describes how to install and load the packages.
+
+**Generate the required input for running GeneTonic**
+
+The input data to be provided to GeneTonic can be computed via different workflows, but for simplicity it is easiest when using the framework of DESeq2 - we refer users to the package vignette for alternative methods upstream like `limma` or `edgeR`.
+If starting from this Basic Protocol, please use the following commands to generate the entire set of required files.
+
+1. Generate the DESeqDataSet object
+We load the macrophage dataset, specify the design of interest (testing on the condition, while accounting for the cell line of origin), change the identifiers to Ensembl (instead of the provided Gencode ids, that would not match with the annotation packages). 
+Optionally, you can apply some filtering on a minimal detection threshold - in this case, we require to have at least 10 counts, in at least 6 samples (6 being the size of the smallest experimental group)
+
+```{r}
+# Loading the data
+library("macrophage")
+library("DESeq2")
+library("GeneTonic")
+data("gse", package = "macrophage")
+dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+# Changing the ids
+rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+dds_macrophage
+
+# Filtering low expressed features
+keep <- rowSums(counts(dds_macrophage) >= 10) >= 6 
+dds_macrophage <- dds_macrophage[keep, ]
+dds_macrophage
+```
+
+2. Generate the differential expression result object
+Run the DESeq pipeline on the provided dataset, specifying the contrast of interest (Interferon gamma treatment vs naive cells), and an absolute log2 fold change threshold of at least 1 to test against.
+This is different from the commonly performed post-hoc filtering of subsetting for genes whose absolute expression change is reported as at least 1 - this approach does not guarantee the control of the False Discovery Rate.
+We add the gene symbol identifier to ease the readability of the table.
+
+```{r}
+dds_macrophage <- DESeq(dds_macrophage)
+res_macrophage_IFNg_vs_naive <- results(dds_macrophage,
+                                        contrast = c("condition", "IFNg", "naive"),
+                                        lfcThreshold = 1, 
+                                        alpha = 0.05)
+res_macrophage_IFNg_vs_naive$SYMBOL <- rowData(dds_macrophage)$SYMBOL
+# Alternatively, the result is provided as precomputed object in the GeneTonic package
+data("res_de_macrophage", package = "GeneTonic")
+```
+
+3. Run the functional enrichment analysis 
+This step is here performed via the pcaExplorer wrapper `topGOtable`, using the topGO method (with the elim algorithm).
+A sensible background is selected, choosing the set of all detected genes in the assay.
+We identify the overrepresented Biological Processes from the Gene Ontology database, and convert the resulting table in the format expected by GeneTonic.
+Alternatively, a variety of methods and applications can be used to compute a similar enrichment table; we refer the reader to the GeneTonic vignette, detailing the supported software.
+
+```{r}
+# Sort the results by FDR
+library("AnnotationDbi")
+de_symbols_IFNg_vs_naive <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.05)$SYMBOL
+background_symbols <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
+# Compute the enrichment results
+library("topGO")
+topgoDE_macrophage_IFNg_vs_naive <-
+  pcaExplorer::topGOtable(DEgenes = de_symbols_IFNg_vs_naive,
+                          BGgenes = background_symbols,
+                          ontology = "BP",
+                          mapping = "org.Hs.eg.db",
+                          geneID = "symbol",
+                          topTablerows = 500)
+# Convert for usage in GeneTonic
+res_enrich_macrophage <- shake_topGOtableResult(topgoDE_macrophage_IFNg_vs_naive)
+# Alternatively, the enrichment result is also available as a precomputed object
+data("res_enrich_macrophage", package = "GeneTonic")
+```
+
+4. Construct the annotation object
+Construct a table with at least two mandatory columns, gene_id and gene_name, to handle the conversion between an unambiguous identifier (Ensembl, Gencode, Entrez) into a human-readable format (typically, HGNC gene symbols).
+
+```{r}
+library("org.Hs.eg.db")
+anno_df <- data.frame(
+  gene_id = rownames(dds_macrophage),
+  gene_name = mapIds(org.Hs.eg.db, 
+                     keys = rownames(dds_macrophage), 
+                     column = "SYMBOL", 
+                     keytype = "ENSEMBL"),
+  stringsAsFactors = FALSE,
+  row.names = rownames(dds_macrophage)
+)
+```
+
+Alternatively, if following Basic Protocol 2 you obtained these objects via `ideal`, you can use this code chunk - the reader should replace the right hand side of the assignment with the name of the objects in the environment in use.
+
+```{r eval=FALSE}
+dds_object <- dds_from_ideal
+res_de_object <- res_from_ideal
+res_enrich_object <- shake_topGOtableResult(res_enrich_from_ideal)
+annotation_object <- annotation_from_ideal
+```
+
+5. Compute aggregated scores on the enrichment results (optional).
+The function `get_aggrscores()` can be called on the ensemble of objects we just generated, to compute two additional columns for the input `res_enrich` object.
+The `z_score` and `aggr_score` values try to summarize geneset-wise the effect (log2FoldChange) of the differentially expressed genes that are listed as its members, either by simply counting them or applying a function (in the example below, the mean is used, but other functions could be applied such as the median).
+These are estimates of the "direction" of expression change reflected on higher level features such as pathways or genesets.
+We refer to the original publication of GeneTonic for more details on how these scores are computed.
+
+```{r aggr_enrich, eval=TRUE}
+res_enrich_macrophage <- get_aggrscores(
+  res_enrich = res_enrich_macrophage,
+  res_de = res_macrophage_IFNg_vs_naive,
+  annotation_obj = anno_df,
+  aggrfun = mean
+)
+```
+
+**Calling GeneTonic**
+
+6. Assemble the GeneTonicList object
+Once the four components have been computed and are loaded in the R environment, load the GeneTonic package and create an instance of a GeneTonicList object.
+A summary of the elements in the list will be printed out upon creation.
+
+```{r}
+gtl_macrophage <- GeneTonic_list(
+  dds = dds_macrophage,
+  res_de = res_macrophage_IFNg_vs_naive,
+  res_enrich = res_enrich_macrophage,
+  annotation_obj = anno_df
+)
+```
+
+7. Start the GeneTonic application
+Once the GeneTonicList is generated, GeneTonic can simply be called with one line of code.
+
+```{r eval=FALSE}
+library("GeneTonic")
+GeneTonic(gtl = gtl_macrophage)
+```
+
+Interestingly, this can often be the main entry point for wet-lab collaborators, who might benefit of the expertise of a bioinformatician to perform the steps upstream, and receive a single serialized file to be loaded into the R environment.
+This can be exactly a GeneTonicList containing all the information regarding the experiment and setting of interest, as exemplified in the chunk below.
+
+```{r eval=FALSE}
+gtl_provided <- readRDS("path_to/gtl_object.RDS")
+GeneTonic(gtl = gtl_provided)
+```
+
+
+**First steps using GeneTonic**
+
+8. Explore the user interface of GeneTonic.
+GeneTonic's layout is built on the Bootstrap 4 components, provided via the `bs4Dash` package.
+This includes: 
+* A header bar, where dropdown menus link to further documentation, and where the bookmark button is located - useful for recording features of interest during an interactive session
+* A sidebar on the left, as the main way to access the different functionalities provided in the app
+* A control bar on the right, where users can find most widgets to customize the appearance of the output (plots, tables, graphs)
+* The main body of the application, where different tabs are activated by clicking on the respective icons or text in the sidebar.
+  In each of the panels, a context-specific interactive tour can be started by clicking on its respective button in the top right corner.
+  This highlights in series the elements of the app, accompanying this with textual help that invites users to perform basic operations; this learning-by-doing approach is powered by the `rintrojs` library.
+
+9. Explore an overview on the provided input
+After starting the application, you should be in the Welcome panel, marked by the home icon in the sidebar.
+Open the collapsible elements, "Expression Matrix", "DE results", "Functional analysis results", and "Annotation info", by clicking on the plus sign.
+Each of them presents a tabular view (powered by the DataTables JavaScript library) of the elements of the provided GeneTonicList.
+The value boxes below give a rapid overview on the dimensions of these objects.
+If desired, users can take the introductory tour for this panel, as a way to gain additional familiarity with the user interface.
+
+
+**Construct an interactive gene-geneset network for functionally enriched biological processes**
+
+10. Navigate the GeneTonic app to the Gene-Geneset tab panel.
+Use the left sidebar for this purpose - upon selection, a spinning loader will be displayed while the object is computed and rendered in the main body of the app.
+By default, 15 genesets are displayed; this behavior can be changed by setting a different value in the control bar (right side of the app).
+
+11. Explore the Gene-Geneset network.
+The bipartite graph underlying the Gene-Geneset network contains two sets of entities, and their connections reflect the membership of differentially expressed genes to the subset of genesets selected.
+This network can be explored in an interactive manner, avoiding the static "hairball" effect that would derive if a large number of genesets is selected, or if many nodes nodes are present (irrespective of their type).
+It is possible to zoom in the network by scrolling, pan by clicking and holding the left mouse button, select by hovering or clicking on a node of interest.
+Additionally, the "Select by id" dropdown selector allows user to search for a specific node, while presenting them as an alphanumerically sorted list.
+Every time a node is hovered with the mouse, some information is directly displayed as a tooltip in the main network frame.
+
+12. Edit the Gene-Geneset network.
+Change the number of displayed genesets to 25, by entering this value in the controlbar field "Number of genesets".
+The graph object is automatically recomputed and displayed.
+In the "Group/color by" widget, please select `condition`, since this will be used as the main grouping of interest, as it was defined in the DE contrast - this will be relevant especially when performing drilldown operations in the following steps.
+Users can move around the nodes by dragging and dropping them, and eventually save a static snapshot of this as a png image (by clicking on the dedicated "Save ggs graph" button).
+
+13. Explore in depth the nodes of the network
+Click on any geneset in the network.
+Genesets are encoded as rectangular yellow boxes.
+Upon doing this, the Geneset Box on the right side will display a signature heatmap for the pathway of interest, and a volcano plot where the individual genes are annotated.
+Extra information, as retrieved from the GO.db annotation package, is displayed below, with a link to reach the corresponding entry in the AmiGO database.
+On the other hand, genes are marked as oval-shaped nodes, with a color scale mirroring the expression change in the differential expression comparison.
+When clicking on a gene, the normalized expression values are displayed, grouped by the experimental covariates selected.
+According to the number of data points in each group, a sensible visual encoding is chosen (points, boxplot, violin, or a sina plot) - individual sample labels are also displayed if not cluttering the graphical output.
+If users intend to reproduce the output of the network in a later session, detached from the execution as a web application, the button with a user-edit icon opens up a modal dialog window, where the code to recreate the content is automatically generated and provided; this also serves as a bridge to learn how to assemble all the individual analysis components into a full scripted report.
+
+14. Bookmark a subset of genes and genesets.
+While exploring the network, if a node is selected, it is possible to bookmark it by either clicking on the Bookmark button in the header, or by using the left Ctrl key as a shortcut.
+Repeat this operation until a number of nodes has been selected, making sure to select entities from both categories.
+The bookmarks are stored for the duration of the session, and can be previewed in the Bookmarks tab panel.
+
+15. Calculate and explore the backbone of the Gene-Geneset network
+Below the main network, users can find the functionality to explore a backbone of this bipartite graph.
+The backbone, as defined in the work of [@Domagalski2021], can be seen as an unweighted subgraph containing only the most significant edges - de facto being a summary of the full network.
+Users can extract the backbone for both entity types; click first on the "Gene-geneset graph summaries" collapsible element, and see the backbone network being seamlessly generated.
+Click on the "features" option on the respective radio button to construct the dual graph, focused on the genes.
+As a complement to this, the table on the right side ranks the genes according to their degree of connectivity; this can be important to identify hub-like genes that might be involved in a multitude of biological processes.
+Similar to the Gene info box, links to external databases are automatically provided, to simplify the further steps of exploration when trying to generate new hypotheses by intersecating the own project with published literature.
+
+  
+**Construct an interactive enrichment map for the functional enrichment results**
+
+16. Navigate the GeneTonic app to the Enrichment Map tab panel.
+Again, use the left sidebar for this purpose.
+The setting you used in the previous steps is kept, so make sure to adjust it to a meaningful value - in this case, you can select 75 genesets to be simultaneously displayed.
+After changing the status of the input widgets, the output network is efficiently recomputed, leveraging the reactivity framework of Shiny.
+
+17. Explore the relationships between genesets.
+Neighbouring nodes in an enrichment map reflect a high degree of similarity between genesets; this can be useful to summarize the overarching biological "themes", which are sometimes not so clear if the enrichment results are including many redundant terms, and presented only in tabular format.
+By default, the enrichment map colors the node by the geneset p-value resulting from the enrichment test, but this can be changed by selecting from another entry from the dropdown menu in the top left corner of the main content.
+For example, coloring by Z score is useful to obtain an overall sense of how the pathway activities are changing (see how the immune response cluster is being mostly activated, while the DNA replication is negatively regulated).
+Similarly to the Gene-Geneset network, users can select genesets in the network, triggering the generation of signature heatmaps, whose functionality behaves consistently throughout the different panels.
+For example, select from the ids listed in the dropdown the geneset "response to interferon-gamma" (GO:0034341); the sample groups are very well separating in all the 4 subgroups included in the expression dataset.
+Bookmarking of genesets is encouraged to keep track of the features of interest, that will need to be considered in the final report.
+
+18. Detect clusters of genesets to identify biological themes
+The "Geneset distillery", activated in the collapsible element in the lower half of the page, enables the detection of cluster by applying the Markov clustering algorithm (selected by default) on the graph object returned as enrichment map.
+This represents a more quantitative way to define meta-genesets, also called biological themes, instead of the subjective approach to define such clusters by simple visual inspection.
+The tabular output reports for each cluster a summary of its components, listing as representative term the pathway with the highest significance.
+This is complemented by the meta-geneset heatmap, which can provide a more granular view on the union set of genes assigned to at least any of these genesets.
+
+
+**Explore a set of summary visualizations for the enrichment results**
+
+19. Generate multiple visual representations of the tabular enrichment results.
+While a table contains the most detailed information on the enrichment results, it can hamper the summarization of these results - this is where visualization methods excel by providing overviews where information is encoded in primary channels such as cartesian coordinates position, color, size, and shape.
+Navigate to the "Overview" panel in the GeneTonic app.
+The geneset volcano plot displays the significance of each pathway against the Z score (as an indicator of the direction of expression change).
+In this view, the number of genesets (from the right control bar) defines how many data points are labeled, selecting the top candidates.
+The simplified version of this includes only genesets for which the overlap coefficient does not exceed the specified threshold.
+The enhanced table displays for each geneset the contribution (in log2 fold change from the DE analysis) of the individual members; an interactive version, based on the plotly framework, can additionally show details as tooltip, reducing the issue when many genes are presented.
+When focusing on individual genes, it is easy to jump back to the Gene-Geneset network, highlight, and bookmark that specific feature when drafting the final report.
+
+20. Create additional summary representations of the enrichment results.
+A diverse spectrum of visualization techniques have been adopted for describing at a higher level the functional enrichment results.
+Navigate to the "GSViz" panel in the GeneTonic app.
+This includes e.g. a scores heatmap, where the geneset activity gets summarized at the sample level, and presented in a heatmap.
+Alluvial plots and a summary heatmap give a quick impression of the many-to-many relationships existing between genes and genesets.
+A geneset Multi-Dimensional Scaling plot is an alternative to the enrichment maps, whereas the geneset distance (e.g. computed an overlap coefficient, or as Jaccard Index) is depicted in a 2-dimensional map.
+Similarly, the distance can be shown as a dendrogram, with nodes encoding significance and Z-value.
+The Summary Overview and Geneset Radar are two simple visual summaries to show the overall enrichment profile; this can be particularly useful when comparing different enrichment results, and this can be performed offline (the app runtime is centered on a single enrichment result).
+As in the other panels, the output of each panel can be customized by changing the number of included/annotated genesets, located in the control bar on the right side of the web application.
+Each of these plots can be reproduced with the code displayed by pressing on the button below the graphics.
+
+
+**Explore the bookmarked features and generate a report**
+
+21. Retrieve the bookmarked features.
+Navigate the GeneTonic app to the Bookmarks tab panel.
+The two tables in the main body are displaying the respective list of genes and of genesets users have been selecting in the interactive session, irrespective from which panel they were shortlisted.
+
+22. Export the data as SummarizedExperiment for further visualizations with iSEE.
+The majority of the content of a GeneTonicList can be also coerced to a SummarizedExperiment object, whereas the object's slots store the information at the feature level (e.g. the differential expression results as rowData elements).
+Clicking on the dedicated button writes a serialized rds file, that can later be imported in an R session, and provided as input to the iSEE main function [@Rue-Albrecht2018].
+This framework provides a very flexible interface to generate customizable visualizations, with the possibility to link together different views - for additional material on how to do this, we refer the reader to the online workshop material for the iSEE package (https://isee.github.io/iSEEWorkshop2020/ and https://isee.github.io/iSEEWorkshopEuroBioc2020/).
+
+23. Generate a full analysis report centered around the bookmarked features.
+Click the "Start the happy hour" button to initiate the compilation and generation of a RMarkdown report, able to pick the current status of the reactive elements of the app.
+A comprehensive default templete Rmd report is provided within the GeneTonic package, and expert users can additionally extend and edit that at will.
+Once the report has been created, choose a path to store it as HTML document on your machine; this is an ideal means to record the status quo of a typical analysis with GeneTonic.
+You can open this HTML document with any modern browser application.
+Notably, the reporting functionality is available also in batch mode, to benefit from the streamlined aspects of a scripted analysis.
+
 
 
 # Session information {-}
