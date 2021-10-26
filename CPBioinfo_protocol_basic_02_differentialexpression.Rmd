@@ -71,7 +71,7 @@ options(replace.assign = TRUE, width = 100)
 ```{r loadLibraries, results= "hide"}
 library("DESeq2")
 library("topGO")
-library("org.Mm.eg.db")
+library("org.Hs.eg.db")
 library("pcaExplorer")
 library("ideal")
 library("GeneTonic")
