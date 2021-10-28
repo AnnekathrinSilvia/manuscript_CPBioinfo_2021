@@ -121,7 +121,7 @@ The input data to be provided to GeneTonic can be computed via different workflo
 If starting from this Basic Protocol, please use the following commands to generate the entire set of required files.
 
 1. Generate the DESeqDataSet object.
-We load the macrophage dataset, specify the design of interest (testing on the condition, while accounting for the cell line of origin), change the identifiers to Ensembl (instead of the provided Gencode ids, that would not match with the annotation packages). 
+We load the macrophage dataset, specify the design of interest (testing on the condition, while accounting for the cell line of origin), change the identifiers to ENSEMBL (instead of the provided GENCODE ids, that would not match with the annotation packages). 
 Optionally, you can apply some filtering on a minimal detection threshold - in this case, we require to have at least 10 counts, in at least 6 samples (6 being the size of the smallest experimental group)
 
 ```{r}
@@ -184,7 +184,7 @@ data("res_enrich_macrophage", package = "GeneTonic")
 ```
 
 4. Construct the annotation object.
-Construct a table with at least two mandatory columns, `gene_id` and `gene_name`, to handle the conversion between an unambiguous identifier (Ensembl, Gencode, Entrez) into a human-readable format (typically, HGNC gene symbols).
+Construct a table with at least two mandatory columns, `gene_id` and `gene_name`, to handle the conversion between an unambiguous identifier (ENSEMBL, GENCODE, Entrez) into a human-readable format (typically, HGNC gene symbols).
 
 ```{r}
 library("org.Hs.eg.db")
