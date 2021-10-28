@@ -101,7 +101,7 @@ We will focus our attention on the comparison between Interferon gamma treated s
   GeneTonic requires the information contained in four different objects, commonly used when executing the analysis workflow in R:
   - `dds`, a `DESeqDataSet` containing the expression matrix, used in the DESeq2 framework [@Love2014];
   - `res_de`, a `DESeqResults` object, i.e. a `DataFrame` storing the results of the differential expression analysis;
-  - `res_enrich`, a `data.frame` with the results of functional enrichment analysis;
+  - `res_enrich`, a `data.frame` with the results of functional enrichment analysis (see section "Generate the required input for running GeneTonic" below for details on the expected file formatting);
   - `annotation_obj`, a `data.frame` with the correspondence between identifiers for the features under inspection in the `dds` object.
   These can be alternatively provided in a single container class (a GeneTonicList), recognized by the main functions of GeneTonic for simplifying the calls and ensuring their correctness.
 
