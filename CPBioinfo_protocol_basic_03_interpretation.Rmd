@@ -184,7 +184,7 @@ data("res_enrich_macrophage", package = "GeneTonic")
 ```
 
 4. Construct the annotation object.
-Construct a table with at least two mandatory columns, gene_id and gene_name, to handle the conversion between an unambiguous identifier (Ensembl, Gencode, Entrez) into a human-readable format (typically, HGNC gene symbols).
+Construct a table with at least two mandatory columns, `gene_id` and `gene_name`, to handle the conversion between an unambiguous identifier (Ensembl, Gencode, Entrez) into a human-readable format (typically, HGNC gene symbols).
 
 ```{r}
 library("org.Hs.eg.db")
