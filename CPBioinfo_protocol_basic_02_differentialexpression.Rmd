@@ -109,7 +109,7 @@ In this protocol we describe how to launch the ideal web application (also imple
   ![**Figure ** Example of a Metadata file - The figure shows the example of a Metadata file. The rows of the file contain the individual samples while the columns represent relevant experimental variables. The variable can change depending on the data set and research question.](Figures_Basic_1/Figure 2.png)
 
   The third input of ideal is the optional but recommended annotation file. 
-  The file contains the feature ids of the count matrix in the rows and at least one column called "gene_name" which contains a more human readable form of the feature ids (e.g. HGNC gene names [@Tweedie2021] if the features are gene ids). 
+  The file contains the feature ids of the count matrix in the rows and at least one column called `gene_name` which contains a more human readable form of the feature ids (e.g. HGNC gene names [@Tweedie2021] if the features are stable gene identifiers such as ENSEMBL or GENCODE). 
   Fig. X shows an example of an annotation file.
   Notably, these three text files are identical in their format and content to the ones provided to pcaExplorer (see Basic Protocol 1); this unified set of requirements simplifies the usage of both tools.
   
@@ -217,7 +217,7 @@ Further options are provided to the user, where independent filtering or the Ind
 After clicking on "Extract the results" we can see that in the macrophage dataset more than 6000 genes have been detected as differentially expressed for the ` IFNg ` treatment vs naive contrast.
 Additionally, the value box for the DE genes is updated and displayed in green.
 IRF1, IL18BP, and GBP2 are listed in the table below as the top regulated genes, sorted by adjusted p-value. 
-The interactive table directly links the gene symbols and the Ensembl identifiers to external databases for that feature, either [ensembl.org](https://www.ensembl.org/index.html) or the [NCBI Gene DB](https://www.ncbi.nlm.nih.gov/gene). 
+The interactive table directly links the gene symbols and the ENSEMBL identifiers to external databases for that feature, either [ensembl.org](https://www.ensembl.org/index.html) or the [NCBI Gene DB](https://www.ncbi.nlm.nih.gov/gene). 
 ![**Figure ** Extract Results panel - **TODO**.]([**TODO**])
 
 9. Inspect the four diagnostic plots for the extracted DE results. 
