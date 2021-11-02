@@ -85,6 +85,7 @@ Blending together the existing pieces of transcriptome datasets in a Shiny web a
 In this protocol, we will describe its usage to analyze in depth the macrophage dataset [@Alasoo2018], made available as a Bioconductor package itself [@Gentleman2004a, @Huber2015].
 Samples from the macrophage dataset are available from 6 different donors, in 4 different conditions - naive, treated with Interferon gamma, upon SL1344 (Salmonella enterica) infection, or with a combination of Interferon gamma and SL1344.
 We will focus our attention on the comparison between Interferon gamma treated samples versus naive samples - these results have been previously generated through the other Basic Protocols.
+[TODO: this last paras, maybe to be moved to Support Protocol instead of repeating?]
 
 # Necessary Resources
 
