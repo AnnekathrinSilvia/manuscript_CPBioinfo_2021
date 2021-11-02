@@ -271,7 +271,7 @@ This includes:
 9. Explore an overview on the provided input.
 After starting the application, you should be in the Welcome panel, marked by the home icon in the sidebar.
 Open the collapsible elements, "Expression Matrix", "DE results", "Functional analysis results", and "Annotation info", by clicking on the plus sign [FIGURE_HERE].
-Each of them presents a tabular view (powered by the DataTables JavaScript library) of the elements of the provided GeneTonicList.
+Each of them presents a tabular view of the elements of the provided GeneTonicList.
 The value boxes below give a rapid overview on the dimensions of these objects [FIGURE_HERE].
 If desired, users can take the introductory tour for this panel, as a way to gain additional familiarity with the user interface.
 
