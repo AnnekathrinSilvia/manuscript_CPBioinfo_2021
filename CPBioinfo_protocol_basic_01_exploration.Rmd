@@ -119,7 +119,7 @@ In this protocol, we describe how to launch an instance of pcaExplorer working w
 
 # Protocol steps
 
-*Exploring the data with pcaExplorer* 
+**Exploring the data with pcaExplorer**
 
 Before we start with the exploration of the data, the necessary packages and dependencies need to be installed and loaded. 
 **Support Protocol 1** describes how to install and load the packages. 
@@ -198,7 +198,7 @@ Click on the 'Run' button to generate the scatter plots (Fig. X and X.).
 
 ![**Figure ** Sample to Sample similarity heatmap - The figure shows the sample to sample similarity. Identical samples are colored in dark red, while dark blue indicates a low similarity of the samples.](Figures_Basic_1/Figure 7.png)
 
-**Create an overview and compute some summaries on the provided data.**
+**Creating an overview and computing summaries on the provided data.**
 
 6. Explore the relationships between the samples.
 Navigate to the Data Overview panel (Fig. X) as explained above (**TODO: Mention exact step**). 
@@ -247,7 +247,7 @@ Enter 10 for this option and compare the results with the ones shown in Fig. X.
 
 ![**Figure X** Basic summary of the counts - The Data Overview panel provides different summaries on the number of counts in the samples. Among these is the number of uniquely aligned reads in each sample and the number of genes with non-zero counts in the data.](Figures_Basic_1/Figure 10.png)
 
-**Explore the Principal Components from the samples point of view.**
+**Exploring the Principal Components from the samples point of view.**
 
 10. Create a Principal Component plot.
 Navigate to the Samples View panel (Fig. X). 
@@ -317,7 +317,7 @@ Select the above mentioned sample ids until the PCA plot looks like Fig. X.
 
 ![**Figure ** PCA plot with outliers removed - The figure shows the PCA plot with all samples of the 'naive' condition removed. With this type of sample selection, outlier samples in the data can be detected and removed from the PCA.](Figures_Basic_1/Figure 15.png)
 
-**Explore the Principal Components from the genes point of view.**
+**Exploring the Principal Components from the genes point of view.**
 
 15. Create the genes biplot.
 Navigate to the Genes View panel (Fig. X), where you will see a PCA on the individual genes as a dual view to samples PCA from the previous steps. 
@@ -375,7 +375,11 @@ Click the 'Update report' button, and scroll down in the panel to see an preview
 Click on the 'Generate & Save' button next to the 'Update report' button to download the report. 
 Save the report under a chosen name on your computer - this operation might take a while, as most content is generated from a fresh session, based on the current values for the reactive elements in the app.
 
-21. Find additional information on pcaExplorer.
+21. Export the analyses components for further downstream exploration.
+Users can open the Tasks menu from the small cogs icon in the top right of the header.
+From there, it is possible to export the state of the app's reactive elements into a binary .RData workspace, or also store their values directly into an environment - this will close the app as a result; this can be retrieved in the R session by calling `pcaExplorer_env`, containing a list of values for the input widgets and the reactive elements.
+
+22. Find additional information on pcaExplorer.
 Navigate to the Instructions panel, where two buttons can be clicked to open and inspect the pcaExplorer vignettes (available when installing the package)  (Fig. X **TODO: Grafik erstellen**). 
 These vignettes describe comprehensively the pcaExplorer package, and constitute an excellent complement to this Basic Protocol when searching for additional, up-to-date documentation.
 A quickstart guide is also displayed if clicking on the "Up and running with pcaExplorer" collapsible element.
