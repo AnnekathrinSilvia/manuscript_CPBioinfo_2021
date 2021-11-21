@@ -91,11 +91,11 @@ We will focus our attention on the comparison between Interferon gamma treated s
 
 *Hardware*
 
-  A modern desktop computer or laptop with any up-to-date operating system
+  See detailed description in Support Protocol 1
   
 *Software*
 
-  R 4.0.0 or higher, Bioconductor 3.11 or higher, (optional?) RStudio, optional browser to open vignettes
+  See detailed description in Support Protocol 1
   
 *Files* 
 

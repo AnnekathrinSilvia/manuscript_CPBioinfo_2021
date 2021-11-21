@@ -88,11 +88,11 @@ In this protocol we describe how to launch the ideal web application (also imple
 
 *Hardware*
 
-  a modern desktop computer or laptop with any up-to-date operating system
+  See detailed description in Support Protocol 1
   
 *Software*
 
-  R 3.3 or higher, Bioconductor 3.3 or higher, (optional?) RStudio, optional browser to open vignettes
+  See detailed description in Support Protocol 1
   
 *Files* 
 
