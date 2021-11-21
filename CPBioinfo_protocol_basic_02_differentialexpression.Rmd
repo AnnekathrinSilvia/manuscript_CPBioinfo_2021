@@ -128,11 +128,10 @@ In this protocol we describe how to launch the ideal web application (also imple
 Before we start with the exploration of the data, the necessary packages and dependencies need to be installed and loaded. 
 **Support Protocol 1** describes how to install and load the packages. 
 
-**Starting up with the ideal package**
+**Starting up with the ideal package.**
 
-<!-- 1. Start application and provide the input data.  -->
-1. Load the ideal package and start the ideal web application.
-The input data can be provided in different ways to the ideal application. 
+1. Load the `ideal` package and start the `ideal` web application.
+The input data can be provided in different ways to the `ideal` application. 
 The first option is to provide the data as R objects to the function `ideal()`, as in the following chunk:
 
 ```{r eval=FALSE}
@@ -154,7 +153,7 @@ ideal(dds_obj = dds,
       res_obj = res_de)
 ```
 
-For users less familiar with a command line interface, a third option is available, where one can interactively upload the data as text files, directly in the ideal web application. 
+For users less familiar with a command line interface, a third option is available, where one can interactively upload the data as text files, directly in the `ideal` web application. 
 For this option, launch the Shiny application with the R command `ideal()` without further arguments. 
 
 ```{r eval=FALSE}
@@ -162,25 +161,25 @@ library("ideal")
 ideal()
 ```
 
-All of these options should open a browser window with the ideal application, which will display the Welcome panel by default.
+All of these options should open a browser window with the `ideal` application, which will display the Welcome panel by default.
 
 
-2. Explore the user interface of ideal.
-When launching the application, the landing page of ideal is the "Welcome" panel providing the user information about the application and how to use it.
+2. Explore the user interface of `ideal`.
+When launching the dashboard, the landing page of `ideal` is the "Welcome" panel, providing the user information about the application and how to use it.
 Users are invited to read up the material in the "Quick start for effective usage" section, and to familiarize with two of the mechanisms help is provided in the app, namely the collapsible elements (containing text based introductions) and the buttons to start guided tours of the interface.
 A sidebar is located on the left side of the user interface, and contains several input controls which affect different tab panels. 
 By changing one or more of the input parameters, the user can define what is computed by the app, and how these output elements are displayed.
-Moreover, the sidebar contains a "Quick viewer", showing an overview of the underlying objects, required to perform all of the analyses offered by ideal - a green check icon appears close to each item, when the respective component is either provided or calculated.
+Moreover, the sidebar contains a "Quick viewer", showing an overview of the underlying objects, required to perform all of the analyses offered by `ideal` - a green check icon appears close to each item, when the respective component is either provided or calculated.
 A compact summary of the main objects is also provided in the value boxes, in the top section of the body of the app.
 
-3. Setup the data for the analysis in ideal.
+3. Setup the data for the analysis in `ideal`.
 Navigate to the panel "Data setup". 
 Inspect or upload interactively the required count matrix, and the experimental design data in the "Step 1" box, marked by the red color. 
 If uploading from text files, click on the respective buttons and select the files where this information is stored - make sure the encoding format is respecting the expected requirements for working in the ideal application.
 
 4. Specify the experimental design for the analysis.
-In the yellow "Step 2" box you can select the experimental design; specify `line` and `condition` for the `macrophage` dataset, and click on the green action button ("Generate the dds object"). 
-This specification will enable you to estimate the effect size of the "condition" variable, while controlling for the "cell" line of origin, leveraging the flexible generalized linear model framework.
+In the "Step 2" box, marked in yellow, you can select the experimental design; specify `line` and `condition` for the `macrophage` dataset, and click on the green action button ("Generate the dds object"). 
+This specification will enable you to estimate the effect size of the "condition" variable, while controlling for the "cell" line of origin, leveraging the flexible generalized linear model framework [@Anders2013].
 If you desire to understand more about more complex model specifications, which might be possible depending on the structure of your data, we recommend to use tools such as ExploreModelMatrix [@Soneson2020] for this purpose.
 Upon generation of the `DESeqDataSet` object, the respective value box on top turns green, and also the sidebar field for it will get a green check mark.
 
@@ -196,7 +195,7 @@ Once this is completed, you can inspect the mean-dispersion plot as a diagnostic
 
 ![**Figure ** Data Upload panel - **TODO**.]([**TODO**])
 
-**Exploring the count matrix and the differential expression result table**
+**Exploring the count matrix and the differential expression result table.**
 
 7. Inspect (and filter) the expression count matrix. 
 Navigate to the panel "Counts Overview", which provides an interactive table, which can display raw, normalized, and log-normalized values for all the genes and samples in the data. 
@@ -207,39 +206,39 @@ Generate and inspect the sample-to-sample scatterplot matrix below which shows t
 
 ![**Figure ** Counts Overview panel - **TODO**.]([**TODO**])
 
-8. Compute the differential expression results
+8. Compute the differential expression results.
 Navigate to the "Extract results" panel to compute and explore the results for the differential expression analysis. 
 Set the alpha level for significance to control the False Discovery Rate in the sidebar; for the macrophage data we can leave the value set to the default (0.05). 
 This Basic Protocol focuses on the comparison between the Interferon-gamma treated cell line (`IFNg`) versus the untreated one (`naive`). 
 Therefore, first select `condition` as the experimental factor to build the contrast upon. 
 Then select `IFNg` as the numerator level, and `naive` as the denominator level for the fold change. 
 Further options are provided to the user, where independent filtering or the Independent Hypothesis Weighting (IHW) can be defined [@Bourgon2010,@Ignatiadis2016]. 
-After clicking on "Extract the results" we can see that in the macrophage dataset more than 6000 genes have been detected as differentially expressed for the ` IFNg ` treatment vs naive contrast.
+After clicking on "Extract the results" we can see that in the macrophage dataset more than 6000 genes have been detected as differentially expressed for the `IFNg` treatment vs naive contrast.
 Additionally, the value box for the DE genes is updated and displayed in green.
-IRF1, IL18BP, and GBP2 are listed in the table below as the top regulated genes, sorted by adjusted p-value. 
+IRF1, IL18BP, and GBP2 are listed in the table below as the top regulated genes, sorted by their adjusted p-values. 
 The interactive table directly links the gene symbols and the ENSEMBL identifiers to external databases for that feature, either [ensembl.org](https://www.ensembl.org/index.html) or the [NCBI Gene DB](https://www.ncbi.nlm.nih.gov/gene). 
 ![**Figure ** Extract Results panel - **TODO**.]([**TODO**])
 
 9. Inspect the four diagnostic plots for the extracted DE results. 
 The top left and right plots show raw p-value histograms, useful for checking the assumption of uniform distribution under the null hypothesis, also stratified by mean expression value (relevant if one is using the Independent Hypothesis Weighting for adjusting the p-value). 
-The bottom right plot is a histogram of the log2 fold change values, to show its distribution and identify anomalies such as highly skewed tails. 
 The bottom left Schweder-Spjøtvoll plot [@schweder1982plots], shows the ranked p-values: this is a graphical method to illustrate the Benjamini-Hochberg multiple testing adjustment procedure, with the intersection point defining the subset of genes for which the False Discovery Rate (FDR) is controlled at the chosen level.
+The bottom right plot is a histogram of the log2 fold change values, to show its distribution and identify anomalies such as highly skewed tails. 
 
 ![**Figure ** Extract Results panel - **TODO**.]([**TODO**])
 
-**Explore overviews of the results and single genes of interest**
+**Exploring overviews of the results and single genes of interest.**
 
 10. Generate overview visual representation of the DE results.
-Navigate to the "Summary Plots" panel to generate some visual summaries of the results. 
+Navigate to the "Summary Plots" panel to generate a set of visual summaries of the results. 
 Select in the MA plot (log2FoldChange vs mean expression values) some of the upregulated genes by brushing on the area that includes them. 
-A zoomed-in version of the MA plot focused on the selected area will appear on the right side, providing gene symbols if these are defined in the annotation object. 
+A zoomed-in version of the MA plot focused on the selected area will appear on the right side, providing labeling by gene symbols if these are defined in the annotation object. 
 
 11. Inspect single genes upon interacting with the MA plot panel.
 Click on a gene in the zoomed selection plot. 
 If the "Group/color by" widget in the sidebar has a selection active (defaulting to the experimental factor of interest specified in the contrast), this action will display a box plot for the expression values in all conditions, and additional info retrieved from the Entrez database. 
 In the middle section, you can view the results as a volcano plot, where the significance is directly plotted against the effect size (and direction). 
 In addition, the subset of genes included in the rectangular selection is also displayed as heatmaps (both static and dynamic). 
-The information on the selected genes can be further exported from the collapsible element at the bottom of the tab panel.
+Tabular information on the selected genes can be further exported from the collapsible element at the bottom of the tab panel.
 
 ![**Figure ** Summary Plots panel - **TODO**.]([**TODO**])
 
@@ -249,12 +248,12 @@ The information on the selected genes can be further exported from the collapsib
 Navigate to the panel “Gene Finder” and explore a subset of genes of interest. 
 In this protocol we will define the genes `CCL5`, `IFNGR1`, and `CXCL11` as genes of interest in the sidebar.
 The tab panel displays up to four gene expression box plots for the selected genes, and also displays an MA plot where the shortlisted genes are annotated. 
-The table containing all relevant parameters for the genes included in the selector widget can be explored in the collapsible element, and downloaded as text file.
+The table containing all relevant values for the genes included in the selector widget can be explored in the collapsible element, and downloaded as text file.
 To avoid manually selecting many genes (from the selectize widget in the sidebar), one can also upload a list as a plain text file, specifying one feature per row; these will be annotated in an alternative version of the MA-plot, and the corresponding table is provided below it.
 
 ![**Figure ** Gene Finder panel - **TODO**.]([**TODO**])
 
-**Perform functional enrichment analyses on the data and explore gene signatures.**
+**Performing functional enrichment analyses on the data and exploring gene signatures.**
 
 13. Calculate overrepresented Biological Processes in the set of differentially expressed genes.
 Navigate to the "Functional Analysis" tab to perform a gene set enrichment analysis on the differentially expressed genes, with the aim of gaining insight on the affected biological pathways. 
@@ -273,8 +272,7 @@ In the bottom section of this page, the subsets of genes that could have been us
 ![**Figure ** Functional Analysis panel - **TODO**.]([**TODO**])
 
 15. Explore the expression profiles of gene signatures.
-Navigate to the "Signature Explorer" panel.
-Upload the `h.all.v7.0symbols.gmt` file retrieved from the [MSigDB database](http://software.broadinstitute.org/gsea/downloads.jsp) (please refer to the **Alternative protocol 1** for further detail on downloading the file). 
+Navigate to the "Signature Explorer" panel and upload the `h.all.v7.0symbols.gmt` file retrieved from the [MSigDB database](http://software.broadinstitute.org/gsea/downloads.jsp) (please refer to the **Alternative protocol 1** for further detail on downloading the file). 
 The green info box in the middle of the panel will report the number of signatures contained - in this case, the 50 hallmark signatures are present in the uploaded GMT file.
 Compute the variance stabilized transformed data by clicking of the corresponding button.
 To match the identifier types of your data with the signatures, select `ENSEMBL` as the ID type in your dds data, `SYMBOL` as the ID type of your signatures, and `org.Hs.eg.db` as the organism package for performing the match, by means of the "Apply id conversion between data and signatures" button.
