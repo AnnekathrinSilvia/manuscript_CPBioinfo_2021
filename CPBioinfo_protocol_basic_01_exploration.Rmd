@@ -82,7 +82,7 @@ library("GeneTonic")
 
 pcaExplorer is a Bioconductor package [@Marini2019] which can be used as a general-purpose interactive companion tool for RNA-seq analyses, developed in the Shiny framework [@shiny2021]. 
 pcaExplorer is designed to guide the user in exploring the Principal Components (PC) [@Jolliffe2002] of the data under inspection. 
-Besides the Principal Component Analysis (PCA), pcaExplorer also provides tools to detect outlier samples and inspect their impact, genes that show particular patterns, and additionally provides a functional interpretation of the principal components for further quality assessment and hypothesis generation on the input data. 
+Besides the Principal Component Analysis (PCA), pcaExplorer also provides tools to detect outlier samples and inspect their impact, identify genes that show particular patterns of interest, and additionally provides a functional interpretation of the principal components for further quality assessment and hypothesis generation on the input data. 
 
 In this protocol, we describe how to launch an instance of pcaExplorer working with the data of the macrophage dataset [@Alasoo2018], which is also distributed as a Bioconductor package [@Huber2015]. 
 
@@ -90,11 +90,11 @@ In this protocol, we describe how to launch an instance of pcaExplorer working w
 
 *Hardware*
 
-  a modern desktop computer or laptop with any up-to-date operating system
+  See detailed description in Support Protocol 1
   
 *Software*
 
-  R 3.3 or higher, Bioconductor 3.3 or higher, (optional?) RStudio, optional browser to open vignettes
+  See detailed description in Support Protocol 1
   
 *Files* (maybe we can describe the sample input here and how to download from Github, I've seen that in some papers rather than describing the general input format)
 
@@ -125,23 +125,22 @@ Before we start with the exploration of the data, the necessary packages and dep
 **Support Protocol 1** describes how to install and load the packages. 
 
 1. Prepare the input data for pcaExplorer.
-The main pcaExplorer function requires the count matrix, metadata, and annotation to be either loaded into the environment before the main call, or offers the possibility to load these objects during runtime (which can be common for a first run).
-If loading the input files at runtime, the application can be launched with the simple command:
+The main pcaExplorer function requires the count matrix, the metadata, and annotation to be either loaded into the environment before the main call, or offers the possibility to load these objects during runtime (which can be common for a first execution).
+If loading the input files at runtime, the application can be launched with the simple command, leaving all other parameters unspecified.
 
 ```{r, eval=FALSE}
 pcaExplorer()
 ```
 
-leaving all parameters unspecified.
 If the necessary objects are already loaded in R (e.g. with any function that reads tabular text input), users can launch the Shiny application with the command:
 
 ```{r, eval=FALSE}
 pcaExplorer(countmatrix = countmatrix, 
-            coldata = metadata , 
+            coldata = metadata, 
             annotation = annotation)
 ```
 
-where `countmatrix`, `metadata` and `annotation` have to be substituted by the names of the respective objects.
+-in this call, `countmatrix`, `metadata` and `annotation` have to be substituted by the names of the respective objects.
 To launch the application, enter the command into the console of RStudio and press the Enter key. 
 This should launch a new window with the pcaExplorer application. 
 In this application you should see the Data Upload panel as shown in Fig. X.
@@ -176,8 +175,7 @@ You can access each of them by clicking on the green colored buttons (see Fig. X
 4. Explore in detail the provided counts table.
 Navigate to the Counts Table panel, by clicking on the name in the tabs list at the top of the main body of the application (Fig. X). 
 In this panel, the information of the count matrix is shown in a table. 
-A drop-down menu at the beginning of the panel provides the possibility to change the data scale in the table.
-Different options can be chosen through clicking (e.g. raw counts, normalized counts, regularized logarithm transformed counts, etc.). 
+A drop-down menu at the beginning of the panel provides the possibility to change the displayed expression table (including raw counts, normalized counts, regularized logarithm transformed counts, etc.). 
 Users can download these different versions of the original counts table through clicking on the green download button below (Fig. X).
 
 ![**Figure ** Counts Table panel - The figure shows the Counts Table panel. This panel provides an overview of the input counts matrix.](Figures_Basic_1/Figure 5.png)
@@ -185,9 +183,8 @@ Users can download these different versions of the original counts table through
 5. Explore the correlations between samples.
 Scroll down until you see the 'Sample to sample scatter plots' heading (Fig. X). 
 Choose 'pearson' as correlation method from the 'Correlation method palette'. 
-Ensure that both options 'Use log2 values for plot axes and values' and 'Use a subset of max 1000 genes (quicker to plot)' are selected, to reduce the computation and rendering time. 
-Click on the 'Run' button to generate the scatter plots. 
-The plots will appear after a short computation time (Fig. X and X.). 
+If you want to reduce the computation and rendering time, check that both options 'Use log2 values for plot axes and values' and 'Use a subset of max 1000 genes (quicker to plot)' are selected.
+Click on the 'Run' button to generate the scatter plots (Fig. X and X.). 
   
     *Upon clicking the 'Run' button, pcaExplorer will generate a scatter plot (Fig. X) as well as a heatmap (Fig. X). 
     The scatter plot will represent the sample to sample correlation as scatter plots (lower triangular matrix of the result). 
@@ -207,7 +204,7 @@ The plots will appear after a short computation time (Fig. X and X.).
 Navigate to the Data Overview panel (Fig. X) as explained above (**TODO: Mention exact step**). 
 The panel shows the input metadata as a table in the upper section of the user interface, with some interactive features to edit its appearance or to search its content (Fig. X). 
 Below the metadata table, a Sample to Sample distance heatmap can be found, representing the distances between the individual samples. 
-The 'Select the distance method to use' option enables you to change the distance method used for the heatmap.
+The 'Select the distance method to use' option enables you to change the underlying distance method used for the computation.
 Furthermore, you have the option to download the heatmap via the 'Download Plot' button in the lower right corner below the heatmap. 
 In the field 'Save as...' you can specify the name of the file to save the heatmap to (Fig X) - this functionality is provided for any graphical output presented in pcaExplorer.
 
@@ -219,7 +216,7 @@ Below the heatmap, this panel provides some further information about the input 
 Next, color the sample by their originating cell line. 
 To color the samples by this characteristic, click on the 'Group/color by' field in the grey side bar at the far left of the screen. 
 Scroll down in the drop-down menu which opens upon clicking until you find the 'line_id' option - or leverage the autocompletion functionality and start typing the initials. 
-Once any option is selected, scroll down to the Number of million of reads per sample plot. 
+Once any option is selected, scroll down to the 'Number of million of reads per sample' plot. 
 This plot should have changed from an all grey plot to a colored plot (see Fig. X). 
 
     *In the provided sample data, the line_id parameter indicates the cell line of the respective sample. 
@@ -240,13 +237,10 @@ This widget controls the appearance of many plots in pcaExplorer, and is used to
 
 9. Compute some summary statistics on the provided data.
 Scroll down to the 'Basic summary for the counts' heading. 
-Here you will see the number of uniquely aligned reads per sample, accompanied by some information about the expressed genes in the data. 
-You have two different options to filter the genes of the input data and hence further inspect the data. 
+Here you will see the total number of uniquely assigned reads per sample, accompanied by some information about the expressed genes in the data, specified via simple thresholds. 
 The first option is provided through setting the 'Threshold on the row sums of counts' option. 
-In this field you can enter an arbitrary integer X to evaluate how many genes have at least X counts in the data. 
-To test this option, enter 10 in the field below 'Threshold on the row sums of counts' and compare the results to the ones shown in Fig. X. 
-The second option to analyze the genes in the data is the 'Threshold on the row means of the normalized counts' option. 
-This option gives you the possibility to filter the genes in the data based on the means of the normalized counts of each gene. 
+To test this option, enter 10 in the dedicated field and compare the results to the ones shown in Fig. X. 
+The second option to analyze the genes in the data is the 'Threshold on the row means of the normalized counts' option (generally stricter than the former definition). 
 Enter 10 for this option and compare the results with the ones shown in Fig. X. 
 
     **TODO: Something about how evaluating the number of counts per gene in your sample can help with your analysis **
@@ -256,7 +250,7 @@ Enter 10 for this option and compare the results with the ones shown in Fig. X.
 **Explore the Principal Components from the samples point of view.**
 
 10. Create a Principal Component plot.
-Navigate to the Samples View panel (Fig. X) as explained before. 
+Navigate to the Samples View panel (Fig. X). 
 In this panel you will see the PCA of the individual samples of the input data on the left side, with the corresponding scree plot shown on the right side. 
 If any value is selected in the 'Group/color by' field, users can explore the impact of each covariate by means of the color encoding applied to the graphics.
 Use the 'Group/color by' option to color the samples by condition - the PCA plot should now display the samples in 4 colors (Fig. X). 
@@ -276,13 +270,10 @@ This is also possible for the scree plot on the right side of the panel.
 ![**Figure ** PCA colored by condition - The PCA plot of the samples is shown colored by condition. This coloring is achieved by selecting the option 'condition' in the 'Group/color by' selection tab at the far left of the screen. The tab indicates the selected option by displaying the name of the option in the field. Users can remove options by clicking on the option field right behind the option to be deleted and hitting the delete key on the keyboard.](Figures_Basic_1/Figure 12.png)
 
 11. Change the parameters to display different versions of the PCA.
-Navigate to the options panel on the far left and search for the 'Nr. of (most variant) genes' option. 
-The default number is set too 300 genes. 
-Change this number to 500. 
-To change the number of genes either use the increase and decrease buttons in the option field (indicated by small arrows) or type the number in the box; if using the second option, make sure to delete the previously selected number first (by hitting the delete key on your keyboard until the number disappeared). 
+Navigate to the options panel on the far left and search for the 'Nr. of (most variant) genes' option, set as default to 300 genes. 
+Change this number to 500 - either using the increase and decrease buttons in the option field (indicated by small arrows) or typing the value in the box.
 Inspect the PCA plot and compare it with the plot in Fig. X. 
-The values of the percent of variance explained of the first and second principal component should have changed. 
-If you increase or decrease the number of selected genes further, you should also be able to observe a slight difference in the clustering of the samples.
+The values of the percent of variance explained of the first and second principal component should have changed, and according to the values, you might observe slight differences in the placement and clustering of the samples (according to how the inclusion of a specific set of genes influences the overall variability).
 
     *The PCA plot visualizes the variance in the data and the differences between the individual samples. 
     The number of genes selected for the PCA plot can influence the overall structure of the plot. 
@@ -290,11 +281,10 @@ If you increase or decrease the number of selected genes further, you should als
     This enables users to analyze the robustness of the identified characteristic.*
     
 Users can also change the principal components that are displayed on either axis: by default, PC1 and PC2 are shown, but this can be changed by the select widgets in the left sidebar.
-This can be extremely relevant when analyzing large datasets where it is hard to identify a clean structure like the one illustrated in this Basic Protocol.
+This can be extremely relevant when analyzing large datasets, where it is hard to identify a clean structure - in this Basic Protocol, the dimensions of variability are relatively straightforward to define and associate to experimental covariates.
 
 12. Zoom in the PCA plot.
-The Sample View panel provides the possibility to zoom in on the PCA. 
-For this, the Shiny brushing mechanism is used: hover your mouse over the PCA plot until your mouse cursor changes to a little plus sign. 
+The Sample View panel provides the possibility to zoom in on the PCA, using the Shiny brushing mechanism: hover your mouse over the PCA plot until your mouse cursor changes to a little plus sign. 
 Click and hold the left mouse button to draw a little grey rectangle in the main plot (Fig. X).
 Move the mouse to the upper left corner of the PCA plot and select all samples belonging to the naive condition (colored in blue in Fig. X) as explained before. 
 Below the main plot, you can find a zoomed version of the PCA plot, containing mainly the selected samples. 
@@ -305,14 +295,14 @@ This should somewhat look like the plot shown in Fig. X.
 
 ![**Figure ** Zoomed PCA plot - The figure shows the zooming mechanism on the PCA plot of the Samples View panel. The grey rectangle in the upper PCA plot indicates the section selected for zooming. This selected section of the plot is shown in the lower PCA plot in more detail.](Figures_Basic_1/Figure 13.png)
 
-13. Identify genes with high loadings on the main principal components.
+13. Identify genes with high loadings on the selected principal components.
 As a result to the computation of the principal components, the genes have a specific value for the loadings, reflecting the "weight" that each of them has on a particular principal component - this can be thought of as the correlation between the PC and the original variable.
 For the two selected principal components (by default, PC1 and PC2), the genes with highest loadings (in either direction along the axis of a PC) are displayed as bar chart, and can later be followed up, e.g. in the Gene Finder tab panel.
 
 14. Inspect the impact of marking samples as outliers.
 Scroll down in the Sample View panel until you see the 'Outlier identification' option (Fig. X). 
 The 'Select which sample(s) to remove - suspected outliers' option provides the possibility to select and remove individual samples from the PCA. 
-For demonstration purposes select all samples of the 'naive' condition and remove them from the PCA (the sample ids end in '102', '111', '182', '262', '284' and '368'). 
+For demonstration purposes select all samples of the 'naive' condition and remove them from the PCA (the sample ids end in '102', '111', '182', '262', '284', and '368'). 
 The options included in the drop-down are the samples still used for the calculation. 
 Select the above mentioned sample ids until the PCA plot looks like Fig. X.
 
@@ -351,14 +341,14 @@ You can also change the style of the plot to a violin plot. To change the plot, 
 
 17. Inspect subsets of selected genes.
 Below the 'Profile explorer' and 'Boxplot of selected gene' plot you will find two versions of the heatmap for the selected genes (displayed in the zoomed window) in all the individual samples (Fig. X) - one static (left) and one interactive, based on the Plotly framework (right). 
-On the bottom, the collapsible element "Table export options" contains the tabular information for the same subset, and offers the possibility to export their content.
+On the bottom, the collapsible element 'Table export options' contains the tabular information for the same subset, and offers the possibility to export their content.
 
 ![**Figure ** Heatmap Gene View panel - ](Figures_Basic_1/Figure 19.png)
 
-18. Inspect any gene of interest in the GeneFinder.
+18. Inspect genes of interest in the GeneFinder.
 Navigate to the GeneFinder panel (Fig. X, **TODO: Grafik erstellen**). 
 Enter 'TSPAN6' in the 'Type in the name of the gene to search' option field.
-Make sure that condition is still selected in the 'Group/color by' option; otherwise select it from the available option.
+Make sure that 'condition' is still selected in the 'Group/color by' option; otherwise, select it from the available option.
 The panel will load a box plot of the normalized counts of the selected gene as well as a table with the normalized counts of the gene for each sample.
 The individual sample names are annotated on the plotted points, and the underlying data is also reported as a compact table.
 
@@ -367,7 +357,7 @@ The individual sample names are annotated on the plotted points, and the underly
     The panel will also inform users if the gene name is misspelled and will suggest a gene name close to the typed one. 
     The search functionality is case sensitive and has no autocomplete option, so it is important to type the gene name correctly. *
 
-19. Compute a functional interpretation for the principal components.
+19. Generate a functional interpretation for the principal components.
 Navigate to the PCA2GO panel (Fig. X, **TODO: Grafik erstellen**). 
 Click on the 'Select species for your sample' option, and from the drop-down menu select 'human'. 
 The 'Select the input type of your identifiers' option can remain unaltered, as we are already using ENSEMBL identifiers; if this is not the case in your own data, make sure to check what identifiers are in use, and select them accordingly. 
