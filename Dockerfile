@@ -22,3 +22,5 @@ RUN Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocMan
 # docker push federicomarini/pigt_currprotbioinfo:latest
 # docker push federicomarini/pigt_currprotbioinfo:RELEASE_3_14
 ## To be found then at https://hub.docker.com/repository/docker/federicomarini/pigt_currprotbioinfo
+## As a simple user, the ideal way to retrieve and run this container is by calling
+# docker run -e PASSWORD=bioc -p 8787:8787 federicomarini/pigt_currprotbioinfo:RELEASE_3_14
