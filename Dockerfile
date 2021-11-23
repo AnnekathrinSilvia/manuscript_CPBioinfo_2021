@@ -17,3 +17,8 @@ RUN Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocMan
 ## How to build:
 ## from the folder where the Dockerfile is stored:
 # docker build -t federicomarini/pigt_currprotbioinfo:latest -t federicomarini/pigt_currprotbioinfo:RELEASE_3_14 .
+## To update on the DockerHub - derived from https://github.com/Bioconductor/bioconductor_docker/blob/master/.scripts/weekly_build.sh
+# docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
+# docker push federicomarini/pigt_currprotbioinfo:latest
+# docker push federicomarini/pigt_currprotbioinfo:RELEASE_3_14
+## To be found then at https://hub.docker.com/repository/docker/federicomarini/pigt_currprotbioinfo
