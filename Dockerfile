@@ -13,3 +13,7 @@ RUN Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocMan
 RUN Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install('GeneTonic', dependencies=TRUE)"
 
 RUN Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install('macrophage', dependencies=TRUE)"
+
+## How to build:
+## from the folder where the Dockerfile is stored:
+# docker build -t federicomarini/pigt_currprotbioinfo:latest -t federicomarini/pigt_currprotbioinfo:RELEASE_3_14 .
