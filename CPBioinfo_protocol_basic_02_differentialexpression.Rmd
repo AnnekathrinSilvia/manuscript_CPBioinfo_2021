@@ -119,7 +119,7 @@ In this protocol we describe how to launch the ideal web application (also imple
   The GMT file format is a tab delimited file format of gene sets, where each row represents a gene set. 
   A gene set contains a gene set name in the first column, a description in the second column, and several genes in the remaining columns (one gene per column).
 
-![**Figure ** **TODO**](**TODO**)
+![**Figure ** **TODO**](Figures_Basic_1/Figure 1.png)
 
 # Protocol steps
 
@@ -193,7 +193,7 @@ Finally, run the main function of the `DESeq2` framework in Step 3 (green box) b
 If multiple cores are available, you can use the slider input to select the number of CPUs to use for speeding up the computation.
 Once this is completed, you can inspect the mean-dispersion plot as a diagnostic check by expanding the collapsible element below.
 
-![**Figure ** Data Upload panel - **TODO**.]([**TODO**])
+![**Figure ** Data Upload panel - **TODO**.](Figures_Basic_1/Figure 1.png)
 
 **Exploring the count matrix and the differential expression result table.**
 
@@ -204,7 +204,7 @@ This can also reduce the computation time without impacting the quality of the r
 Filter the macrophage data with a threshold of zero on the row sums of the counts by pushing the "Filter the DDS object" button. 
 Generate and inspect the sample-to-sample scatterplot matrix below which shows the similarity across all individual samples without losing the information on the single features - this can be quite useful for detecting unexpected patterns for subset of genes [@Rutter2019].
 
-![**Figure ** Counts Overview panel - **TODO**.]([**TODO**])
+![**Figure ** Counts Overview panel - **TODO**.](Figures_Basic_1/Figure 1.png)
 
 8. Compute the differential expression results.
 Navigate to the "Extract results" panel to compute and explore the results for the differential expression analysis. 
@@ -217,14 +217,14 @@ After clicking on "Extract the results" we can see that in the macrophage datase
 Additionally, the value box for the DE genes is updated and displayed in green.
 IRF1, IL18BP, and GBP2 are listed in the table below as the top regulated genes, sorted by their adjusted p-values. 
 The interactive table directly links the gene symbols and the ENSEMBL identifiers to external databases for that feature, either [ensembl.org](https://www.ensembl.org/index.html) or the [NCBI Gene DB](https://www.ncbi.nlm.nih.gov/gene). 
-![**Figure ** Extract Results panel - **TODO**.]([**TODO**])
+![**Figure ** Extract Results panel - **TODO**.](Figures_Basic_1/Figure 1.png)
 
 9. Inspect the four diagnostic plots for the extracted DE results. 
 The top left and right plots show raw p-value histograms, useful for checking the assumption of uniform distribution under the null hypothesis, also stratified by mean expression value (relevant if one is using the Independent Hypothesis Weighting for adjusting the p-value). 
 The bottom left Schweder-Spjøtvoll plot [@schweder1982plots], shows the ranked p-values: this is a graphical method to illustrate the Benjamini-Hochberg multiple testing adjustment procedure, with the intersection point defining the subset of genes for which the False Discovery Rate (FDR) is controlled at the chosen level.
 The bottom right plot is a histogram of the log2 fold change values, to show its distribution and identify anomalies such as highly skewed tails. 
 
-![**Figure ** Extract Results panel - **TODO**.]([**TODO**])
+![**Figure ** Extract Results panel - **TODO**.](Figures_Basic_1/Figure 1.png)
 
 **Exploring overviews of the results and single genes of interest.**
 
@@ -240,9 +240,9 @@ In the middle section, you can view the results as a volcano plot, where the sig
 In addition, the subset of genes included in the rectangular selection is also displayed as heatmaps (both static and dynamic). 
 Tabular information on the selected genes can be further exported from the collapsible element at the bottom of the tab panel.
 
-![**Figure ** Summary Plots panel - **TODO**.]([**TODO**])
+![**Figure ** Summary Plots panel - **TODO**.](Figures_Basic_1/Figure 1.png)
 
-![**Figure ** Summary Plots panel - **TODO**.]([**TODO**])
+![**Figure ** Summary Plots panel - **TODO**.](Figures_Basic_1/Figure 1.png)
 
 12. Inspect single genes upon manual selection.
 Navigate to the panel “Gene Finder” and explore a subset of genes of interest. 
@@ -251,7 +251,7 @@ The tab panel displays up to four gene expression box plots for the selected gen
 The table containing all relevant values for the genes included in the selector widget can be explored in the collapsible element, and downloaded as text file.
 To avoid manually selecting many genes (from the selectize widget in the sidebar), one can also upload a list as a plain text file, specifying one feature per row; these will be annotated in an alternative version of the MA-plot, and the corresponding table is provided below it.
 
-![**Figure ** Gene Finder panel - **TODO**.]([**TODO**])
+![**Figure ** Gene Finder panel - **TODO**.](Figures_Basic_1/Figure 1.png)
 
 **Performing functional enrichment analyses on the data and exploring gene signatures.**
 
@@ -269,7 +269,7 @@ Click on the blue button of the GO term `GO:0060333` (interferon-gamma-mediated 
 If clicking anywhere in the row of the enriched GO term, a heatmap is displayed, showing the normalized and transformed expression values for the subset of DE genes assigned to each term, making it easy to inspect the overall regulation of a selected signature.
 In the bottom section of this page, the subsets of genes that could have been used for computing enrichment results can be provided as input for a simple overlap analysis, by means of a Venn diagram and of an upset plot (particularly useful when including large number of sets).
 
-![**Figure ** Functional Analysis panel - **TODO**.]([**TODO**])
+![**Figure ** Functional Analysis panel - **TODO**.](Figures_Basic_1/Figure 1.png)
 
 15. Explore the expression profiles of gene signatures.
 Navigate to the "Signature Explorer" panel and upload the `h.all.v7.0symbols.gmt` file retrieved from the [MSigDB database](http://software.broadinstitute.org/gsea/downloads.jsp) (please refer to the **Alternative protocol 1** for further detail on downloading the file). 
@@ -280,7 +280,7 @@ In the lower section of the panel, select the gene signature of interest, e.g. `
 Optionally, use the check box below to include only the DE genes of the signature, filtering out the ones detected as non-significant.
 A heatmap appears at the bottom of the panel, and can be further customized with the available checkboxes; mean centering (or even row standardization) are useful to simplify comparison across samples, while clustering options enable the detection of interesting groups of features.
 
-![**Figure ** Signature Explorer panel - **TODO**.]([**TODO**])
+![**Figure ** Signature Explorer panel - **TODO**.](Figures_Basic_1/Figure 1.png)
 
 **Wrapping up the analysis with ideal.**
 
@@ -297,7 +297,7 @@ From there, it is possible to export the state of the app's reactive elements in
 Clicking on the "Export as serialized SummarizedExperiment" button (in the Report Editor panel) will create a serialized rds object, where the essential content computed in the dashboard is coerced into a `SummarizedExperiment` object for further use, e.g. with iSEE [@Rue-Albrecht2018] for bespoke visualizations.
 If enrichment results have been derived with topGO, it is also possible to export the whole as a GeneTonicList, making this object perfectly suitable to explore as described in Basic Protocol 3.
 
-![**Figure ** Report Editor - **TODO**.]([**TODO**])
+![**Figure ** Report Editor - **TODO**.](Figures_Basic_1/Figure 1.png)
 
 # Session information {-}
 

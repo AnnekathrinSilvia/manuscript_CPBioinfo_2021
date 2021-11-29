@@ -148,6 +148,7 @@ This is different from the commonly performed post-hoc filtering of subsetting f
 We add the gene symbol identifier to ease the readability of the table.
 
 ```{r}
+# running DESeq2 and extracting the results
 dds_macrophage <- DESeq(dds_macrophage)
 res_macrophage_IFNg_vs_naive <- results(dds_macrophage,
                                         contrast = c("condition", "IFNg", "naive"),
@@ -167,6 +168,7 @@ Alternatively, a variety of methods and applications can be used to compute a si
 ```{r}
 # Sort the results by FDR
 library("AnnotationDbi")
+# Define the DE subset and the background set
 de_symbols_IFNg_vs_naive <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.05)$SYMBOL
 background_symbols <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
 # Compute the enrichment results
