@@ -110,8 +110,6 @@ We will focus our attention on the comparison between Interferon gamma treated s
 
 # Protocol steps
 
-*Exploring the data with GeneTonic* 
-
 GeneTonic's usage is envisioned once the usual set of results from a differential expression analysis workflow have been computed [FIGURE_HERE]. 
 In order to obtain the necessary input objects, we refer to the Basic Protocol 1 and 2 in this work. []or alt protocol?[]
 As for these protocols, the necessary packages and dependencies need to be installed and loaded - **Support Protocol 1** describes how to install and load the packages.

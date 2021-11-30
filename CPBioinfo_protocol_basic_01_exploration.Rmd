@@ -140,7 +140,7 @@ pcaExplorer(countmatrix = countmatrix,
             annotation = annotation)
 ```
 
--in this call, `countmatrix`, `metadata` and `annotation` have to be substituted by the names of the respective objects.
+In this call, `countmatrix`, `metadata` and `annotation` have to be substituted by the names of the respective objects.
 To launch the application, enter the command into the console of RStudio and press the Enter key. 
 This should launch a new window with the pcaExplorer application. 
 In this application you should see the Data Upload panel as shown in Fig. X.
