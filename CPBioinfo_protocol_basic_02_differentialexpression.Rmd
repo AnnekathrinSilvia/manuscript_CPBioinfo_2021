@@ -181,7 +181,7 @@ This specification will enable you to estimate the effect size of the "condition
 If you desire to understand more about more complex model specifications, which might be possible depending on the structure of your data, we recommend to use tools such as ExploreModelMatrix [@Soneson2020] for this purpose.
 Upon generation of the `DESeqDataSet` object, the respective value box on top turns green, and also the sidebar field for it will get a green check mark.
 
-5. Add a gene annotation, and exclude samples from the analysis if required (optional).
+5. Add a gene annotation and exclude samples from the analysis if required (optional).
 The two light blue boxes that have appeared provide the optional steps for adding the appropriate annotation and discarding unwanted samples (e.g. if your initial data exploration revealed the presence of an outlier). 
 If you did not pass an annotation at application start, select `Human` as species for the macrophage dataset, `ENSEMBL` as the id type [@howe2021ensembl], and confirm the selection with the blue button "Retrieve the gene symbol annotation for the upload data".
 Once this is terminated, the value box for the annotation object is displayed in green.
