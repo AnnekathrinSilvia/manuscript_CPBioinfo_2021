@@ -73,11 +73,385 @@ options(replace.assign = TRUE, width = 100)
 ```{r loadLibraries, results= "hide"}
 library("DESeq2")
 library("topGO")
-library("org.Mm.eg.db")
+library("org.Hs.eg.db")
 library("pcaExplorer")
 library("ideal")
 library("GeneTonic")
 ```
+
+# Introductory Paragraph
+
+Most of the functionality provided by the three packages described in the Basic Protocols can effectively be used throughout the steps that build up the entire RNA-seq analysis workflow [@Love2015].
+This means that the exported functions can simply be called inside simple R scripts, or inserted into dedicated chunks of RMarkdown documents, and their usage is documented in the package vignette and manual pages.
+
+In this protocol, we will assemble a compact end-to-end analysis for the macrophage dataset, starting from the quantifications provided in the omonymous Bioconductor package [@Alasoo2018].
+As in Basic Protocol 3, we will focus on the comparison between Interferon gamma treated samples versus naive samples, including all samples in the Exploratory Data Analysis preliminary to the modeling and statistical testing. 
+
+
+# Necessary Resources
+
+*Hardware*
+
+  See detailed description in Support Protocol 1
+  
+*Software*
+
+  See detailed description in Support Protocol 1
+  
+*Files* 
+
+  Identical to somewhere
+  
+# Protocol steps
+
+In the following steps, many functions from the presented packages will be showcased and briefly described.
+We refer users to the package documentation (accessible from the R terminal with simple calls such as `?get_annotation_orgdb`) for additional details and further usage examples.
+
+1. Load the expression data as `DESeqDataSet` object and create the associated annotation table.
+Similar to Basic Protocol 3, load first the required packages, and create the fundamental `DESeqDataSet` object to be used for the analysis (using ENSEMBL identifiers) - optionally, one can filter the set of lowly expressed genes as specified in the chunk below.
+Generare the corresponding annotation table for `dds_macrophage`, and store that as `anno_df`.
+
+```{r}
+# Loading the packages
+library("pcaExplorer")
+library("ideal")
+library("GeneTonic")
+
+# Loading the data
+library("macrophage")
+library("DESeq2")
+data("gse", package = "macrophage")
+dds_macrophage <- DESeqDataSet(gse, design = ~line + condition)
+# Changing the ids, removing the GENCODE-specific suffix
+rownames(dds_macrophage) <- substr(rownames(dds_macrophage), 1, 15)
+dds_macrophage
+
+# Filtering low expressed features
+keep <- rowSums(counts(dds_macrophage) >= 10) >= 6 
+dds_macrophage <- dds_macrophage[keep, ]
+dds_macrophage
+
+# Construct the annotation data frame
+library("org.Hs.eg.db")
+anno_df <- get_annotation_orgdb(dds = dds_macrophage,
+                                orgdb_species = "org.Hs.eg.db",
+                                idtype = "ENSEMBL")
+```
+
+2. Generate a data transformation and perform PCA on the expression data.
+Apply the variance stabilizing transformation to `dds_macrophage` and run PCA on the resulting object.
+Highlight the sample points by condition first, and then showing the line of origin.
+
+```{r}
+vst_macrophage <- vst(dds_macrophage)
+# Alternatively, it is possible to use also the regularized log transformation
+rld_macrophage <- rlog(dds_macrophage)
+
+pcaplot(x = vst_macrophage,
+        intgroup = "condition", 
+        ntop = 15000,
+        ellipse = FALSE)
+pcaplot(x = vst_macrophage,
+        intgroup = "line_id", 
+        ntop = 15000,
+        ellipse = FALSE)
+```
+
+3. Identify the genes with the highest loadings and plot their expression values.
+First compute the PCA object, and provide this to the `hi_loadings()` function. 
+Once some individual genes are visible, plot the normalized expression values for them, choosing different experimental covariate to group them.
+
+```{r}
+pca_results <- prcomp(t(assay(vst_macrophage)))
+hi_loadings(pca_results, topN = 20, whichpc = 1, annotation = anno_df)
+gene_plot(dds_macrophage,
+          gene = "ENSG00000110944",
+          intgroup = "condition",
+          annotation_obj = anno_df)
+
+hi_loadings(pca_results, topN = 20, whichpc = 2, annotation = anno_df)
+gene_plot(dds_macrophage,
+          gene = "ENSG00000084636",
+          intgroup = "line_id",
+          annotation_obj = anno_df)
+```
+
+4. Compute the enrichment on the top PCA loadings.
+Provide the variance stabilized transformed values as input to `pca2go()` - this might take a while to run.
+Once this is completed, you can explore the tabular components of the list-like object returned.
+This can be very useful to assign a functional key of interpretation to otherwise unclear principal axes of variation.
+
+```{r eval=FALSE}
+bg_ids <- rownames(dds_macrophage)
+
+library("topGO")
+pcs_enrichment <- pca2go(
+  se = vst_macrophage,
+  annotation = anno_df,
+  organism = "Hs",
+  ensToGeneSymbol = TRUE,
+  background_genes = bg_ids
+)
+
+# save(pcs_enrichment, file="pcs_enrichment.RData")
+
+DT::datatable(pcs_enrichment$PC1$posLoad)
+DT::datatable(pcs_enrichment$PC1$negLoad)
+DT::datatable(pcs_enrichment$PC2$posLoad)
+DT::datatable(pcs_enrichment$PC2$negLoad)
+
+knitr::kable(pcs_enrichment$PC1$posLoad)
+knitr::kable(pcs_enrichment$PC1$negLoad)
+knitr::kable(pcs_enrichment$PC2$posLoad)
+knitr::kable(pcs_enrichment$PC2$negLoad)
+```
+
+5. Run the DE modeling and extract the results.
+After specifying the contrast (Interferon gamma treatment vs naive cells), and an absolute log2 fold change threshold of at least 1, run the DESeq pipeline on the provided dataset.
+Afterwards, apply the `apeglm` shrinkage estimator for obtaining moderated log fold changes.
+
+```{r}
+# running DESeq2 and extracting the results
+dds_macrophage <- DESeq(dds_macrophage)
+res_macrophage_IFNg_vs_naive_MLE <- results(
+  dds_macrophage,
+  name = "condition_IFNg_vs_naive",
+  # contrast = c("condition", "IFNg", "naive"),
+  lfcThreshold = 1, 
+  alpha = 0.05)
+res_macrophage_IFNg_vs_naive <- lfcShrink(
+  dds = dds_macrophage,
+  res = res_macrophage_IFNg_vs_naive_MLE,
+  coef = "condition_IFNg_vs_naive",
+  type = "apeglm")
+res_macrophage_IFNg_vs_naive$SYMBOL <- rowData(dds_macrophage)$SYMBOL
+```
+
+6. Generate summary overviews of the DE results.
+This includes a textual summary, an interactive table (sorted by adjusted p-values), and two plots - an MA plot and a volcano plot - where some genes of interest are labelled on top.
+
+```{r}
+summary(res_macrophage_IFNg_vs_naive)
+
+de_table_ifng_vs_naive <- deseqresult2df(res_macrophage_IFNg_vs_naive)
+etbl_de <- de_table_ifng_vs_naive
+etbl_de$id <- ideal:::createLinkENS(etbl_de$id, species = "Homo_sapiens")
+etbl_de$SYMBOL <- ideal:::createLinkGeneSymbol(etbl_de$SYMBOL)
+
+DT::datatable(etbl_de, escape = FALSE, rownames = FALSE)
+
+genes_of_interest <- c(
+  "ENSG00000125347",   # IRF1
+  "ENSG00000110944",   # IL23A
+  "ENSG00000084636",   # COL16A1
+  "ENSG00000172399"    # MYOZ2
+)
+
+plot_ma(res_obj = res_macrophage_IFNg_vs_naive,
+        intgenes = genes_of_interest)
+
+plot_volcano(res_obj = res_macrophage_IFNg_vs_naive,
+             ylim_up = 40,
+             intgenes = genes_of_interest)
+```
+
+7. Run the functional enrichment analysis. 
+This is now done with the wrappers `topGOtable` and `goseqTable`, to identify the overrepresented Biological Processes from the Gene Ontology database.
+First, properly define the set of DE and background genes to obtain reliable results; after running the routines, convert the resulting output from `topGO` in the format expected by GeneTonic, and display that as interactive table.
+To conclude this, compute geneset-level aggregated scores on the enrichment results, and create a GeneTonicList object, which will be fed to all relevant functions of GeneTonic.
+
+```{r}
+library("AnnotationDbi")
+# Define the DE subset and the background set
+de_symbols_IFNg_vs_naive <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.05)$SYMBOL
+background_symbols <- rowData(dds_macrophage)$SYMBOL[rowSums(counts(dds_macrophage)) > 0]
+
+res_enrich_topGO <- pcaExplorer::topGOtable(
+  DEgenes = de_symbols_IFNg_vs_naive,
+  BGgenes = background_symbols,
+  ontology = "BP",
+  mapping = "org.Hs.eg.db",
+  geneID = "symbol",
+  topTablerows = 500
+)
+
+de_ids_IFNg_vs_naive <- deseqresult2df(res_macrophage_IFNg_vs_naive, FDR = 0.05)$id
+background_ids <- rownames(dds_macrophage)[rowSums(counts(dds_macrophage)) > 0]
+
+res_enrich_goseq <- ideal::goseqTable(
+  de.genes = de_ids_IFNg_vs_naive,
+  assayed.genes = background_ids,
+  genome = "hg38",
+  id = "ensGene",
+  testCats = "GO:BP",
+  addGeneToTerms = TRUE
+)
+
+# Convert for usage in GeneTonic
+res_enrich_macrophage <- shake_topGOtableResult(res_enrich_topGO)
+
+etbl_enrich <- res_enrich_macrophage
+etbl_enrich$gs_id <- ideal:::createLinkGO(etbl_enrich$gs_id)
+
+etbl_enrich$gs_packedup <- sapply(
+  etbl_enrich$gs_genes, function(arg){
+     all_g <- strsplit(arg, ",")
+     if (length(unlist(all_g)) > 10)
+       g_ret <- c(unlist(all_g)[1:10], "...")
+     else {
+       g_ret <- unlist(all_g)
+     }
+     g_ret
+  }
+)
+
+etbl_enrich$gs_packedup <- sapply(
+  etbl_enrich$gs_packedup, function(arg){
+    paste(arg, collapse = ",")
+  })  
+
+etbl_enrich$gs_genes <- etbl_enrich$gs_packedup
+DT::datatable(etbl_enrich, escape = FALSE, rownames = FALSE)
+
+res_enrich_macrophage <- get_aggrscores(
+  res_enrich = res_enrich_macrophage,
+  res_de = res_macrophage_IFNg_vs_naive,
+  annotation_obj = anno_df,
+  aggrfun = mean
+)
+
+gtl_macrophage <- GeneTonic_list(
+  dds = dds_macrophage,
+  res_de = res_macrophage_IFNg_vs_naive,
+  res_enrich = res_enrich_macrophage,
+  annotation_obj = anno_df
+)
+```
+
+8. Generate a diverse set of representations for the enrichment results.
+Taking as main input the `gtl_macrophage` object, that holds all relevant information stored in a standardized manner, it is easy to create a variety of visual and tabular summaries and in-depth views to facilitate insight extraction.
+Run the chunk below to create a signature heatmap and a volcano plot on the geneset members of GO:0034341 (response to interferon gamma).
+
+```{r}
+gs_heatmap(se = vst_macrophage,
+           gtl = gtl_macrophage,
+           geneset_id = "GO:0034341"  ,
+           cluster_columns = TRUE,
+           cluster_rows = TRUE,
+           anno_col_info = "condition"
+)
+
+signature_volcano(gtl = gtl_macrophage,
+                  geneset_id = "GO:0034341",
+                  FDR = 0.05
+)
+```
+
+The following chunk proposes alternatives to the classical tabular enrichment results, e.g. decomposing the contribution of the individual genes to a signature, or their overlap across signatures.
+
+```{r}
+enhance_table(gtl = gtl_macrophage,
+                   n_gs = 20,
+                   chars_limit = 60)
+
+gs_summary_overview(gtl = gtl_macrophage,
+                    n_gs = 20,
+                    p_value_column = "gs_pvalue",
+                    color_by = "z_score")
+
+gs_summary_heat(gtl = gtl_macrophage,
+                n_gs = 10)
+
+gs_volcano(gtl = gtl_macrophage,
+           p_threshold = 0.05,
+           color_by = "aggr_score",
+           volcano_labels = 10,
+           gs_ids = NULL,
+           plot_title = "Gene set volcano")
+```
+
+The following chunk contains visual summaries highlighting the relationship between genesets, computed e.g. on the basis of their overlap.
+
+```{r}
+gs_scoresheat(
+  mat = gs_scores(
+    se = vst_macrophage,
+    gtl = gtl_macrophage),
+  n_gs = 30
+)
+
+gs_dendro(gtl = gtl_macrophage,
+          n_gs = 30,
+          gs_dist_type = "kappa", 
+          clust_method = "ward.D2",
+          color_leaves_by = "z_score",
+          size_leaves_by = "gs_pvalue",
+          color_branches_by = "clusters",
+          create_plot = TRUE)
+
+gs_mds(gtl = gtl_macrophage,
+       n_gs = 200,
+       gs_ids = NULL,
+       similarity_measure = "kappa_matrix",
+       mds_k = 2,
+       mds_labels = 5,
+       mds_colorby = "z_score",
+       gs_labels = NULL,
+       plot_title = NULL)
+```
+
+Running the commands in the next chunk will create a gene-geneset graph and an enrichment map, as fully interactive HTML widgets that simplify the further exploration of complex network objects.
+
+```{r}
+ggs_macrophage <- ggs_graph(
+  gtl = gtl_macrophage,
+  n_gs = 20)
+ggs_macrophage
+
+# could be viewed interactively with
+library("visNetwork")
+library("magrittr")
+ggs_macrophage %>%
+  visIgraph() %>%
+  visOptions(highlightNearest = list(enabled = TRUE,
+                                     degree = 1,
+                                     hover = TRUE),
+             nodesIdSelection = TRUE)
+
+em_macrophage <- enrichment_map(gtl = gtl_macrophage,
+                     n_gs = 30,
+                     color_by = "z_score")
+library("igraph")
+library("visNetwork")
+library("magrittr")
+
+em_macrophage %>% 
+  visIgraph() %>% 
+  visOptions(highlightNearest = list(enabled = TRUE,
+                                     degree = 1,
+                                     hover = TRUE),
+             nodesIdSelection = TRUE)
+```
+
+9. Conclude the session generating a report.
+In this step, users will specify genes and genesets of interest in an offline manner, but this will generate a comprehensive report just like these features were selected during an interactive session.
+This makes it e.g. easier to focus on the same set of signatures across different datasets, thanks to its streamlined programmatic approach.
+
+```{r eval=FALSE}
+happy_hour(gtl = gtl_macrophage,
+           project_id = "HappyHour_BatchRun",
+           mygenesets = gtl_macrophage$res_enrich$gs_id[c(1:5,11,31)],
+           mygenes = c("ENSG00000125347",
+                       "ENSG00000172399",
+                       "ENSG00000137496"),
+           open_after_creating = TRUE
+)
+```
+
+10. Create a full RMarkdown report with all the previous steps (optional).
+If desired, navigate to the content of the repository `manuscript_CPBioinfo_2021` (see Support Protocol 1).
+Open the `CPBioinfo_protocol_alternate_01_fromthecommandline.Rmd` file in an RStudio instance, and render the document by clicking on the "Knit" button - this can be reused as a customizable foundation for the analysis of many RNA-seq datasets, leveraging mainly on the functions exported by the hereby presented software packages.
+
 
 
 # Session information {-}
