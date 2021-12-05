@@ -352,7 +352,7 @@ The enhanced table displays for each geneset the contribution (in log2 fold chan
 When focusing on individual genes, it is easy to jump back to the Gene-Geneset network, highlight, and bookmark that specific feature when drafting the final report.
 
 19. Create additional summary representations of the enrichment results.
-A diverse spectrum of visualization techniques have been adopted for describing at a higher level the functional enrichment results.
+A diverse spectrum of visualization techniques has been adopted for describing at a higher level the functional enrichment results.
 Navigate to the "GSViz" panel in the GeneTonic app [FIGURE_HERE].
 This includes e.g. a scores heatmap, where the geneset activity gets summarized at the sample level, and presented in a heatmap.
 Alluvial plots and a summary heatmap give a quick impression of the many-to-many relationships existing between genes and genesets.
