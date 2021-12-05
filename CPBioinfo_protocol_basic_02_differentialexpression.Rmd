@@ -164,7 +164,7 @@ All of these options should open a browser window with the `ideal` application, 
 
 2. Explore the user interface of `ideal`.
 When launching the dashboard, the landing page of `ideal` is the "Welcome" panel, providing the user information about the application and how to use it.
-Users are invited to read up the material in the "Quick start for effective usage" section, and to familiarize with two of the mechanisms help is provided in the app, namely the collapsible elements (containing text based introductions) and the buttons to start guided tours of the interface.
+Users are invited to read up the material in the "Quick start for effective usage" section, and to familiarize with two of the help mechanisms provided in the app, namely the collapsible elements (containing text based introductions) and the buttons to start guided tours of the interface.
 A sidebar is located on the left side of the user interface, and contains several input controls which affect different tab panels. 
 By changing one or more of the input parameters, the user can define what is computed by the app, and how these output elements are displayed.
 Moreover, the sidebar contains a "Quick viewer", showing an overview of the underlying objects, required to perform all of the analyses offered by `ideal` - a green check icon appears close to each item, when the respective component is either provided or calculated.
@@ -286,7 +286,7 @@ A heatmap appears at the bottom of the panel, and can be further customized with
 Navigate to the panel "Report Editor" to generate and download a report of the analysis containing the current state of the parameters and generated images.
 This functionality is shared with the pcaExplorer package, and is based on a comprehensive template report provided with the ideal package.
 After selecting HTML as output format (and some general Markdown options), users can preview the report in the lower section of the panel.
-Experienced users can edit the R Markdown of the report in the "Edit report" tab panel.
+Experienced users can edit the RMarkdown source of the report in the "Edit report" tab panel.
 Once the report is finalized, click on "Generate & Save" to compile the document and store it on your system.
 
 17. Export the analyses components for further downstream exploration.
