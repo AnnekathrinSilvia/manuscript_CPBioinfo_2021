@@ -283,7 +283,7 @@ Navigate the GeneTonic app to the Gene-Geneset tab panel.
 Use the left sidebar for this purpose - upon selection, a spinning loader will be displayed while the object is computed and rendered in the main body of the app.
 By default, 15 genesets are displayed; this behavior can be changed by setting a different value in the control bar (right side of the app) [FIGURE_HERE].
 The bipartite graph underlying the Gene-Geneset network contains two sets of entities, and their connections reflect the membership of differentially expressed genes to the subset of genesets selected [FIGURE_HERE].
-This network can be explored in an interactive manner, avoiding the static "hairball" effect that would derive if a large number of genesets is selected, or if many nodes nodes are present (irrespective of their type).
+This network can be explored in an interactive manner, avoiding the static "hairball" effect that would derive if a large number of genesets is selected, or if many nodes are present (irrespective of their type).
 It is possible to zoom in the network by scrolling, pan by clicking and holding the left mouse button, select by hovering or clicking on a node of interest [FIGURE_HERE].
 Additionally, the "Select by id" dropdown selector allows user to search for a specific node, while presenting them as an alphanumerically sorted list [FIGURE_HERE].
 Every time a node is hovered with the mouse, some information is directly displayed as a tooltip in the main network frame.
