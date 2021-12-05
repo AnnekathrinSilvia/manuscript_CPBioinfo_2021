@@ -84,7 +84,7 @@ library("GeneTonic")
 Most of the functionality provided by the three packages described in the Basic Protocols can effectively be used throughout the steps that build up the entire RNA-seq analysis workflow [@Love2015].
 This means that the exported functions can simply be called inside simple R scripts, or inserted into dedicated chunks of RMarkdown documents, and their usage is documented in the package vignette and manual pages.
 
-In this protocol, we will assemble a compact end-to-end analysis for the macrophage dataset, starting from the quantifications provided in the omonymous Bioconductor package [@Alasoo2018].
+In this protocol, we will assemble a compact end-to-end analysis for the macrophage dataset, starting from the quantifications provided in the homonymous Bioconductor package [@Alasoo2018].
 As in Basic Protocol 3, we will focus on the comparison between Interferon gamma treated samples versus naive samples, including all samples in the Exploratory Data Analysis preliminary to the modeling and statistical testing. 
 
 
@@ -109,7 +109,7 @@ We refer users to the package documentation (accessible from the R terminal with
 
 1. Load the expression data as `DESeqDataSet` object and create the associated annotation table.
 Similar to Basic Protocol 3, load first the required packages, and create the fundamental `DESeqDataSet` object to be used for the analysis (using ENSEMBL identifiers) - optionally, one can filter the set of lowly expressed genes as specified in the chunk below.
-Generare the corresponding annotation table for `dds_macrophage`, and store that as `anno_df`.
+Generate the corresponding annotation table for `dds_macrophage`, and store that as `anno_df`.
 
 ```{r}
 # Loading the packages
