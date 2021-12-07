@@ -171,7 +171,7 @@ Moreover, the sidebar contains a "Quick viewer", showing an overview of the unde
 A compact summary of the main objects is also provided in the value boxes, in the top section of the body of the app.
 
 3. Setup the data for the analysis in `ideal`.
-Navigate to the panel "Data setup". 
+Navigate to the panel "Data Setup". 
 Inspect or upload interactively the required count matrix, and the experimental design data in the "Step 1" box, marked by the red color. 
 If uploading from text files, click on the respective buttons and select the files where this information is stored - make sure the encoding format is respecting the expected requirements for working in the ideal application.
 
