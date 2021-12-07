@@ -176,7 +176,7 @@ You can access each of them by clicking on the green colored buttons (see Fig. X
 4. Explore in detail the provided counts table.
 Navigate to the Counts Table panel, by clicking on the name in the tabs list at the top of the main body of the application (Fig. X). 
 In this panel, the information of the count matrix is shown in a table. 
-A drop-down menu at the beginning of the panel provides the possibility to change the displayed expression table (including raw counts, normalized counts, regularized logarithm transformed counts, etc.). 
+A dropdown menu at the beginning of the panel provides the possibility to change the displayed expression table (including raw counts, normalized counts, regularized logarithm transformed counts, etc.). 
 Users can download these different versions of the original counts table through clicking on the green download button below (Fig. X).
 
 ![**Figure ** Counts Table panel - The figure shows the Counts Table panel. This panel provides an overview of the input counts matrix.](Figures_Basic_1/Figure 5.png)
@@ -216,7 +216,7 @@ In the field 'Save as...' you can specify the name of the file to save the heatm
 Below the heatmap, this panel provides some further information about the input data (Fig. X & X). 
 Next, color the sample by their originating cell line. 
 To color the samples by this characteristic, click on the 'Group/color by' field in the grey side bar at the far left of the screen. 
-Scroll down in the drop-down menu which opens upon clicking until you find the 'line_id' option - or leverage the autocompletion functionality and start typing the initials. 
+Scroll down in the dropdown menu which opens upon clicking until you find the 'line_id' option - or leverage the autocompletion functionality and start typing the initials. 
 Once any option is selected, scroll down to the 'Number of million of reads per sample' plot. 
 This plot should have changed from an all grey plot to a colored plot (see Fig. X). 
 
@@ -230,8 +230,8 @@ This plot should have changed from an all grey plot to a colored plot (see Fig. 
 8. Change the experimental covariates of interest.
 Scroll up again until you see the 'Group/color by' option. 
 Delete the selected option by clicking on the white rectangle and hitting the delete key on your keyboard until the field is empty again. 
-From the drop-down menu of options, select 'condition' as next parameter to color by. 
-Instead of selecting 'condition' from the drop-down menu directly you can also select the option by typing it into the white rectangle. 
+From the dropdown menu of options, select 'condition' as next parameter to color by. 
+Instead of selecting 'condition' from the dropdown menu directly you can also select the option by typing it into the white rectangle. 
 This widget controls the appearance of many plots in pcaExplorer, and is used to encode the grouping information (or their combinations).
 
   *If you inspect the Number of million of reads per sample plot again, you should observe that the coloring changed compared to the version showed in Fig. X. The 'Group/color by' option is very helpful in exploring different characteristics of the data and providing context to individual plots and results.*
@@ -304,7 +304,7 @@ For the two selected principal components (by default, PC1 and PC2), the genes w
 Scroll down in the Sample View panel until you see the 'Outlier identification' option (Fig. X). 
 The 'Select which sample(s) to remove - suspected outliers' option provides the possibility to select and remove individual samples from the PCA. 
 For demonstration purposes select all samples of the 'naive' condition and remove them from the PCA (the sample ids end in '102', '111', '182', '262', '284', and '368'). 
-The options included in the drop-down are the samples still used for the calculation. 
+The options included in the dropdown are the samples still used for the calculation. 
 Select the above-mentioned sample ids until the PCA plot looks like Fig. X.
 
     *The sample outlier detection option can help users at identifying individual samples which are highly different from the remaining samples and hence could be possible outliers. 
@@ -360,7 +360,7 @@ The individual sample names are annotated on the plotted points, and the underly
 
 19. Generate a functional interpretation for the principal components.
 Navigate to the PCA2GO panel (Fig. X, **TODO: Grafik erstellen**). 
-Click on the 'Select species for your sample' option, and from the drop-down menu select 'human'. 
+Click on the 'Select species for your sample' option, and from the dropdown menu select 'human'. 
 The 'Select the input type of your identifiers' option can remain unaltered, as we are already using ENSEMBL identifiers; if this is not the case in your own data, make sure to check what identifiers are in use, and select them accordingly. 
 Click the blue 'Compute the PCA2GO object' button, the application will compute for each PC and for each direction a set of enrichment results - it might take a while to compute the object.
 Each enrichment table will be displayed on either side of the PCA plot in the middle of the panel, and can be used to pinpoint biological processes and functions that can explain the observed variability on the latent space representation
@@ -371,8 +371,8 @@ We refer to the package vignette where its specific usage is fully documented.
 
 20. Generate, preview, and export an analysis report.
 Navigate to the Report Editor panel (Fig. X, **TODO: Grafik erstellen**). 
-Open the 'Markdown options' drop-down menu, and enter as a title for the report 'Current Protocols pcaExplorer report' and your name in the 'Author' field; you can leave all other options unaltered. 
-Click the 'Update report' button, and scroll down in the panel to see an preview of the HTML report in the web application itself. 
+Open the 'Markdown options' dropdown menu, and enter as a title for the report 'Current Protocols pcaExplorer report' and your name in the 'Author' field; you can leave all other options unaltered. 
+Click the 'Update report' button, and scroll down in the panel to see a preview of the HTML report in the web application itself. 
 Click on the 'Generate & Save' button next to the 'Update report' button to download the report. 
 Save the report under a chosen name on your computer - this operation might take a while, as most content is generated from a fresh session, based on the current values for the reactive elements in the app.
 
@@ -384,7 +384,7 @@ From there, it is possible to export the state of the app's reactive elements in
 Navigate to the Instructions panel, where two buttons can be clicked to open and inspect the pcaExplorer vignettes (available when installing the package)  (Fig. X **TODO: Grafik erstellen**). 
 These vignettes describe comprehensively the pcaExplorer package, and constitute an excellent complement to this Basic Protocol when searching for additional, up-to-date documentation.
 A quickstart guide is also displayed if clicking on the "Up and running with pcaExplorer" collapsible element.
-If users are interested in additional information about the package, the About panel (Fig. X **TODO: Grafik erstellen**) lists also the developers contact information and the a citation entry.
+If users are interested in additional information about the package, the About panel (Fig. X **TODO: Grafik erstellen**) lists also the developers contact information and a citation entry.
 For the sake of computational reproducibility, consider adding the output of the sessionInfo section into your electronic notebook documentation, to simplify the compilation of the "Materials and Methods" section for a manuscript where you used pcaExplorer.
 
 ![**Figure ** Instructions panel](Figures_Basic_1/Figure last.png)
