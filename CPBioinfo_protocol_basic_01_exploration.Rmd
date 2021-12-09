@@ -310,7 +310,7 @@ Select the above-mentioned sample ids until the PCA plot looks like Fig. X.
     *The sample outlier detection option can help users at identifying individual samples which are highly different from the remaining samples and hence could be possible outliers. 
     Especially for data sets with small sample numbers, the outlier identification option is useful to evaluate the influence of individual samples on the overall PCA of the data. 
     At the bottom of the Sample View panel, users also have the option to select a third principal component to visualize besides the first two. 
-    This is especially helpful in data sets where the most variance of the data is scattered among several principal component and not only the first two.*
+    This is especially helpful in data sets where the most variance of the data is scattered among several principal components and not only the first two.*
   
   **TODO: Maybe we can merge the next two figures**
 
