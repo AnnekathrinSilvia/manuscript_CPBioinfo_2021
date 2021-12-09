@@ -195,15 +195,11 @@ pcs_enrichment <- pca2go(
 
 # save(pcs_enrichment, file="pcs_enrichment.RData")
 
+# display the results in interactive tables
 DT::datatable(pcs_enrichment$PC1$posLoad)
 DT::datatable(pcs_enrichment$PC1$negLoad)
 DT::datatable(pcs_enrichment$PC2$posLoad)
 DT::datatable(pcs_enrichment$PC2$negLoad)
-
-knitr::kable(pcs_enrichment$PC1$posLoad)
-knitr::kable(pcs_enrichment$PC1$negLoad)
-knitr::kable(pcs_enrichment$PC2$posLoad)
-knitr::kable(pcs_enrichment$PC2$negLoad)
 ```
 
 5. Run the DE modeling and extract the results.
