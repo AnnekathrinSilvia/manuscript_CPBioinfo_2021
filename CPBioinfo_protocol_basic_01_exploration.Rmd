@@ -216,11 +216,11 @@ In the field 'Save as...' you can specify the name of the file to save the heatm
 Below the heatmap, this panel provides some further information about the input data (Fig. X & X). 
 Next, color the sample by their originating cell line. 
 To color the samples by this covariate, click on the 'Group/color by' field in the grey side bar at the far left of the screen. 
-Scroll down in the dropdown menu which opens upon clicking until you find the 'line_id' option - or leverage the autocompletion functionality and start typing the initials. 
+Scroll down in the dropdown menu which opens upon clicking until you find the 'line' option - or leverage the autocompletion functionality and start typing the initials. 
 Once any option is selected, scroll down to the 'Number of million of reads per sample' plot. 
 This plot should have changed from an all grey plot to a colored plot (see Fig. X). 
 
-    *In the provided sample data, the line_id parameter indicates the cell line of the respective sample. 
+    *In the provided sample data, the line parameter indicates the cell line of the respective sample. 
     The Number of million reads per sample plot shown in Fig. X can be used to evaluate the uniformity of reads in each sample. 
     Samples with a surprisingly high or low number of reads could later be detected as outliers, because of several different factors associated with the number of reads in a sample. 
     An inspection of the distribution of the overall number of reads in the individual sample can point users to the first source of differences in the samples found in subsequent analyses of the data.*
