@@ -215,7 +215,7 @@ In the field 'Save as...' you can specify the name of the file to save the heatm
 7. Decorate the plots by encoding information on the experimental covariates.
 Below the heatmap, this panel provides some further information about the input data (Fig. X & X). 
 Next, color the sample by their originating cell line. 
-To color the samples by this characteristic, click on the 'Group/color by' field in the grey side bar at the far left of the screen. 
+To color the samples by this covariate, click on the 'Group/color by' field in the grey side bar at the far left of the screen. 
 Scroll down in the dropdown menu which opens upon clicking until you find the 'line_id' option - or leverage the autocompletion functionality and start typing the initials. 
 Once any option is selected, scroll down to the 'Number of million of reads per sample' plot. 
 This plot should have changed from an all grey plot to a colored plot (see Fig. X). 
@@ -234,7 +234,7 @@ From the dropdown menu of options, select 'condition' as next parameter to color
 Instead of selecting 'condition' from the dropdown menu directly you can also select the option by typing it into the white rectangle. 
 This widget controls the appearance of many plots in pcaExplorer, and is used to encode the grouping information (or their combinations).
 
-  *If you inspect the Number of million of reads per sample plot again, you should observe that the coloring changed compared to the version showed in Fig. X. The 'Group/color by' option is very helpful in exploring different characteristics of the data and providing context to individual plots and results.*
+  *If you inspect the Number of million of reads per sample plot again, you should observe that the coloring changed compared to the version showed in Fig. X. The 'Group/color by' option is very helpful in exploring different experimental covariates of the data and providing context to individual plots and results.*
 
 9. Compute some summary statistics on the provided data.
 Scroll down to the 'Basic summary for the counts' heading. 
@@ -259,8 +259,8 @@ You can also download the PCA plot via the 'Download plot' button in the lower r
 This is also possible for the scree plot on the right side of the panel. 
 
     *The PCA plot of the sample data indicates that the most variance in the data seems to arise from the condition of the individual samples in this data set. 
-    When analyzing data, it is important for users to know which characteristic of their samples has the most influence (i.e. is responsible for the most variance). 
-    Hence, users should select different options from the 'Group/color by' option to discover the characteristic with the most influence. 
+    When analyzing data, it is important for users to know which experimental variables of their samples has the most influence (i.e. is responsible for the most variance). 
+    Hence, users should select different options from the 'Group/color by' option to discover the covariate with the most influence. 
     The scree plot right next to the PCA can also help users to evaluate how many principal components should be used to analyze the variance in the data. 
     In the example shown in this protocol, it can be easily observed that the first two components explain the nearly 80% of the variance in the data. 
     80% can be seen as a good cut-off value to select the number of principal components.*
@@ -278,8 +278,8 @@ The values of the percent of variance explained of the first and second principa
 
     *The PCA plot visualizes the variance in the data and the differences between the individual samples. 
     The number of genes selected for the PCA plot can influence the overall structure of the plot. 
-    In order to analyze which characteristic is responsible for the variance in the data, users should also consider changing the number of genes used for the PCA. 
-    This enables users to analyze the robustness of the identified characteristic.*
+    In order to analyze which covariate is responsible for the variance in the data, users should also consider changing the number of genes used for the PCA. 
+    This enables users to analyze the robustness of the identified factor*
     
 Users can also change the principal components that are displayed on either axis: by default, PC1 and PC2 are shown, but this can be changed by the select widgets in the left sidebar.
 This can be extremely relevant when analyzing large datasets, where it is hard to identify a clean structure - in this Basic Protocol, the dimensions of variability are relatively straightforward to define and associate to experimental covariates.
