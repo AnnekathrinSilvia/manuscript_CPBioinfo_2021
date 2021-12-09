@@ -152,7 +152,7 @@ pcaplot(x = vst_macrophage,
         ntop = 15000,
         ellipse = FALSE)
 pcaplot(x = vst_macrophage,
-        intgroup = "line_id", 
+        intgroup = "line", 
         ntop = 15000,
         ellipse = FALSE)
 ```
@@ -172,7 +172,7 @@ gene_plot(dds_macrophage,
 hi_loadings(pca_results, topN = 20, whichpc = 2, annotation = anno_df)
 gene_plot(dds_macrophage,
           gene = "ENSG00000084636",
-          intgroup = "line_id",
+          intgroup = "line",
           annotation_obj = anno_df)
 ```
 
