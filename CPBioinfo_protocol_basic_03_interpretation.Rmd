@@ -354,7 +354,7 @@ When focusing on individual genes, it is easy to jump back to the Gene-Geneset n
 19. Create additional summary representations of the enrichment results.
 A diverse spectrum of visualization techniques has been adopted for describing at a higher level the functional enrichment results.
 Navigate to the "GSViz" panel in the GeneTonic app [FIGURE_HERE].
-This includes e.g. a scores heatmap, where the geneset activity gets summarized at the sample level, and presented in a heatmap.
+This includes e.g. a scores heatmap, where the geneset activity gets summarized at the sample level, and presented in a heatmap - the other plots can be shown by navigating through the different tabs.
 Alluvial plots and a summary heatmap give a quick impression of the many-to-many relationships existing between genes and genesets.
 A geneset Multi-Dimensional Scaling plot is an alternative to the enrichment maps, whereas the geneset distance (e.g. computed an overlap coefficient, or as Jaccard Index) is depicted in a 2-dimensional map.
 Similarly, the distance can be shown as a dendrogram, with nodes encoding significance and Z-value.
