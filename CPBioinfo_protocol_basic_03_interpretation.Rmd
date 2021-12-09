@@ -248,11 +248,16 @@ GeneTonic(gtl = gtl_macrophage)
 ```
 
 Interestingly, this can often be the main entry point for wet-lab collaborators, who might benefit of the expertise of a bioinformatician to perform the steps upstream, and receive a single serialized file to be loaded into the R environment.
-This can be exactly a GeneTonicList containing all the information regarding the experiment and setting of interest, as exemplified in the chunk below.
+This can be exactly a GeneTonicList containing all the information regarding the experiment and setting of interest, as exemplified in the chunk below - you can also load a precomputed object, provided in the `manuscript_CPBioinfo_2021` repository.
 
 ```{r eval=FALSE}
 gtl_provided <- readRDS("path_to/gtl_object.RDS")
 GeneTonic(gtl = gtl_provided)
+
+# using the version provided in the repository:
+gtl_reimported <- readRDS("gtl_macrophage_exported.RDS")
+describe_gtl(gtl_reimported)
+GeneTonic(gtl = gtl_reimported)
 ```
 
 
