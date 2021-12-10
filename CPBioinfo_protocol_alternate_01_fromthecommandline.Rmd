@@ -10,10 +10,6 @@ author:
   affiliation: 
   - &id1 Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
   email: arsenij.ustjanzew@uni-mainz.de
-- name: Chung Shing Rex Ha
-  affiliation: 
-  - *id1
-  email: rexha@uni-mainz.de
 - name: Harald Binder
   affiliation:
   - Institute of Medical Biometry and Statistics (IMBI), Faculty of Medicine and Medical Center, University of Freiburg 
