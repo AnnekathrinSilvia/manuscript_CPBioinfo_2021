@@ -6,10 +6,8 @@ Each of the Rmd documents serves as a document to generate and to keep a full re
 
 The protocols included are listed as follows:
 
-- lorem
-- ipsum
-- dolor
-- sit
-- amet
-
-
+* Basic Protocol 1: Exploratory Data Analysis with pcaExplorer
+* Basic Protocol 2: Differential Expression Analysis with ideal
+* Basic Protocol 3: Interpretation of RNA-seq results with GeneTonic
+* Support Protocol 1: Downloading and installing pcaExplorer, ideal, and GeneTonic
+* Alternate Protocol 1: Using functions from pcaExplorer, ideal, and GeneTonic in custom analyses
