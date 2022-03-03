@@ -1,0 +1,133 @@
+---
+title: >
+  Interactive and reproducible workflows for exploring and modeling RNA-seq data with `pcaExplorer`, `ideal`, and `GeneTonic`
+subtitle: >
+  Introduction and Strategic Planning
+author:
+- name: Annekathrin Ludt
+  affiliation: 
+  - &id1 Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
+  email: anneludt@uni-mainz.de
+- name: Arsenij Ustjanzew
+  affiliation: 
+  - &id1 Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
+  email: arsenij.ustjanzew@uni-mainz.de
+- name: Harald Binder
+  affiliation:
+  - Institute of Medical Biometry and Statistics (IMBI), Faculty of Medicine and Medical Center, University of Freiburg 
+  email: binder@imbi.uni-freiburg.de 
+- name: Konstantin Strauch
+  affiliation: 
+  - *id1
+  email: strauch@uni-mainz.de
+- name: Federico Marini
+  affiliation: 
+  - *id1
+  - &id2 Center for Thrombosis and Hemostasis (CTH), Mainz;<br>
+  email: marinif@uni-mainz.de
+date: "`r BiocStyle::doc_date()`"
+output: 
+  # rmarkdown::html_document:
+  bookdown::html_document2:
+  # BiocStyle::html_document:
+    toc: true
+    toc_float: true
+    theme: cosmo
+    code_folding: show
+    code_download: true
+    global_numbering: true
+    number_sections: false
+editor_options: 
+  chunk_output_type: console
+bibliography: cpb_refs.bib
+link-citations: true
+---
+
+**Compiled date**: `r Sys.Date()`
+
+**Last edited**: `r Sys.Date()`
+
+```{r setup, include = FALSE, cache = FALSE, eval = TRUE, echo = FALSE}
+library(knitr)
+opts_chunk$set(
+  fig.align = "center",
+  fig.show = "asis",
+  eval = TRUE,
+  fig.width = 10,
+  fig.height = 7,
+  tidy = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  size = "small",
+  comment = "##",
+  echo = TRUE,
+  results = "markup"
+)
+options(replace.assign = TRUE, width = 100)
+```
+
+
+# Abstract
+
+The generation and interpretation of results from transcriptome profiling experiments via RNA sequencing (RNA-seq) can be a complex task. While raw data quality control, alignment, and quantification can be streamlined via efficient algorithms that can deliver the preprocessed expression matrix, a common bottleneck in the analysis of such large datasets is the subsequent in-depth, iterative processes of data exploration, statistical testing, visualization, and interpretation. Specific tools for these workflow steps are available but require a level of technical expertise which might be prohibitive for life and clinical scientists, who are left with essential pieces of information distributed among different tabular and list formats.
+
+Our protocols are centered on the joint use of our Bioconductor packages (`pcaExplorer`, `ideal`, `GeneTonic`) for interactive and reproducible workflows. All our packages provide an interactive and accessible experience via Shiny web applications, while still documenting the steps performed with RMarkdown as a framework to guarantee the reproducibility of the analyses, reducing the overall time to generate insights from the data at hand. 
+
+These protocols guide readers through the essential steps of Exploratory Data Analysis, statistical testing and functional enrichment analyses, followed by integration and contextualization of results. In our packages, the core elements are linked together in interactive widgets that make drill-down tasks efficient, by viewing the data at a level of increased detail. Thanks to their interoperability with essential classes and gold-standard pipelines implemented in the open-source Bioconductor project and community, these protocols will permit complex tasks in RNA-seq data analysis, combining interactivity and reproducibility for following modern best scientific practices, and help streamlining the discovery process for transcriptome data.
+
+**Basic Protocol 1:** Exploratory Data Analysis with `pcaExplorer`  
+**Basic Protocol 2:** Differential Expression Analysis with `ideal`  
+**Basic Protocol 3:** Interpretation of RNA-seq results with `GeneTonic`  
+**Support Protocol 1:** Downloading and installing `pcaExplorer`, `ideal`, and `GeneTonic`  
+**Alternate Protocol 1:** Using functions from `pcaExplorer`, `ideal`, and `GeneTonic` in custom analyses
+
+# Keywords
+
+RNA-seq; Interactive data analysis; Data visualization; Functional interpretation; Reproducible research
+
+<hr>
+
+# Introduction
+
+Gene expression is a fundamental biological process, resulting from various genetic and regulatory programs that define the state of cells and tissues, and can be measured with a variety of experimental techniques. RNA-sequencing (RNA-seq) is a widely used molecular assay, offering a quantitative and robust system for profiling transcriptional outcomes [@Mortazavi2008;@Wang2009]. Over the years, RNA-seq has replaced microarrays as a technology of choice, and has been adopted in a large number of studies from basic sciences, but has also proven fundamental in clinical settings to better understand development and disease [@Zhang2015;@VandenBerge2019;@Salit2021]. 
+
+Currently, RNA-seq enables the study of a multitude of applications, comprising gene expression regulation, isoform and transcript discovery, alternative splicing, gene fusion, genetic variation among expressed genes, RNA editing, post-transcriptional modifications, and epitranscriptomics (Conesa et al., 2016), with many of these applications being increasingly addressed also at the single-cell and at the spatial resolution (Li & Wang, 2021). While powerful tools exist to perform quality control, alignment, and expression quantification, a common bottleneck is constituted by the data exploration, modeling, and interpretation, to be performed once a table of counts (as proxy for the gene expression values) and the full information on the experimental covariates are available (Anders et al., 2013; Soneson, Love, & Robinson, 2015).
+
+Knowledge extraction from transcriptomics datasets, increasingly available in larger and complex experimental scenarios, can be a time-consuming task, whereas the complementary expertise of data analysts and bench scientists are often required for efficient, comprehensive, and impactful analyses (Akhmedov, Martinelli, Geiger, & Kwee, 2020).
+This is especially true for differential expression analysis, for which a number of established methods (and their implementation, mostly provided as R packages) exist, but might not be immediate to use for broader audiences, despite valuable efforts in accurately documenting software (Love, Huber, & Anders, 2014; McCarthy, Chen, & Smyth, 2012; Ritchie et al., 2015; Amezquita et al., 2020). In this context, the appropriate setup of the statistical modeling according to the circumstances of their experiment is often best selected with the guidance of a biostatistician/bioinformatician, who usually generates a summary report, to be shared with collaborators afterwards (Soneson, Marini, Geier, Love, & Stadler, 2020).
+In particular, after the discovery of differentially expressed genes, and the identification of the processes that might be underlying these transcriptional changes, the detailed exploration of the complete set of results is an iterative process where the integration of all components might be a prohibitive task for life and clinical scientists (Marini, Ludt, Linke, & Strauch, 2021; Geistlinger et al., 2020; McDermaid, Monier, Zhao, Liu, & Ma, 2018).
+
+The framework we offer provides accessible and user-friendly interfaces, while making sure to document and record the steps performed via companion RMarkdown reports, as a foundation for reproducible research (Marini & Binder, 2016). Overall, our solution serves as a bridge among many researchers, enabling them to adopt state-of-the-art methods from the open-source Bioconductor ecosystem of packages (Huber et al., 2015; Amezquita et al., 2020), with dashboards that can seamlessly be used on desktop/laptop computers, shared, and deployed in collaborative contexts. The core elements of the applications are linked together within the Shiny reactive programming engine, efficiently implementing tasks such as repeated drill-down into the datasets for providing views of increased detail. This, in turn, translates into a reduced time and effort to generate hypotheses and insight from the data at hand, increasing its value and impact by streamlining the discovery process for transcriptomics gene regulation studies (Marini et al., 2021).
+
+In this article, we will demonstrate how to use a series of packages we developed (`pcaExplorer`, `ideal`, and `GeneTonic` - all available through the Bioconductor project (Marini & Binder, 2019; Marini, Linke, & Binder, 2020; Marini et al., 2021)) to interactively explore, visualize, and integrate RNA-seq datasets and results. All protocols described in this manuscript can be combined in a single analytic workflow, which can be widely applied to bulk RNA-seq scenarios (including e.g. patient data in clinical/diagnostic settings), and can be adopted by a broad spectrum of researchers, empowering also users with limited technical/biostatistical expertise.
+
+Basic Protocol 1 describes the essential steps of exploratory data analysis, as it is performed using the `pcaExplorer` package, starting from the essential count matrix generated after expression quantification.
+
+Basic Protocol 2 explains how to perform statistical modeling and testing for differential expression with the `ideal` package (leveraging the framework of DESeq2), followed by functional enrichment analysis.
+
+Basic Protocol 3 illustrates how to use the `GeneTonic` package to combine expression data, results from the differential expression analysis, and functional enrichment tabular information to efficiently interpret and contextualize RNA-seq data.
+
+Support Protocol 1 shows the detailed instructions to download and install all the required software, including the exemplary datasets used throughout this manuscript.
+
+Alternative Protocol 1 describes the usage of functions from `pcaExplorer`, `ideal`, and `GeneTonic`, as they can be seamlessly used in tailored analyses, either as R scripts or as RMarkdown documents.
+
+Notably, each of the Basic Protocols can be executed in a stand-alone manner, if other established upstream procedures are already in place.
+
+# Strategic Planning
+
+Before starting with the Basic Protocols, users should complete the installation of the required software as detailed in Support Protocol 1. By following these instructions, all necessary packages and datasets will be made available so that they can be executed from any directory on the local computer. We refer to the software descriptions and vignettes of the individual packages for additional information.
+
+The protocols described in this article represent the main steps through a comprehensive analytic workflow for bulk RNA-seq datasets, and are structured in a modular way that can enable readers to carry them out with the possibility of alternate entry points (e.g., performing differential expression analysis with another software package from the R environment or from the command line). Figure 1 illustrates the different files required to carry out such operations (Fig. 1A), together with an overview of the tasks covered by the software packages we present in this work (Fig. 1B). As shown in the flowchart, it is possible to navigate back to previous steps in different iterations of the analyses. This is intrinsically bound to the explorative nature for such high-dimensional datasets, where cycles of hypothesis generation and testing can follow, ultimately leading to the validation and integration with the additional observations specific to each experimental setting.
+
+```{r fig1}
+#| echo = FALSE,
+#| fig.cap = "**Figure 1** - Workflow schematic for the presented protocols (A). The different data formats to provide to each of the protocols are represented as tabular or list-like elements, named by the scheme followed in the procedures illustrated in this work. Dashed arrows indicate that the provided information can be used to generate or annotate another object. Solid arrows (grey) denote that an object has been derived/computed from the other where the connector originated from. The small boxes close to each element explain in which protocol each object is used as primary (black) or secondary (grey) input. On the right side, the two main approaches delivered by our software (interactivity via web applications and reproducibility via reporting) are represented. A summary of the tasks each protocol accomplishes is detailed in (B) – linked together from the setup and installation, all the way down to the data interpretation."
+knitr::include_graphics("figures_manuscript/msfigure_01.jpg")
+```
+
+In the following protocols, R functions in the text will appear formatted as `my_function()`/`my_parameter`, and the same monospace formatting will be used for typed R input commands in the console, and the corresponding output. Occasional comments will be reported in the code chunk, prefaced by the # symbol. Package names will also be reported in monospace font as `package_name`. The panel components of the web applications will be reported in capital names, as they are specified in their implementation, while buttons and other widgets will be enclosed in single quotes as ‘Button name’.
+
+<hr>
+
+# References
+
