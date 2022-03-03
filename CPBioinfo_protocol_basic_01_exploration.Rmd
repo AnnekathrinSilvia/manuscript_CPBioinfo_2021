@@ -1,5 +1,7 @@
 ---
 title: >
+  Interactive and reproducible workflows for exploring and modeling RNA-seq data with pcaExplorer, ideal, and GeneTonic
+subtitle: >
   Basic Protocol 1: Exploratory Data Analysis with pcaExplorer
 author:
 - name: Annekathrin Ludt
@@ -24,15 +26,17 @@ author:
   - &id2 Center for Thrombosis and Hemostasis (CTH), Mainz;<br>
   email: marinif@uni-mainz.de
 date: "`r BiocStyle::doc_date()`"
-package: "`r BiocStyle::pkg_ver('ideal')`"
 output: 
-  bookdown::html_document2:
+  rmarkdown::html_document:
+  # bookdown::html_document2:
   # BiocStyle::html_document:
     toc: true
     toc_float: true
     theme: cosmo
     code_folding: show
     code_download: true
+    global_numbering: true
+    number_sections: false
 editor_options: 
   chunk_output_type: console
 bibliography: cpb_refs.bib
@@ -79,6 +83,8 @@ library("GeneTonic")
 pcaExplorer is a Bioconductor package [@Marini2019] which can be used as a general-purpose interactive companion tool for RNA-seq analyses, developed in the Shiny framework [@shiny2021]. 
 pcaExplorer is designed to guide the user in exploring the Principal Components (PC) latent space [@Jolliffe2002] of the data under inspection. 
 Besides the Principal Component Analysis (PCA), pcaExplorer also provides tools to detect outlier samples and inspect their impact, identify genes that show particular patterns of interest, and additionally provides a functional interpretation of the principal components for further quality assessment and hypothesis generation on the input data. 
+
+ddadad [@Marini2020] sfsfsfs
 
 In this protocol, we describe how to launch an instance of pcaExplorer working with the data of the macrophage dataset [@Alasoo2018], which is also distributed as a Bioconductor package [@Huber2015]. 
 
@@ -392,4 +398,7 @@ For the sake of computational reproducibility, consider adding the output of the
 sessionInfo()
 ```
 
-# References {-}
+<hr>
+
+# References
+

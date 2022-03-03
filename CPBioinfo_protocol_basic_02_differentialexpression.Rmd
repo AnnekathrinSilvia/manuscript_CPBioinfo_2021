@@ -1,14 +1,16 @@
 ---
 title: >
-  Basic Protocol 2: Differential Gene Expression Analysis with ideal
+  Interactive and reproducible workflows for exploring and modeling RNA-seq data with pcaExplorer, ideal, and GeneTonic
+subtitle: >
+  Basic Protocol 2: Differential Expression Analysis with ideal
 author:
 - name: Annekathrin Ludt
   affiliation: 
   - &id1 Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
   email: anneludt@uni-mainz.de
 - name: Arsenij Ustjanzew
-  affiliation:
-  - *id1
+  affiliation: 
+  - &id1 Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
   email: arsenij.ustjanzew@uni-mainz.de
 - name: Harald Binder
   affiliation:
@@ -24,15 +26,17 @@ author:
   - &id2 Center for Thrombosis and Hemostasis (CTH), Mainz;<br>
   email: marinif@uni-mainz.de
 date: "`r BiocStyle::doc_date()`"
-package: "`r BiocStyle::pkg_ver('ideal')`"
 output: 
-  bookdown::html_document2:
+  rmarkdown::html_document:
+  # bookdown::html_document2:
   # BiocStyle::html_document:
     toc: true
     toc_float: true
     theme: cosmo
     code_folding: show
     code_download: true
+    global_numbering: true
+    number_sections: false
 editor_options: 
   chunk_output_type: console
 bibliography: cpb_refs.bib
@@ -299,3 +303,7 @@ If enrichment results have been derived with topGO, it is also possible to expor
 sessionInfo()
 ```
 `
+<hr>
+
+# References
+
