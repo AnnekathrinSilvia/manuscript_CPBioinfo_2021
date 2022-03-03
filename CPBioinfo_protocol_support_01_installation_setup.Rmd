@@ -1,6 +1,8 @@
 ---
 title: >
-  CPBioinfo_protocol_support_01_installation_setup
+  Interactive and reproducible workflows for exploring and modeling RNA-seq data with pcaExplorer, ideal, and GeneTonic
+subtitle: >
+  Support Protocol 1: Downloading and installing pcaExplorer, ideal, and GeneTonic
 author:
 - name: Annekathrin Ludt
   affiliation: 
@@ -23,22 +25,22 @@ author:
   - *id1
   - &id2 Center for Thrombosis and Hemostasis (CTH), Mainz;<br>
   email: marinif@uni-mainz.de
-
 date: "`r BiocStyle::doc_date()`"
-package: "`r BiocStyle::pkg_ver('ideal')`"
 output: 
-  bookdown::html_document2:
+  rmarkdown::html_document:
+  # bookdown::html_document2:
   # BiocStyle::html_document:
     toc: true
     toc_float: true
     theme: cosmo
     code_folding: show
     code_download: true
+    global_numbering: true
+    number_sections: false
 editor_options: 
   chunk_output_type: console
-# bibliography: ideal_suppl.bib
+bibliography: cpb_refs.bib
 link-citations: true
-
 ---
 
 **Compiled date**: `r Sys.Date()`
@@ -81,3 +83,8 @@ library("GeneTonic")
 ```{r}
 sessionInfo()
 ```
+
+<hr>
+
+# References
+
