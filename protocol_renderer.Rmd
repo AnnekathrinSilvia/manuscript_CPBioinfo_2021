@@ -28,3 +28,12 @@ rmarkdown::render("CPBioinfo_protocol_alternate_01_fromthecommandline.Rmd")
 # docker run -e PASSWORD=bioc -p 8787:8787 federicomarini/pigt_currprotbioinfo:RELEASE_3_14
 ```
 
+# Packing up the zip archive (uploaded to Zenodo)
+
+```{bash}
+# no need to insert the file itself in the archive if already existing
+rm cpbioinfo-pigt.zip
+# zip up excluding hidden folders
+zip -r cpbioinfo-pigt.zip . -x '*.git*' '*.Rproj.user*'
+```
+
