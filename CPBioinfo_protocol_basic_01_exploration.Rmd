@@ -115,6 +115,7 @@ Before we start with the exploration of the data, the necessary packages and dep
     The main `pcaExplorer()` function requires the count matrix, the metadata, and annotation (Fig. 1A, black small boxes labeled BP1) to be either loaded into the environment before the main call, or offers the possibility to load these objects during runtime (which can be common for a first execution). If loading the input files at runtime, the application can be launched with the simple command, leaving all other parameters unspecified.
   
     ```{r eval=FALSE}
+    library("pcaExplorer")
     pcaExplorer()
     ```
 
@@ -123,6 +124,7 @@ Before we start with the exploration of the data, the necessary packages and dep
     If the necessary objects are already loaded in R (e.g. with any function that reads tabular text input), you can launch the Shiny application with the command:
 
     ```{r eval=FALSE}
+    library("pcaExplorer")
     pcaExplorer(countmatrix = countmatrix, 
                 coldata = metadata, 
                 annotation = annotation)
@@ -141,6 +143,7 @@ knitr::include_graphics("figures_manuscript/msfigure_02.jpg")
     Both objects are needed for the exploration of the data, and can be readily derived from the provided files/objects – alternatively, you can pass directly the `dds` and the `dst` objects (Fig. 1A, grey small boxes labeled BP1), in case they are already loaded in the R environment (e.g. while running an analysis from the command line). This is possible with the lines of code reported here:
 
     ```{r eval=FALSE}
+    library("pcaExplorer")
     pcaExplorer(dds = my_dds,
                 dst = my_dst)
     ```
