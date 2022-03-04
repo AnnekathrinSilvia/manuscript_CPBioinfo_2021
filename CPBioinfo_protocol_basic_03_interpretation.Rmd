@@ -29,11 +29,10 @@ date: "`r BiocStyle::doc_date()`"
 output: 
   rmarkdown::html_document:
   # bookdown::html_document2:
-  # BiocStyle::html_document:
     toc: true
     toc_float: true
     theme: cosmo
-    code_folding: show
+    # code_folding: show
     code_download: true
     global_numbering: true
     number_sections: false
