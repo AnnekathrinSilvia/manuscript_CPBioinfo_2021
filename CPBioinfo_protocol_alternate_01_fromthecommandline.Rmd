@@ -47,7 +47,7 @@ link-citations: true
 **Last edited**: `r Sys.Date()`
 
 ```{r setup, include = FALSE, cache = FALSE, eval = TRUE, echo = FALSE}
-library(knitr)
+library("knitr")
 opts_chunk$set(
   fig.align = "center",
   fig.show = "asis",
