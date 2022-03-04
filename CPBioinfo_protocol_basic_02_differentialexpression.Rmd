@@ -1,8 +1,8 @@
 ---
 title: >
-  Interactive and reproducible workflows for exploring and modeling RNA-seq data with pcaExplorer, ideal, and GeneTonic
+  Interactive and reproducible workflows for exploring and modeling RNA-seq data with `pcaExplorer`, `ideal`, and `GeneTonic`
 subtitle: >
-  Basic Protocol 2: Differential Expression Analysis with ideal
+  Basic Protocol 2: Differential Expression Analysis with `ideal`
 author:
 - name: Annekathrin Ludt
   affiliation: 
