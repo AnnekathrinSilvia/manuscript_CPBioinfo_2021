@@ -1,0 +1,30 @@
+# Rendering all the protocol components 
+
+```{r}
+rmarkdown::render("CPBioinfo_before_protocols_00_abstract_introduction_strategic_planning.Rmd")
+
+
+rmarkdown::render("CPBioinfo_protocol_basic_01_exploration.Rmd")
+rmarkdown::render("CPBioinfo_protocol_basic_02_differentialexpression.Rmd")
+rmarkdown::render("CPBioinfo_protocol_basic_03_interpretation.Rmd")
+
+rmarkdown::render("CPBioinfo_protocol_support_01_installation_setup.Rmd")
+
+rmarkdown::render("CPBioinfo_protocol_alternate_01_fromthecommandline.Rmd")
+```
+
+# Building the docker container 
+
+```{bash}
+## How to build:
+## from the folder where the Dockerfile is stored:
+# docker build -t federicomarini/pigt_currprotbioinfo:latest -t federicomarini/pigt_currprotbioinfo:RELEASE_3_14 .
+## To update on the DockerHub - derived from https://github.com/Bioconductor/bioconductor_docker/blob/master/.scripts/weekly_build.sh
+# docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
+# docker push federicomarini/pigt_currprotbioinfo:latest
+# docker push federicomarini/pigt_currprotbioinfo:RELEASE_3_14
+## To be found then at https://hub.docker.com/repository/docker/federicomarini/pigt_currprotbioinfo
+## As a simple user, the ideal way to retrieve and run this container is by calling
+# docker run -e PASSWORD=bioc -p 8787:8787 federicomarini/pigt_currprotbioinfo:RELEASE_3_14
+```
+
