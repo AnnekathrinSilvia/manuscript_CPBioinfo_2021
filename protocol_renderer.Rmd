@@ -3,7 +3,6 @@
 ```{r}
 rmarkdown::render("CPBioinfo_before_protocols_00_abstract_introduction_strategic_planning.Rmd")
 
-
 rmarkdown::render("CPBioinfo_protocol_basic_01_exploration.Rmd")
 rmarkdown::render("CPBioinfo_protocol_basic_02_differentialexpression.Rmd")
 rmarkdown::render("CPBioinfo_protocol_basic_03_interpretation.Rmd")
