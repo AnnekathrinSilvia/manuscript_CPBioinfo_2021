@@ -425,6 +425,7 @@ In the following steps, many functions from the presented packages will be showc
 # Session information {-}
 
 ```{r}
+BiocManager::version()
 sessionInfo()
 ```
 

@@ -196,6 +196,7 @@ Retrieve the image for the federicomarini/pigt_currprotbioinfo:3_14 from the Doc
 # Session information {-}
 
 ```{r}
+BiocManager::version()
 sessionInfo()
 ```
 

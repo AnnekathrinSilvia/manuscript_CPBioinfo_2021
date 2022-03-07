@@ -362,6 +362,7 @@ knitr::include_graphics("figures_manuscript/msfigure_28.jpg")
 # Session information {-}
 
 ```{r}
+BiocManager::version()
 sessionInfo()
 ```
 

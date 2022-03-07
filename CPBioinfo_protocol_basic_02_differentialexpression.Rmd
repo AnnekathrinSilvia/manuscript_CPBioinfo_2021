@@ -266,6 +266,7 @@ Clicking on the ‘Export as serialized SummarizedExperiment’ button (in the R
 # Session information {-}
 
 ```{r}
+BiocManager::version()
 sessionInfo()
 ```
 `
