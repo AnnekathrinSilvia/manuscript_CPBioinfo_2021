@@ -1,0 +1,220 @@
+---
+title: >
+  Interactive and reproducible workflows for exploring and modeling RNA-seq data with `pcaExplorer`, `ideal`, and `GeneTonic`
+subtitle: >
+  Guidelines for Understanding Results, Commentary
+author:
+- name: Annekathrin Ludt
+  affiliation: 
+  - &id1 Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
+  email: anneludt@uni-mainz.de
+- name: Arsenij Ustjanzew
+  affiliation: 
+  - &id1 Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
+  email: arsenij.ustjanzew@uni-mainz.de
+- name: Harald Binder
+  affiliation:
+  - Institute of Medical Biometry and Statistics (IMBI), Faculty of Medicine and Medical Center, University of Freiburg 
+  email: binder@imbi.uni-freiburg.de 
+- name: Konstantin Strauch
+  affiliation: 
+  - *id1
+  email: strauch@uni-mainz.de
+- name: Federico Marini
+  affiliation: 
+  - *id1
+  - &id2 Center for Thrombosis and Hemostasis (CTH), Mainz;<br>
+  email: marinif@uni-mainz.de
+date: "`r BiocStyle::doc_date()`"
+output: 
+  rmarkdown::html_document:
+  # bookdown::html_document2:
+    toc: true
+    toc_float: true
+    theme: cosmo
+    # code_folding: show
+    code_download: true
+    global_numbering: true
+    number_sections: false
+editor_options: 
+  chunk_output_type: console
+bibliography: cpb_refs.bib
+link-citations: true
+---
+
+**Compiled date**: `r Sys.Date()`
+
+**Last edited**: `r Sys.Date()`
+
+```{r setup, include = FALSE, cache = FALSE, eval = TRUE, echo = FALSE}
+library("knitr")
+opts_chunk$set(
+  fig.align = "center",
+  fig.show = "asis",
+  eval = TRUE,
+  fig.width = 10,
+  fig.height = 7,
+  tidy = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  size = "small",
+  comment = "##",
+  echo = TRUE,
+  results = "markup"
+)
+options(replace.assign = TRUE, width = 100)
+```
+
+# Guidelines for Understanding Results
+
+Upon successful execution of the steps described in the protocols above, a set of output objects can be obtained, often specific to the different workflow components, i.e. exploratory data analysis, differential expression analysis, and functional interpretation. The main results produced by the web applications are represented by the tabular and visual (static and interactive) summaries that can be created during runtime. Additionally, each of the apps presented in the protocols has a reporting functionality, which can be exploited to conclude a session, and can deliver an HTML file that embeds not only this output, but also descriptive prose and the code to reproduce the analyses. The generation of such dynamic documents is essential to provide a simple means to share and store complete computational analyses.
+
+Basic Protocol 1 covers the often underappreciated step of exploratory data analysis. In this phase, it is essential to start from the raw expression matrix (also called the count matrix, due to the discrete nature of its entries) and proceed with normalized and transformed versions of it, according to the procedures to be applied afterwards. For example, variance stabilizing and regularized logarithm transformations are well suited for the clustering of samples or other machine learning applications. However, they do not work well for differential testing, which in turn operates on raw counts.
+
+Once all the necessary data components have been generated, `pcaExplorer` presents a variety of useful summaries, starting from simple statistics on detected genes and general relationships among samples. The typical output of Principal Components Analysis can be explored with ease to better understand the reduced dimensional embedding of the data under inspection, both from the samples and from the genes point of view, as a preliminary yet fundamental operation to any downstream application – offering different manners to explore in depth single features or subsets of features is hereby accessible, empowering many users to perform more comprehensive and robust evaluations on the quality of the datasets and their implications. The PCA2GO functionality enables some direct biological interpretation of Principal Components, by which the enrichment of annotated functions and processes among the genes with top and bottom loadings for each axis is presented. This can be often valuable to explain some forms of unexpected variability, e.g. via contamination of samples, or due to failures in the experimental operations (e.g. degraded material from clinical specimen). 
+
+Thanks to the efficient combination of interactivity and reproducibility, `pcaExplorer` sets the stage for the following operations, which can as well be carried out in distinct iterations. For example, by clicking on the `pcaExplorer` task menu, users can save the state of all reactive elements to a binary RData object, or directly into an environment. This allows users to directly retrieve and reuse the `DESeqDataSet` object for the following protocols, or follow up with further scripted analyses, if alternative or additional workflows are expected to be applied. Promoting the use of standardized data structures streamlines the interoperability and implementation of the multitude of published methods and respective software.
+
+Basic Protocol 2 guides the readers through a comprehensive workflow centered around differential expression analysis, one of the main applications when generating expression data with RNA-seq, aiming to identify the features which are associated with the phenotypic comparison of interest. Starting from a matrix of raw counts, the experimental covariates, and the specification of a design, the statistical testing is performed within the DESeq2 framework, with generalized linear models ensuring flexibility in the modeling strategy, combined with shrunken estimates of the effect sizes to account for the large dispersions observed at low expression levels. Some analysis approaches suggest to remove lowly expressed genes (e.g. detected below a threshold in a defined number of samples) prior to perform the statistical testing itself - `ideal` also allows users to choose the IHW [@Ignatiadis2016], a multiple testing adjustment procedure that can account for informative experimental covariates, thus allowing different prioritization of the individual hypotheses.
+
+Most of the functionality in `ideal` is accessible once the necessary components have been generated: after creating a results table, a series of diagnostic and summary plots can be generated, including classical representations such as MA plots, volcano plots, or heatmaps for subsets of differentially expressed genes. Single genes can be inspected in detail, whereas additional information is automatically retrieved from the Entrez database; if more genes are selected, it is possible to seamlessly annotate the MA plot, to construct e.g. the signature behavior of a gene set of interest (a shortlisted set from the literature, a candidate affected pathway, ...).
+
+Functional enrichment analysis on the split subsets of upregulated and downregulated genes can be performed with three different methods, and if desired can be applied to the entire set of differentially expressed genes. For example, in the macrophage dataset such functions can be readily visualized with heatmaps, which can give an immediate sense of the direction of regulation (an information which might be missing when considering simple sets of genes instead of pathways). Additional signatures can be explored by providing the corresponding GMT files, a format universally adopted to encode such information [@Liberzon2015;@Fabregat2018].
+
+Throughout the entire application, the presence of tours is intended to guide prospective users across an exemplary hands-on use case, with components of the graphical interface highlighted as one proceeds to reinforce the learning experience. Again, an embedded reporting functionality builds the foundation to guarantee a reproducible analysis, and can be used as a bridge to subsequent downstream steps. The provided template includes in one single compiled document most of the usually employed summaries for such datasets. Alternatively, exporting the data under exploration as a generic container (a `SummarizedExperiment`) makes it amenable to further processing with many existing interoperable software in the Bioconductor ecosystem, including `iSEE` [@Rue-Albrecht2018] for flexible bespoke graphical representations, or `i2dash` [@Ustjanzew2021] for easy deployment of dedicated dashboards.
+
+Basic Protocol 3 demonstrates how to use the `GeneTonic` package to combine and integrate all the different components that normally are available when analyzing end-to-end an RNA-seq dataset, with the objective to identify differentially expressed genes and to draw inferences about the regulated biological processes and pathways in the scenario(s) under investigation. Streamlining this time-consuming operation, where often the expertise of the wet lab scientist and clinician is an essential complement to the skills of a data analyst, can lead to a shorter turnaround time in generating sets of hypotheses, and in turn reduce the effort to transform data into actionable knowledge and insight. 
+
+Combining all the input objects into a validated instance of a `GeneTonicList` container class makes it straightforward for the set of functions provided to access correctly the information available in the respective slots. The creation of a variety of visual summaries, often more appealing than the commonly used tabular format, provides means to better interpret the expression dataset as a whole. Moreover, the interaction with HTML-based widgets and other elements of the user interface simplifies the many rounds of in-depth drilldown operations that focus on shortlisted genes and genesets, as a consequence of their biological relevance.
+
+# Commentary
+
+## Background Information:
+
+Over the last two decades, advancements in sequencing technologies, accompanied by the reduction of costs to generate data, have significantly contributed to a widespread diffusion of RNA-seq as the standard method to perform quantitative and robust gene expression profiling. This could be observed in a variety of applications, covering basic research scenarios, but also clinical routine e.g. providing valuable molecular readout to be exploited in tumor boards for personalized medicine.
+
+This situation led to a massive increase in the data volume, and was supported by an extensive activity in developing methods, algorithms, and software tools that satisfy the needs of scientists for the many available workflows. While analysis methods are nowadays established for most of the mainstream applications of bulk RNA-seq (including expression quantification and differential expression analysis at the gene level), there is a pressing need for streamlining the process of extracting knowledge from these large, complex expression datasets - experimental biologists and clinicians might encounter non-trivial difficulties in installing and adopting the tools of the trade, often available mainly for command-line usage. As a consequence, this constitutes a significant barrier in the workflow of a researcher, potentially affecting the timeline and budgeting of their projects - despite a considerable and commendable effort done by the developers in documenting their packages. 
+
+`pcaExplorer`, `ideal`, and `GeneTonic` are R/Bioconductor software packages that provide practical, easy-to-use, yet comprehensive and extendable user interfaces. These packages were designed aiming for an optimal combination of interactivity and reproducibility, implementing not only web applications in the R/Shiny framework, but also all the underlying R functions to be used also in standalone mode; as a principle, all these packages carefully document the undertaken choices with a seamless mechanism of reporting, based on the RMarkdown framework. A careful design and implementation of the user interfaces, supported by collapsible elements and tooltips and also coupled to the learning-by-doing approach provided via interactive tours, make sure that users can navigate efficiently through the large amount of widgets that control the execution of every workflow. 
+
+Other existing tools also aim to cover a number of the steps of the differential expression analysis procedure, and most were developed to operate on tabular-like summarized expression data, or on formats which might derive from their results, to be provided as text or spreadsheet files - often used to exchange information among collaboration partners. Many of these tools are not able to operate on the standardized formats output by the commonly used pipelines, making it difficult to provide comfortable entry points for experienced users that intend to exploit only a subset of their functionality. Our tools are fully integrated with the widely used containers proposed as standard in the scope of the Bioconductor ecosystem, and accommodate the output of a multitude of tools, especially for functional enrichment analyses, and harmonize their content so that all relevant results are directly usable and interoperable. Moreover, they provide a series of in-depth vignettes as additional documentation, which can be consulted anytime as complete walkthroughs for the respective software packages. The modular design we envision for our applications makes it easy to incorporate them in existing workflows, encouraging the interoperability with other software packages.
+
+Some of the alternative solutions are provided as web tools only, enforcing the availability of an internet connection, or the need to submit the local data to an external provider, an aspect that might be crucial when working with sensible patient data. All our packages can be used locally, with simple installation instructions that automatically manage all software dependencies, ensuring a higher level of portability. Nonetheless, our packages offer the possibility for deployment as server-like applications, for internal usage (e.g. among members of an institution or a laboratory) - as showcased by the demo instances where occasional visitors can get familiar with the interfaces (see Internet Resources for detailed links and descriptions).
+
+Even if our proposal cannot entirely guarantee the flexibility of the underlying tools when used from the command line, and is mostly tailored to scenarios dealing with bulk RNA-seq datasets (still commonly widely used, especially in clinical and diagnostic settings), we cover the most commonly adopted experimental designs, and aim to simplify the ease in collaboration between users with different expertise. Such an approach can empower a large spectrum of users, making sure that their time is optimally invested, and liberating resources for more complex investigative and  integrative tasks. As a side effect of exposing the users to the code (via RMarkdown reports, or via meta-generated code to reproduce figures and interactive widgets), our tools have also a didactical effect, encouraging the adoption of best practices for computational data analyses.
+
+The discovery process for RNA-seq data is simplified and streamlined, with tools targeting both experienced analysts and scientists with an experimental background - indeed, the reinforcement of the contact points between these groups can promote a transparent communication and exchange, and as a consequence significantly reduce the time to generate actionable insight, both in basic and clinical science settings. To pursue this objective further, we are continuously adding features to the software packages we proposed in this set of protocols, including functionality to reduce the effort of adopting these tools, and to easily resume previous analysis sessions (e.g. by directly uploading at runtime `GeneTonicList` objects, and improving the bookmarking for interesting features/gene sets, available in the development branch of Bioconductor at the time of writing).
+
+We envision the combined adoption of packages like `pcaExplorer`, `ideal`, and `GeneTonic` not only to help single users, but also assist RNA-seq service providers/core facilities in progressing rapidly through the research projects they are involved in, thanks to the common ground offered by the graphical interfaces and the support for analyses that are reproducible and easily extendable in subsequent offline usage.
+
+## Critical Parameters
+
+The default values for the parameters to be found in `pcaExplorer`, `ideal`, and `GeneTonic` have been defined to reflect the current best practices for appropriate exploration, modeling, and interpretation. In principle, this allows most users to start obtaining reasonable and robust output without the need of extensive tuning. Nevertheless, a variety of key parameters are customizable in all three applications to obtain a fine control on the final aspect of results and visualizations.
+
+* Data transformations:  
+  Transformations of the raw counts are required to visually explore relationships between samples, and this normally includes a normalization step prior to the transformation itself. `pcaExplorer` offers the possibility to use variance stabilizing transformed (vst) values, regularized logarithm (rlog) transformed values, or also a simple logarithm operation after applying a small pseudocount offset. Among these methods, vst and rlog work well in a wide set of scenarios, and are therefore recommended - with small number of samples, the computing time is negligible.
+* Number of most variable genes for running PCA:  
+  A subsetting operation is generally performed on the transformed values before computing the Principal Components, by selecting the number of top genes, ranked by their highest row-wise variance. This allows users to perform the calculations on the set of genes that carry signal, and at the same time reduces the computation time - this is especially noticeable when large numbers of samples are included. This value defaults to 300, but can be easily adjusted from the sidebar (also including potentially all genes if a large enough value is selected).
+* Number of Principal Components to retain and explore:  
+  Every Principal Component explains an additional fraction of variability for the provided expression matrix. With increasing number of samples, and increasing complexity of the experimental covariate structure, it might be worth inspecting the relationships between samples in higher order PCs. The scree plot, also provided near the PCA plot in `pcaExplorer`, can be used as diagnostic guidance to select the number of PCs to focus on, using quantitative heuristic methods that define when the increment of explained variability is marginal (e.g. the elbow method). In most cases, the exploration of the first top 2-3 PCs can be sufficient to accurately capture the patterns in the data, especially if these are nicely matching the main reported experimental covariates.
+* Definition of outlier samples:  
+  The PCA plot can be a valuable tool to determine whether a sample is to be considered an outlier (and potentially to be excluded from the subsequent steps). While it is tempting to “clean” the dataset in this manner, sometimes we do encounter inevitable experimental variability, and removing samples can have a detrimental effect on the detection power for differentially expressed genes. We advocate for additional checks, e.g. at the single gene level if the hypothesis of a sample contamination might have occurred, driven by the prioritization made possible by ranking the genes according to their loadings on specific Principal Components.
+* Expression level filtering of features:  
+  The definition of thresholds for detecting the expression of a gene can be easily done in the overview tabs of `pcaExplorer` and `ideal`. While useful to determine the number of expressed genes, this can be also beneficial for the modeling step, as the number of performed tests influences the multiple testing adjustment. By removing the low count genes from the pool of tested features, we can indeed find more genes to be significant among those that we keep, thus improving the power of our procedure. `ideal` implements the independent filtering approach [@Bourgon2010], together with the option to use advanced procedures such as Independent Hypothesis Weighting (IHW [@Ignatiadis2016]), which is able to account for informative covariates and achieve higher power.
+* Selection of an appropriate significance threshold:  
+  `ideal` makes use of the DESeq2 framework for modeling and testing, where the Benjamini-Hochberg (BH) adjustment [@Benjamini1995] is adopted by default. The corresponding False Discovery Rate (FDR) value reflects the fraction of false positives one would expect to find, among all genes with an adjusted p-value less than or equal to the chosen value. This procedure is commonly adopted for the analysis of many high-throughput experimental assays, where the focus is on identifying and reporting a set of candidate genes, and we are aiming to have an upper bound value for the percent of false positives in this set. A commonly chosen value for this threshold is 0.05; a more liberal choice could be the value of 0.1, while a more stringent control can be induced by setting it to 0.01. This choice should ideally be performed in advance, when outlining the analysis plan. More refined testing approaches, e.g. against an effect size of values greater than 0 (which achieves a better control of the FDR, compared to the post-hoc filtering based on the log2 fold change of significant genes [@Mccarthy2009; @Harrison2019]), can also be performed outside the `ideal` application, and later provided as a `DESeqResults` object. This might be particularly relevant if the number of genes identified as DE is very large, and a prioritization might be needed to derive better (more specific) enrichment results.
+* Specification of the design formula:  
+  An essential parameter that determines the identification of differentially expressed genes is represented by the design formula, to be defined in the `ideal` application. The design formula tells which experimental covariates from the metadata table specify the experimental design, and how these factors should in turn be used for the analysis. Simple design formulas with a single factor (e.g. `~ condition`) are able to handle the information regarding which of two (or more) groups each sample belongs to. For the macrophage dataset, we specify `~ line + condition`, meaning that we want to test for the effect of condition (e.g. IFN gamma vs naive), while controlling for the effect of the different cell line of origin (stemming from the different donors). `ideal` supports any fixed-effects experimental design - if users desire to add interaction effects, this can be probably best specified during the generation of the `dds` object itself, before calling the main `ideal()` function. Additional insight on which contrasts can be addressed, depending on the selected design, can be retrieved with tools such as `ExploreModelMatrix` [@Soneson2020] - consulting a biostatistician/bioinformatician is also recommended in case of more complex experimental designs, to make sure that this aspect is appropriately accounted for. An excellent resource with practical examples of code and graphical representations on how to select the appropriate design and contrasts is included in the work of [@Law2020].
+* Performing enrichment analysis against proper background:  
+  As pointed out by a recent survey [@Wijesooriya2021], the selection of an inappropriate background set to perform the enrichment analysis is a widespread issue. This might have serious consequences on the data interpretation steps, whereas the usage of a whole genome background results in artificially increased numbers of differentially regulated gene sets, potentially invalidating the entire analyses. The use of a background list consisting of all detected genes is essential to obtain solid enrichment results, and this approach is followed by the testing procedures implemented in `ideal` - which can be later fed to `GeneTonic` to streamline the contextualization of the results. Users should be wary of adopting tools that do not accept the specification of a background list, if performing enrichment analysis outside the workflows proposed in this series of protocols.
+* Choosing gene set libraries to perform functional enrichment analyses:  
+  A large number and variety of collections for gene sets and pathways are currently available, and this can include Gene Ontology, MSigDB, Reactome, just to name a few. Some tools are able to integrate different such databases, while others are specific to particular ontologies - and might be available only for specific species. `pcaExplorer` and `ideal` offer wrappers to the `topGO` [@Alexa2006] and `goseq` methods [@Young2010], which leverage the Bioconductor annotation packages and thus work in a wide range of scenarios. If possible, we recommend to adopt open-source tools that use up-to-date libraries, and to document which versions are used to ensure computational reproducibility - our packages report the output of the session information command to simplify this task.
+* Number of genesets displayed or included in computations:  
+  The choice of the subset of genesets and pathways included not only affects the computing time for some functions and derived objects, but also of course determines the appearance of the generated summaries. The default value in the `GeneTonic` application for this parameter is set to 15 (which is a reasonable amount when creating bipartite gene-geneset graphs), and this can be gradually increased to iteratively expand the scope of the exploration, in order to include the whole set of identified candidate pathways and obtain a comprehensive snapshot of the effects for the transcriptional regulation.
+
+## Troubleshooting
+
+Table 1 provides troubleshooting information, covering some computational issues that may arise when running `pcaExplorer`, `ideal`, and `GeneTonic`. This complements the documentation bundled in each software package, provided as detailed vignettes, in which some frequently asked questions are answered in detail.
+
+Additionally, we invite users having difficulties with our packages to ask questions and report issues on the Bioconductor Support Site (https://support.bioconductor.org/), as these are integrated into the large community-driven ecosystem of Bioconductor. If desired, we also invite readers to file a new issue on the respective GitHub repositories (see Internet Resources section), where the developer team can provide additional guidance. 
+
+```{r echo=FALSE}
+df_tab1 <- readxl::read_excel("CPBioinfo_table1.xlsx")
+DT::datatable(df_tab1, rownames = FALSE, caption = "Table 1. Troubleshooting guide for pcaExplorer, ideal, and GeneTonic.")
+```
+
+
+## Suggestions for Further Analysis
+
+To easily recreate and extend the analyses performed in this article, we provide files to execute these protocols in a reproducible manner and several data files at the GitHub repository https://github.com/AnnekathrinSilvia/manuscript_CPBioinfo_2021.
+
+Additional operations include the generation of bespoke customized plots, which is possible in the `iSEE` framework [@Rue-Albrecht2018], or the comparison and integration of multiple DE results from related experimental scenarios (covariates with more than two factor levels, inclusion of additional variables in the statistical model, quantitative assessment of expression changes from different datasets), which is the focus of the `DeeDee` package (currently under development at https://github.com/lea-rothoerl/DeeDee).
+
+The iterative nature of the analysis of such high-dimensional data can be assisted by other web applications, whose role might be complementary to the one proposed by `pcaExplorer`, `ideal`, and `GeneTonic`. As an example, the `i2dash` R package [@Ustjanzew2021] is an excellent option to programmatically create and deploy such dashboards, as these can be coupled as data products to the existing R-based analysis pipelines. This usage makes `i2dash` suitable to be adopted in biostatistics/bioinformatics research facilities, reducing the effort to develop and deploy dedicated data products.
+
+Overall, the adoption of classes that are well established in the Bioconductor ecosystem makes the usage of our software packages easy to integrate with additional workflow steps, efficiently defining alternative entry points without extensive need of interconversions and reducing the risk of information loss.
+
+# Data Availability
+
+The protocols described in this article use publicly available data (originally included in the work of [@Alasoo2018] – PMID: 29379200, https://www.ebi.ac.uk/ena/browser/view/ERP020977), which can be accessed by users as a Bioconductor package, and additionally can be easily retrieved from our dedicated GitHub repository (https://github.com/AnnekathrinSilvia/manuscript_CPBioinfo_2021, listed in the Internet Resources section). An archive of this repository has been deposited at the moment of submission on Zenodo (https://doi.org/10.5281/zenodo.5810731).
+
+# Acknowledgments
+
+This work has been supported by the computing infrastructure provided by the Core Facility Bioinformatics at the University Medical Center Mainz, used also for deploying the demo instances of the packages.  
+We thank the users’ community of the `pcaExplorer`, `ideal`, and `GeneTonic` packages for valuable feedback, suggestions, and issue reporting, in particular the early adopters among the Bioconductor community.  
+The work of FM has been partially supported by the German Federal Ministry of Education and Research (BMBF 01EO1003).  
+Open access funding is enabled and organized by Projekt DEAL.
+
+# Authors' Contributions
+
+**Annekathrin Ludt:** Conceptualization, Data curation, Formal Analysis, Investigation, Methodology, Software, Validation, Visualization, Writing – original draft, Writing – review & editing  
+**Arsenij Ustjanzew:** Conceptualization, Data curation, Formal Analysis, Investigation, Methodology, Software, Validation, Visualization, Writing – original draft, Writing – review & editing  
+**Harald Binder:** Conceptualization, Funding acquisition, Resources, Software, Supervision, Writing – review & editing  
+**Konstantin Strauch:** Conceptualization, Funding acquisition, Project administration, Resources, Software, Supervision, Writing – review & editing  
+**Federico Marini:** Conceptualization, Data curation, Formal Analysis, Funding acquisition, Investigation, Methodology, Project administration, Resources, Software, Supervision, Validation, Visualization, Writing – original draft, Writing – review & editing
+
+# Key References
+
+Marini et al., 2016. See above.  
+This is the first description of the conceptual framework to combine interactivity and reproducibility, particularly in the context of genomics data analysis with R and Bioconductor, supported by the reactivity provided by Shiny for developing web applications.
+
+Marini et al., 2019. See above.  
+The first description of the `pcaExplorer` package, as an interactive and comprehensive interface for performing exploratory data analysis on RNA-seq data, focusing on the unsupervised statistical learning framework of principal components analysis (PCA). This package also provides functional interpretation of principal components, and is designed to assist a broad range of researchers by combining the ease of use of a graphical user interface with the automated reporting embedded in the main application.
+
+Marini et al., 2020. See above.  
+The original publication of the `ideal` software package, designed to simplify the most common steps related to the statistical modeling and testing in differential expression analysis workflows of bulk RNA-seq data. Tabular and visual outputs are provided, providing users with a web application to guide them through the different aspects - from simple overviews to functional analysis of identified candidate transcriptional regulators. Here, the full report bundled with the package provides again the means to share and store a reproducible track of the performed analysis, which can also be extended by advanced users.
+
+Marini et al., 2021. See above.  
+This work describes the `GeneTonic` package, designed to assist users in the interpretation of results from transcriptome profiling experiments via RNA-seq. This complex task often involves the integration of different tabular outputs, and `GeneTonic` streamlines these time-consuming operations that often require the expertise of life or medical scientists. Interoperability with the main analysis workflows and tools for enrichment analysis make this package a candidate for wide adoption among scientists, also providing automated reporting on bookmarked features to better understand transcriptional regulation at the gene and the pathway level.
+
+Rue-Albrecht et al., 2018. See above.  
+This work presents `iSEE`, a general purpose visualization tool for analyzing any type of two-dimensional high throughput assay, notably including single cell RNA-seq, that can be stored as a `SummarizedExperiment` object. Focusing on the customizability of the generated outputs, which can simultaneously represent all aspects of the provided input data, and with dynamic linking between panels, iSEE is complemented by meta-generated code tracking for ensuring computational reproducibility. 
+
+Ustjanzew et al., 2021. See above.  
+`i2dash` is an R package designed to assist in the programmatic creation of customized dashboards from the scratch, dynamically generating a web application that can ideally be coupled to any R-based analysis pipeline. This usage makes `i2dash` suitable to be adopted in biostatistics/bioinformatics research facilities, reducing the effort to develop and deploy dedicated data products.
+
+# Internet Resources
+
+https://bioconductor.org/packages/pcaExplorer, https://bioconductor.org/packages/ideal, https://bioconductor.org/packages/GeneTonic  
+Official Bioconductor homepages for the presented packages. The best place to retrieve the latest released versions of the packages and their documentation.
+
+https://support.bioconductor.org/  
+Bioconductor support site. Ideally, the best place to ask questions and obtain help from a large community of Bioconductor users and developers.
+
+https://github.com/federicomarini/pcaExplorer, https://github.com/federicomarini/ideal, https://github.com/federicomarini/GeneTonic  
+Development branches on GitHub. This is the location where to find the latest development versions of each package - might include some experimental features. The rendered project pages serve as an additional location to directly consult the documentation for the development versions. 
+
+https://github.com/AnnekathrinSilvia/manuscript_CPBioinfo_2021  
+Source code and data to reproduce the presented protocols. Thought as a complement to the classical manuscript, it includes executable documents that simplify the learning process. This repository also contains the instructions to generate a Docker image where all tools and dependencies are automatically provided, running the RStudio Server IDE to provide a full environment to try the functionality of the packages.
+
+http://shiny.imbei.uni-mainz.de:3838/pcaExplorer, http://shiny.imbei.uni-mainz.de:3838/ideal, http://shiny.imbei.uni-mainz.de:3838/GeneTonic  
+Demo instances of the presented web applications. For each of these, a demonstration dataset has been included and can be used to showcase the functionality of the packages.
+
+https://www.youtube.com/watch?v=lxpm3i4PNEE  
+Workshop video on the `GeneTonic` package, presented at the BioC2021 conference.
+
+
+<hr>
+
+# References
+
