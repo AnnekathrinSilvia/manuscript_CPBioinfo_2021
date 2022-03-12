@@ -10,6 +10,8 @@ rmarkdown::render("CPBioinfo_protocol_basic_03_interpretation.Rmd")
 rmarkdown::render("CPBioinfo_protocol_support_01_installation_setup.Rmd")
 
 rmarkdown::render("CPBioinfo_protocol_alternate_01_fromthecommandline.Rmd")
+
+rmarkdown::render("CPBioinfo_after_protocols_99_guidelines_commentary.Rmd")
 ```
 
 # Building the docker container 
