@@ -78,7 +78,7 @@ library("GeneTonic")
 
 Most of the functionality provided by the three packages described in the Basic Protocols can effectively be used throughout the steps that build up the entire RNA-seq analysis workflow [@Love2015]. This means that the exported functions can simply be called inside simple R scripts, or inserted into dedicated chunks of RMarkdown documents, and their usage is documented in the package vignette and manual pages.
 
-In this protocol, we will assemble a compact end-to-end analysis for the `macrophage` dataset, starting from the quantifications provided in the homonymous Bioconductor package [@Alasoo2018]. As in Basic Protocol 3, we will focus on the comparison between Interferon gamma treated samples versus naive samples, including all samples in the Exploratory Data Analysis preliminary to the modeling and statistical testing.
+In this protocol, we will assemble a compact end-to-end analysis for the `macrophage` dataset, starting from the quantifications provided in the homonymous Bioconductor package [@Alasoo2018]. As in Basic Protocol 3, we will focus on the comparison between Interferon-gamma treated samples versus naive samples, including all samples in the Exploratory Data Analysis preliminary to the modeling and statistical testing.
 
 # Necessary Resources
 
@@ -197,7 +197,7 @@ In the following steps, many functions from the presented packages will be showc
     ```
 
 5.	Run the DE modeling and extract the results.  
-    After specifying the contrast (Interferon gamma treatment vs naive cells), and an absolute log2 fold change threshold of at least 1, run the DESeq pipeline on the provided dataset. Afterwards, apply the `apeglm` shrinkage estimator for obtaining moderated log fold changes.
+    After specifying the contrast (Interferon-gamma treatment vs naive cells), and an absolute log2 fold change threshold of at least 1, run the DESeq pipeline on the provided dataset. Afterwards, apply the `apeglm` shrinkage estimator for obtaining moderated log fold changes.
 
     ```{r eval=FALSE}
     # running DESeq2 and extracting the results
@@ -297,7 +297,7 @@ In the following steps, many functions from the presented packages will be showc
     ```
 
 8.	Generate a diverse set of representations for the enrichment results.  
-    Taking as main input the `gtl_macrophage` object, that holds all relevant information stored in a standardized manner, it is easy to create a variety of visual and tabular summaries and in-depth views to facilitate insight extraction. Run the chunk below to create a signature heatmap and a volcano plot on the geneset members of GO:0034341 (response to interferon gamma).
+    Taking as main input the `gtl_macrophage` object, that holds all relevant information stored in a standardized manner, it is easy to create a variety of visual and tabular summaries and in-depth views to facilitate insight extraction. Run the chunk below to create a signature heatmap and a volcano plot on the geneset members of GO:0034341 (response to interferon-gamma).
 
     ```{r eval=FALSE}
     gs_heatmap(se = vst_macrophage,
