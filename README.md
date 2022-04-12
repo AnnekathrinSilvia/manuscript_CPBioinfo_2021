@@ -9,5 +9,5 @@ The protocols included are listed as follows:
 * Basic Protocol 1: Exploratory Data Analysis with pcaExplorer
 * Basic Protocol 2: Differential Expression Analysis with ideal
 * Basic Protocol 3: Interpretation of RNA-seq results with GeneTonic
-* Support Protocol 1: Downloading and installing pcaExplorer, ideal, and GeneTonic
-* Alternate Protocol 1: Using functions from pcaExplorer, ideal, and GeneTonic in custom analyses
+* Support Protocol: Downloading and installing pcaExplorer, ideal, and GeneTonic
+* Alternate Protocol: Using functions from pcaExplorer, ideal, and GeneTonic in custom analyses

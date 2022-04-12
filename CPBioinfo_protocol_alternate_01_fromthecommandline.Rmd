@@ -2,7 +2,7 @@
 title: >
   Interactive and reproducible workflows for exploring and modeling RNA-seq data with `pcaExplorer`, `ideal`, and `GeneTonic`
 subtitle: >
-  Alternate Protocol 1: Using functions from `pcaExplorer`, `ideal`, and `GeneTonic` in custom analyses
+  Alternate Protocol: Using functions from `pcaExplorer`, `ideal`, and `GeneTonic` in custom analyses
 author:
 - name: Annekathrin Ludt
   affiliation: 
@@ -84,15 +84,15 @@ In this protocol, we will assemble a compact end-to-end analysis for the `macrop
 
 *Hardware*
 
-* See detailed description in Support Protocol 1.
+* See detailed description in Support Protocol.
 
 *Software*
 
-* See detailed description in Support Protocol 1.
+* See detailed description in Support Protocol.
 
 *Files*
 
-* See detailed description in Support Protocol 1. Specifically, this Alternate Protocol will make use of the data starting from the objects provided by the `macrophage` package, included in the dependencies for the software we are presenting in this work. Since this Alternate Protocol is extensively using the R terminal for executing the different steps, it is oriented to an audience with some more familiarity with command line interfaces, but we provide enough details for welcoming a broad spectrum of readers.
+* See detailed description in Support Protocol. Specifically, this Alternate Protocol will make use of the data starting from the objects provided by the `macrophage` package, included in the dependencies for the software we are presenting in this work. Since this Alternate Protocol is extensively using the R terminal for executing the different steps, it is oriented to an audience with some more familiarity with command line interfaces, but we provide enough details for welcoming a broad spectrum of readers.
 
 ```{r fig1}
 #| echo = FALSE,
@@ -102,7 +102,7 @@ knitr::include_graphics("figures_manuscript/msfigure_01.jpg")
 
 # Protocol Steps with Steps Annotations
 
-In the following steps, many functions from the presented packages will be showcased and briefly described. We refer users to the package documentation (accessible from the R terminal with simple calls such as `?get_annotation_orgdb`) for additional details and further usage examples. A fully rendered version (including all the figures and other output) of this Alternate Protocol is also available as a pre-compiled document in the `manuscript_CPBioinfo_2021` repository, associated to this manuscript and also used in Support Protocol 1.
+In the following steps, many functions from the presented packages will be showcased and briefly described. We refer users to the package documentation (accessible from the R terminal with simple calls such as `?get_annotation_orgdb`) for additional details and further usage examples. A fully rendered version (including all the figures and other output) of this Alternate Protocol is also available as a pre-compiled document in the `manuscript_CPBioinfo_2021` repository, associated to this manuscript and also used in the Support Protocol.
 
 1.	Load the expression data as `DESeqDataSet` object and create the associated annotation table.  
     Similar to Basic Protocol 3, load first the required packages, and create the fundamental `DESeqDataSet` object to be used for the analysis (using ENSEMBL identifiers) - optionally, one can filter the set of lowly expressed genes as specified in the chunk below. Generate the corresponding annotation table for `dds_macrophage`, and store that as `anno_df`.
@@ -314,7 +314,7 @@ In the following steps, many functions from the presented packages will be showc
     )
     ```
 
-    The following chunk proposes alternatives to the classical tabular enrichment results, e.g. decomposing the contribution of the individual genes to a signature, or their overlap across signatures.
+    The following chunk proposes alternatives to the classical tabular enrichment results, e.g., decomposing the contribution of the individual genes to a signature, or their overlap across signatures.
 
     ```{r eval=FALSE}
     enhance_table(gtl = gtl_macrophage,
@@ -337,7 +337,7 @@ In the following steps, many functions from the presented packages will be showc
                plot_title = "Gene set volcano")
     ```
 
-    The following chunk contains visual summaries highlighting the relationship between genesets, computed e.g. on the basis of their overlap.
+    The following chunk contains visual summaries highlighting the relationship between genesets, computed e.g., on the basis of their overlap.
 
     ```{r eval=FALSE}
     gs_scoresheat(
@@ -403,7 +403,7 @@ In the following steps, many functions from the presented packages will be showc
     ```
 
 9.	Conclude the session generating a report.  
-    In this step, you will specify genes and genesets of interest in an offline manner, but this will generate a comprehensive report just like if these features had been selected during an interactive session. This makes it easier e.g. to focus on the same set of signatures across different datasets, thanks to its streamlined programmatic approach.
+    In this step, you will specify genes and genesets of interest in an offline manner, but this will generate a comprehensive report just like if these features had been selected during an interactive session. This makes it easier e.g., to focus on the same set of signatures across different datasets, thanks to its streamlined programmatic approach.
 
     ```{r eval=FALSE}
     happy_hour(gtl = gtl_macrophage,
@@ -418,7 +418,7 @@ In the following steps, many functions from the presented packages will be showc
 
 
 10.	Create a full RMarkdown report with all the previous steps (optional).  
-    If desired, navigate to the content of the `manuscript_CPBioinfo_2021` repository (see Support Protocol 1). Open the `CPBioinfo_protocol_alternate_01_fromthecommandline.Rmd` file in an RStudio instance, and render the document by clicking on the ‘Knit’ button - this can be reused as a customizable foundation for the analysis of many RNA-seq datasets, leveraging mainly the functions exported by the hereby presented software packages.
+    If desired, navigate to the content of the `manuscript_CPBioinfo_2021` repository (see Support Protocol). Open the `CPBioinfo_protocol_alternate_01_fromthecommandline.Rmd` file in an RStudio instance, and render the document by clicking on the ‘Knit’ button - this can be reused as a customizable foundation for the analysis of many RNA-seq datasets, leveraging mainly the functions exported by the hereby presented software packages.
 
 <hr>
 

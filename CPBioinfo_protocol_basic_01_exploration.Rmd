@@ -78,21 +78,21 @@ library("GeneTonic")
 
 `pcaExplorer` is a Bioconductor package [@Marini2019] which can be used as a general-purpose interactive companion tool for RNA-seq analyses, developed in the Shiny framework [@Shiny2021]. `pcaExplorer` is designed to guide the user in exploring the Principal Components (PC) latent space [@Jolliffe2002] of the data under inspection. Besides the Principal Component Analysis (PCA), `pcaExplorer` also provides tools to detect outlier samples and inspect their impact, identify genes that show particular patterns of interest, and additionally provides a functional interpretation of the principal components for further quality assessment and hypothesis generation on the input data.
 
-In this protocol, we describe how to launch an instance of `pcaExplorer` working with the data of the macrophage dataset [@Alasoo2018], which is also distributed as a Bioconductor package [@Huber2015].
+In this protocol, we describe how to launch an instance of `pcaExplorer` working with the data of the `macrophage` dataset [@Alasoo2018], which is also distributed as a Bioconductor package [@Huber2015].
 
 # Necessary Resources
 
 *Hardware*
 
-* See detailed description in Support Protocol 1.
+* See detailed description in Support Protocol.
 
 *Software*
 
-* See detailed description in Support Protocol 1.
+* See detailed description in Support Protocol.
 
 *Files*
 
-* See detailed description in Support Protocol 1. Specifically, this Basic Protocol will make use of:
+* See detailed description in Support Protocol. Specifically, this Basic Protocol will make use of:
   * The count matrix file, containing the expression values for the `macrophage` dataset (`countmatrix_macrophage.txt`)
   * The file containing the information on the experimental covariates (`metadata_macrophage.txt`)
   * The annotation file (`annotation_macrophage.txt`), for handling the conversion between ENSEMBL identifiers and gene symbols.
@@ -107,7 +107,7 @@ knitr::include_graphics("figures_manuscript/msfigure_01.jpg")
 
 # Protocol Steps with Steps Annotations
 
-Before we start with the exploration of the data, the necessary packages and dependencies need to be installed and loaded. Support Protocol 1 describes how to install and load the packages.
+Before we start with the exploration of the data, the necessary packages and dependencies need to be installed and loaded. The Support Protocol describes how to install and load the packages.
 
 **Exploring the data with `pcaExplorer`**
 
@@ -120,8 +120,8 @@ Before we start with the exploration of the data, the necessary packages and dep
     ```
 
     To launch the application, enter the command into the console of RStudio and press the Enter key. This will open a new window with the `pcaExplorer` application. In this application you should see the Data Upload panel as shown in Fig. 2, with examples on the file formats expected to be working correctly in the app (see inset in Fig. 2D).  
-    In this case, upload one by one the count matrix file, the sample metadata file, and the annotation file as provided in the ‘Input_file’ folder of the protocols repository (see Support Protocol 1) – Fig. 2 reflects the content displayed if launching the application as specified above.  
-    If the necessary objects are already loaded in R (e.g. with any function that reads tabular text input), you can launch the Shiny application with the command:
+    In this case, upload one by one the count matrix file, the sample metadata file, and the annotation file as provided in the ‘Input_file’ folder of the protocols repository (see Support Protocol) – Fig. 2 reflects the content displayed if launching the application as specified above.  
+    If the necessary objects are already loaded in R (e.g., with any function that reads tabular text input), you can launch the Shiny application with the command:
 
     ```{r eval=FALSE}
     library("pcaExplorer")
@@ -140,7 +140,7 @@ knitr::include_graphics("figures_manuscript/msfigure_02.jpg")
 
 2.	Generate the necessary objects for using `pcaExplorer`.  
     Click the ‘Generate the dds and dst object’ button (Fig. 2A). The `dds` object represents a `DESeqDataSet` dataset object, while the `dst` is a `DESeqTransform` object [@Love2014].  
-    Both objects are needed for the exploration of the data, and can be readily derived from the provided files/objects – alternatively, you can pass directly the `dds` and the `dst` objects (Fig. 1A, grey small boxes labeled BP1), in case they are already loaded in the R environment (e.g. while running an analysis from the command line). This is possible with the lines of code reported here:
+    Both objects are needed for the exploration of the data, and can be readily derived from the provided files/objects – alternatively, you can pass directly the `dds` and the `dst` objects (Fig. 1A, grey small boxes labeled BP1), in case they are already loaded in the R environment (e.g., while running an analysis from the command line). This is possible with the lines of code reported here:
 
     ```{r eval=FALSE}
     library("pcaExplorer")
@@ -159,7 +159,7 @@ knitr::include_graphics("figures_manuscript/msfigure_02.jpg")
 
 ```{r fig3}
 #| echo = FALSE,
-#| fig.cap = "**Figure 3** - Overview of the Counts Table panel in pcaExplorer. The navigation to this panel occurs by clicking on the respective name on the top of the tabs (A). The selection of the displayed expression table is done with the dropdown element (B), and the content of the table can be downloaded by clicking on the download button (C). The correlations between samples can be explored in the section below (D), where additional content can be generated (e.g. a scatter plot matrix and a heatmap, to appear at (E))."
+#| fig.cap = "**Figure 3** - Overview of the Counts Table panel in pcaExplorer. The navigation to this panel occurs by clicking on the respective name on the top of the tabs (A). The selection of the displayed expression table is done with the dropdown element (B), and the content of the table can be downloaded by clicking on the download button (C). The correlations between samples can be explored in the section below (D), where additional content can be generated (e.g., a scatter plot matrix and a heatmap, to appear at (E))."
 knitr::include_graphics("figures_manuscript/msfigure_03.jpg")
 ```
 
@@ -173,14 +173,14 @@ Creating an overview and computing summaries on the provided data.
     
 ```{r fig4}
 #| echo = FALSE,
-#| fig.cap = "**Figure 4** - Overview of the Data Overview panel in pcaExplorer. The metadata information is presented in the table (A), and a heatmap can be computed based on the selected distance method (B) and displayed. This visual overview can be downloaded by clicking on the button below it (C). The “Group/color by” selector controls the graphical aspect of the output, related to the experimental covariates of interest (D)."
+#| fig.cap = "**Figure 4** - Screenshot of the Data Overview panel in pcaExplorer. The metadata information is presented in the table (A), and a heatmap can be computed based on the selected distance method (B) and displayed. This visual overview can be downloaded by clicking on the button below it (C). The “Group/color by” selector controls the graphical aspect of the output, related to the experimental covariates of interest (D)."
 knitr::include_graphics("figures_manuscript/msfigure_04.jpg")
 ```
 
 
 7.	Decorate the plots by encoding information on the experimental covariates.  
     Below the heatmap, this panel provides some further information about the input data (Fig. 5A). Next, color the sample by their originating cell line. To color the samples by this covariate, click on the ‘Group/color by’ field (Fig. 4D) in the grey side bar at the far left of the screen. Scroll down in the dropdown menu which opens upon clicking until you find the ‘line’ option - or leverage the autocompletion functionality and start typing the initials. Once any option is selected, scroll down to the ‘Number of million of reads per sample’ plot. This plot should have changed from an all grey plot to a colored plot (Fig. 5A).  
-    In the provided sample data, the ‘line’ parameter indicates the cell line of the respective sample. The Number of million reads per sample plot shown in Fig. 5A can be used to evaluate the uniformity of reads in each sample. Samples with a surprisingly high or low number of reads could later be detected as outliers, because of several different factors associated with the number of reads in a sample. An inspection of the distribution of the overall number of reads in the individual sample can point users to the first source of differences in the samples found in subsequent analyses of the data (e.g. as described in Basic Protocol 2 and 3).
+    In the provided sample data, the ‘line’ parameter indicates the cell line of the respective sample. The Number of million reads per sample plot shown in Fig. 5A can be used to evaluate the uniformity of reads in each sample. Samples with a surprisingly high or low number of reads could later be detected as outliers, because of several different factors associated with the number of reads in a sample. An inspection of the distribution of the overall number of reads in the individual sample can point users to the first source of differences in the samples found in subsequent analyses of the data (e.g., as described in Basic Protocol 2 and 3).
 
 ```{r fig5}
 #| echo = FALSE,
@@ -199,7 +199,7 @@ knitr::include_graphics("figures_manuscript/msfigure_05.jpg")
 
 10.	Create a Principal Component plot.  
     Navigate to the Samples View panel (Fig. 6). In this panel you will see the PCA of the individual samples of the input data on the left side, with the corresponding scree plot shown on the right side. If any value is selected in the ‘Group/color by’ field (Fig. 6A), you can explore the impact of each covariate by means of the color encoding applied to the graphics. Use the ‘Group/color by’ option to color the samples by condition - the PCA plot should now display the samples in four colors (Fig. 6C). You can also download the PCA plot via the ‘Download plot’ button in the lower right corner; as seen before, you can specify the name of the file to which you want to save the plot. This is also possible for the scree plot on the right side of the panel.  
-    The PCA plot of the sample data indicates that the most variance in the data seems to arise from the condition of the individual samples in this specific data set. When analyzing data, it is important for users to know which experimental variables of their samples have the most influence (i.e. are responsible for the most of the variance). Hence, you should select different options from the ‘Group/color by’ option to discover the covariate with the most influence. This is also important for any downstream analyses, including the differential expression analysis described in Basic Protocol 2. The scree plot right next to the PCA (Fig. 6D) can also help you to evaluate how many principal components should be used to analyze the variance in the data. In the example shown in this protocol, it can be easily observed that the first two components explain nearly 80% of the variance in the data. 80% can be seen as a good cut-off value to select the number of principal components.
+    The PCA plot of the sample data indicates that the most variance in the data seems to arise from the condition of the individual samples in this specific data set. When analyzing data, it is important for users to know which experimental variables of their samples have the most influence (i.e., are responsible for the most of the variance). Hence, you should select different options from the ‘Group/color by’ option to discover the covariate with the most influence. This is also important for any downstream analyses, including the differential expression analysis described in Basic Protocol 2. The scree plot right next to the PCA (Fig. 6D) can also help you to evaluate how many principal components should be used to analyze the variance in the data. In the example shown in this protocol, it can be easily observed that the first two components explain nearly 80% of the variance in the data. 80% can be seen as a good cut-off value to select the number of principal components.
 
 ```{r fig6}
 #| echo = FALSE,
@@ -216,16 +216,16 @@ knitr::include_graphics("figures_manuscript/msfigure_06.jpg")
     The Sample View panel provides the possibility to zoom in on the PCA, using the Shiny brushing mechanism: hover your mouse over the PCA plot until your mouse cursor changes to a little plus sign. Click and hold the left mouse button to draw a little grey rectangle in the main plot (Fig. 6E). Move the mouse to the upper left corner of the PCA plot and select all samples belonging to the naive condition (colored in blue in Fig. 6C) as explained before. Below the main plot, you can find a zoomed version of the PCA plot, containing the selected samples. This should somewhat look like the plot shown in Fig. 6E. The zoom functionality is especially helpful in cluttered PCA plots with many samples or particular cluttered regions of the plot.
 
 13.	Identify genes with high loadings on the selected principal components.  
-    As a result to the computation of the principal components, the genes have a specific value for the loadings, reflecting the “weight” that each of them has on a particular principal component – this can be thought of as the correlation between the PC and the original variable. For the two selected principal components (by default, PC1 and PC2), the genes with highest loadings (in either direction along the axis of a PC) are displayed as bar chart (Fig. 6F), and can later be followed up, e.g. in the Gene Finder tab panel.
+    As a result to the computation of the principal components, the genes have a specific value for the loadings, reflecting the “weight” that each of them has on a particular principal component – this can be thought of as the correlation between the PC and the original variable. For the two selected principal components (by default, PC1 and PC2), the genes with highest loadings (in either direction along the axis of a PC) are displayed as bar chart (Fig. 6F), and can later be followed up, e.g., in the Gene Finder tab panel.
 
 14.	Inspect the impact of marking samples as outliers.  
-    Scroll down in the Sample View panel until you see the ‘Outlier identification’ option (Fig. 7A). The ‘Select which sample(s) to remove - suspected outliers’ option provides the possibility to select and remove individual samples from the PCA. For demonstration purposes select all samples of the ‘naive’ condition and remove them from the PCA (the sample ids end in ‘102,’ ‘111,’ ‘182,’ ‘262,’ ‘284,’ and ‘368’). The options included in the dropdown are the samples still used for the calculation. Select the above-mentioned sample ids until the PCA plot looks like Fig. 7A.  
+    Scroll down in the Sample View panel until you see the ‘Outlier identification’ option (Fig. 7A). The ‘Select which sample(s) to remove - suspected outliers’ option provides the possibility to select and remove individual samples from the PCA. For demonstration purposes select all samples of the ‘naive’ condition and remove them from the PCA (the sample ids end in ‘102’, ‘111’, ‘182’, ‘262’, ‘284’, and ‘368’). The options included in the dropdown are the samples still used for the calculation. Select the above-mentioned sample ids until the PCA plot looks like Fig. 7A.  
     The sample outlier detection option can help users at identifying individual samples which are highly different from the remaining samples and hence could be possible outliers. Especially for data sets with small sample numbers, the outlier identification option is useful to evaluate the influence of individual samples on the overall PCA of the data.  
-    At the bottom of the Sample View panel, you also have the option to select a third principal component to visualize besides the first two (Fig. 7B). This is especially helpful in data sets where the most variance of the data is scattered among several principal components and not only the first two.
+    At the bottom of the Sample View panel, you also have the option to select a third principal component to visualize besides the first two (Fig. 7B). This is especially helpful in data sets where the expression patterns present a more complex variance structure that might be better captured by an increased number of principal components..
 
 ```{r fig7}
 #| echo = FALSE,
-#| fig.cap = "**Figure 7** - Further content of the Samples View panel in pcaExplorer. Outlier identification can be assisted by selecting the samples to remove from the computation (A). A third dimension can be added for exploration in the 3D interactive PCA plot (B)."
+#| fig.cap = "**Figure 7** - Further content of the Samples View panel in pcaExplorer. Outlier identification can be assisted by selecting the samples to be removed from the computation (A). A third dimension can be added for exploration in the 3D interactive PCA plot (B)."
 knitr::include_graphics("figures_manuscript/msfigure_07.jpg")
 ```
 
@@ -241,13 +241,13 @@ knitr::include_graphics("figures_manuscript/msfigure_08.jpg")
 ```
 
 16.	Inspect single selected genes.  
-    In the ‘Zoomed window,’ select a gene by clicking on one of the black dots. This will generate a box plot under the ‘Boxplot of selected gene’ heading (Fig. 8E), showing the normalized counts for the selected gene, with the conditions defined by the value in the ‘Group/color by’ selector. You can also change the style of the plot to a violin plot. To change the plot, search for the ‘Plot style for gene counts’ option in the option bar on the left.
+    In the ‘Zoomed window’, select a gene by clicking on one of the black dots. This will generate a box plot under the ‘Boxplot of selected gene’ heading (Fig. 8E), showing the normalized counts for the selected gene, with the conditions defined by the value in the ‘Group/color by’ selector. You can also change the style of the plot to a violin plot. To change the plot, search for the ‘Plot style for gene counts’ option in the option bar on the left.
 
 17.	Inspect subsets of selected genes.  
     Below the ‘Profile explorer’ and ‘Boxplot of selected gene’ plot you will find two versions of the heatmap for the selected genes (displayed in the zoomed window) in all the individual samples (Fig. 8D) - one static (Fig. 8F) and one interactive, based on the Plotly framework (Fig. 8G). On the bottom, the collapsible element ‘Table export options’ contains the tabular information for the same subset, and offers the possibility to export their content.
 
 18.	Inspect genes of interest in the Gene Finder.  
-    Navigate to the Gene Finder panel (Fig. 9). Enter ‘TSPAN6’ in the ‘Type in the name of the gene to search’ option field (Fig. 9A). Make sure that ‘condition’ is still selected in the ‘Group/color by’ option; otherwise, select it from the available option. The panel will load a box plot of the normalized counts of the selected gene (Fig. 9B) as well as a table with the normalized counts of the gene for each sample (Fig. 9C). The individual sample names are annotated on the plotted points, and the underlying data is also reported as a compact table.  
+    Navigate to the Gene Finder panel (Fig. 9). Enter ‘TSPAN6’ in the ‘Type in the name of the gene to search’ option field (Fig. 9A). Make sure that ‘condition’ is still selected in the ‘Group/color by’ option; otherwise, select it from the available option. The panel will create a box plot of the normalized counts of the selected gene (Fig. 9B) as well as a table with the normalized counts of the gene for each sample (Fig. 9C). The individual sample names are annotated on the plotted points, and the underlying data is also reported as a compact table.  
     The Gene Finder panel can be helpful in identifying the counts of a specific gene of interest in the individual samples. If the gene of interest is not included in the data, the panel will inform you by displaying the error message ‘Could not find the gene you typed’. The panel will also try detecting if the gene name is misspelled and will suggest a gene name close to the typed one. The search functionality is case sensitive and has no autocomplete option, so it is important to type the gene name correctly.
 
 ```{r fig9}
@@ -269,7 +269,7 @@ knitr::include_graphics("figures_manuscript/msfigure_10.jpg")
 **Wrapping up the analysis with `pcaExplorer`.**
 
 20.	Generate, preview, and export an analysis report.  
-    Navigate to the Report Editor panel (Fig. 11). Open the ‘Markdown options’ dropdown menu (Fig. 11A), and enter as a title for the report ‘Current Protocols pcaExplorer report’ and your name in the ‘Author’ field; you can leave all other options unaltered (Fig. 11B). Click the ‘Update report’ button, and scroll down in the panel to see a preview of the HTML report in the web application itself. Click on the ‘Generate & Save’ button next to the ‘Update report’ button (Fig. 11C) to download the report. Save the report under a chosen name on your computer – this operation might take a while, as most content is generated from a fresh session, based on the current values for the reactive elements in the app.
+    Navigate to the Report Editor panel (Fig. 11). Open the ‘Markdown options’ dropdown menu (Fig. 11A), and enter as a title for the report ‘Current Protocols pcaExplorer report’ and your name in the ‘Author’ field; you can leave all other options unaltered (Fig. 11B). Click the ‘Update report’ button, and scroll down in the panel to see a preview of the HTML report in the web application itself. Click on the ‘Generate & Save’ button next to the ‘Update report’ button (Fig. 11C) to download the report. Save the report specifying a file name and location on your computer – this operation might take a while, as most content is generated from a fresh session, based on the current values for the reactive elements in the app.
 
 ```{r fig11}
 #| echo = FALSE,
@@ -278,7 +278,7 @@ knitr::include_graphics("figures_manuscript/msfigure_11.jpg")
 ```
 
 21.	Export the analyses components for further downstream exploration.  
-    You can open the Tasks menu from the small cogs icon in the top right of the header (Fig. 12A). From there, it is possible to export the state of the app’s reactive elements into a binary .RData workspace, or also store their values directly into an environment - this will close the app as a result; the workspace can be retrieved in the R session by calling `pcaExplorer_env`, containing a list of values for the input widgets and the reactive elements.
+    You can open the Tasks menu from the small cogs icon in the top right of the header (Fig. 12A). From there, it is possible to export the state of the app’s reactive elements into a binary .RData workspace, or also store their values directly into an environment - this will close the app as a result; the workspace can also be retrieved in the R session by calling `pcaExplorer_env`, containing a list of values for the input widgets and the reactive elements.
 
 ```{r fig12}
 #| echo = FALSE,
@@ -287,7 +287,7 @@ knitr::include_graphics("figures_manuscript/msfigure_12.jpg")
 ```
 
 22.	Find additional information on `pcaExplorer`.  
-    Navigate to the Instructions panel, where two buttons can be clicked to open and inspect the `pcaExplorer` vignettes (available when installing the package) (Fig. 12B). These vignettes describe comprehensively the `pcaExplorer` package, and constitute an excellent complement to this Basic Protocol when searching for additional, up-to-date documentation. A quickstart guide is also displayed if clicking on the ‘Up and running with `pcaExplorer`’ collapsible element. If you are interested in additional information about the package, the About panel (Fig. 12C) lists also the developers contact information and a citation entry. For the sake of computational reproducibility, consider adding the output of the sessionInfo section into your electronic notebook documentation, to simplify the compilation of the ‘Materials and Methods’ section for a manuscript where you used `pcaExplorer`.
+    Navigate to the Instructions panel, where two buttons can be clicked to open and inspect the `pcaExplorer` vignettes (available when installing the package) (Fig. 12B). These vignettes describe comprehensively the `pcaExplorer` package, and constitute an excellent complement to this Basic Protocol when searching for additional, up-to-date documentation. A quickstart guide is also displayed if clicking on the ‘Up and running with `pcaExplorer`’ collapsible element. If you are interested in additional information about the package, the About panel (Fig. 12C) lists also the developers contact information and a citation entry. For the sake of computational reproducibility, consider adding the output of the 'Session Information' section into your electronic notebook documentation, to simplify the compilation of the ‘Materials and Methods’ section for a manuscript where you used `pcaExplorer`.
 
 
 <hr>

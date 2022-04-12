@@ -77,8 +77,8 @@ These protocols guide readers through the essential steps of Exploratory Data An
 **Basic Protocol 1:** Exploratory Data Analysis with `pcaExplorer`  
 **Basic Protocol 2:** Differential Expression Analysis with `ideal`  
 **Basic Protocol 3:** Interpretation of RNA-seq results with `GeneTonic`  
-**Support Protocol 1:** Downloading and installing `pcaExplorer`, `ideal`, and `GeneTonic`  
-**Alternate Protocol 1:** Using functions from `pcaExplorer`, `ideal`, and `GeneTonic` in custom analyses
+**Support Protocol:** Downloading and installing `pcaExplorer`, `ideal`, and `GeneTonic`  
+**Alternate Protocol:** Using functions from `pcaExplorer`, `ideal`, and `GeneTonic` in custom analyses
 
 # Keywords
 
@@ -88,7 +88,7 @@ RNA-seq; Interactive data analysis; Data visualization; Functional interpretatio
 
 # Introduction
 
-Gene expression is a fundamental biological process, resulting from various genetic and regulatory programs that define the state of cells and tissues, and can be measured with a variety of experimental techniques. RNA-sequencing (RNA-seq) is a widely used molecular assay, offering a quantitative and robust system for profiling transcriptional outcomes [@Mortazavi2008;@Wang2009]. Over the years, RNA-seq has replaced microarrays as a technology of choice, and has been adopted in a large number of studies from basic sciences, but has also proven fundamental in clinical settings to better understand development and disease [@Zhang2015;@VandenBerge2019;@Salit2021]. 
+Gene expression is a fundamental biological process, resulting from various genetic and regulatory programs that define the state of cells and tissues, and can be measured with a variety of experimental techniques. RNA sequencing (RNA-seq) is a widely used molecular assay, offering a quantitative and robust system for profiling transcriptional outcomes [@Mortazavi2008;@Wang2009]. Over the years, RNA-seq has replaced microarrays as a technology of choice, and has been adopted in a large number of studies from basic sciences, but has also proven fundamental in clinical settings to better understand development and disease [@Zhang2015;@VandenBerge2019;@Salit2021]. 
 
 Currently, RNA-seq enables the study of a multitude of applications, comprising gene expression regulation, isoform and transcript discovery, alternative splicing, gene fusion, genetic variation among expressed genes, RNA editing, post-transcriptional modifications, and epitranscriptomics [@Conesa2016], with many of these applications being increasingly addressed also at the single-cell and at the spatial resolution [@Li2021]. While powerful tools exist to perform quality control, alignment, and expression quantification, a common bottleneck is constituted by the data exploration, modeling, and interpretation, to be performed once a table of counts (as proxy for the gene expression values) and the full information on the experimental covariates are available [@Anders2013;@Soneson2015].
 
@@ -98,7 +98,7 @@ In particular, after the discovery of differentially expressed genes, and the id
 
 The framework we offer provides accessible and user-friendly interfaces, while making sure to document and record the steps performed via companion RMarkdown reports, as a foundation for reproducible research [@Marini2016]. Overall, our solution serves as a bridge among many researchers, enabling them to adopt state-of-the-art methods from the open-source Bioconductor ecosystem of packages [@Huber2015;@Amezquita2019], with dashboards that can seamlessly be used on desktop/laptop computers, shared, and deployed in collaborative contexts. The core elements of the applications are linked together within the Shiny reactive programming engine, efficiently implementing tasks such as repeated drill-down into the datasets for providing views of increased detail. This, in turn, translates into a reduced time and effort to generate hypotheses and insight from the data at hand, increasing its value and impact by streamlining the discovery process for transcriptomics gene regulation studies [@Marini2021].
 
-In this article, we will demonstrate how to use a series of packages we developed (`pcaExplorer`, `ideal`, and `GeneTonic` - all available through the Bioconductor project [@Marini2019;@Marini2020;@Marini2021]) to interactively explore, visualize, and integrate RNA-seq datasets and results. All protocols described in this manuscript can be combined in a single analytic workflow, which can be widely applied to bulk RNA-seq scenarios (including e.g. patient data in clinical/diagnostic settings), and can be adopted by a broad spectrum of researchers, empowering also users with limited technical/biostatistical expertise.
+In this article, we will demonstrate how to use a series of packages we developed (`pcaExplorer`, `ideal`, and `GeneTonic` - all available through the Bioconductor project [@Marini2019;@Marini2020;@Marini2021]) to interactively explore, visualize, and integrate RNA-seq datasets and results. All protocols described in this manuscript can be combined in a single analytic workflow, which can be widely applied to bulk RNA-seq scenarios (including e.g., patient data in clinical/diagnostic settings), and can be adopted by a broad spectrum of researchers, empowering also users with limited technical/biostatistical expertise.
 
 Basic Protocol 1 describes the essential steps of exploratory data analysis, as it is performed using the `pcaExplorer` package, starting from the essential count matrix generated after expression quantification.
 
@@ -106,15 +106,15 @@ Basic Protocol 2 explains how to perform statistical modeling and testing for di
 
 Basic Protocol 3 illustrates how to use the `GeneTonic` package to combine expression data, results from the differential expression analysis, and functional enrichment tabular information to efficiently interpret and contextualize RNA-seq data.
 
-Support Protocol 1 shows the detailed instructions to download and install all the required software, including the exemplary datasets used throughout this manuscript.
+The Support Protocol shows the detailed instructions to download and install all the required software, including the exemplary datasets used throughout this manuscript.
 
-Alternative Protocol 1 describes the usage of functions from `pcaExplorer`, `ideal`, and `GeneTonic`, as they can be seamlessly used in tailored analyses, either as R scripts or as RMarkdown documents.
+The Alternate Protocol describes the usage of functions from `pcaExplorer`, `ideal`, and `GeneTonic`, as they can be seamlessly used in tailored analyses, either as R scripts or as RMarkdown documents.
 
 Notably, each of the Basic Protocols can be executed in a stand-alone manner, if other established upstream procedures are already in place.
 
 # Strategic Planning
 
-Before starting with the Basic Protocols, users should complete the installation of the required software as detailed in Support Protocol 1. By following these instructions, all necessary packages and datasets will be made available so that they can be executed from any directory on the local computer. We refer to the software descriptions and vignettes of the individual packages for additional information.
+Before starting with the Basic Protocols, users should complete the installation of the required software as detailed in the Support Protocol. By following these instructions, all necessary packages and datasets will be made available so that they can be executed from any directory on the local computer. We refer to the software descriptions and vignettes of the individual packages for additional information.
 
 The protocols described in this article represent the main steps through a comprehensive analytic workflow for bulk RNA-seq datasets, and are structured in a modular way that can enable readers to carry them out with the possibility of alternate entry points (e.g., performing differential expression analysis with another software package from the R environment or from the command line). Figure 1 illustrates the different files required to carry out such operations (Fig. 1A), together with an overview of the tasks covered by the software packages we present in this work (Fig. 1B). As shown in the flowchart, it is possible to navigate back to previous steps in different iterations of the analyses. This is intrinsically bound to the explorative nature for such high-dimensional datasets, where cycles of hypothesis generation and testing can follow, ultimately leading to the validation and integration with the additional observations specific to each experimental setting.
 
