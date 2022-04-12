@@ -257,7 +257,7 @@ The input data to be provided to `GeneTonic` can be computed via different workf
 
 8.	Explore the user interface of `GeneTonic`.  
     `GeneTonic`’s layout (Fig. 22) is built on the Bootstrap 4 components, provided via the `bs4Dash` package. This includes:
-    - A header bar, where dropdown menus link to further documentation, and where the ‘Bookmark’ button is located - useful for recording features of interest during an interactive session (Fig. 22A)
+    - A header bar, where dropdown menus link to further documentation, and where the ‘Bookmark’ button is located, which is useful for recording features of interest during an interactive session (Fig. 22A)
     - A sidebar on the left, as the main way to access the different functionalities provided in the app (Fig. 22B)
     - A control bar on the right, where to find most widgets to customize the appearance of the output (plots, tables, graphs, Fig. 22C). This can be opened and closed by clicking on the cogs icon in the top right corner.
     - The main body of the application, where different tabs are activated by clicking on the respective icons or text in the sidebar (Fig. 22D). In each of the panels, a context-specific interactive tour can be started by clicking on its respective button in the top right corner. This highlights in series the elements of the app, accompanying this with textual help that invites users to perform basic operations; this learning-by-doing approach is powered by the `rintrojs` library [@Ganz2016a].
